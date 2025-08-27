@@ -1,8 +1,8 @@
 #include "test/cbtest.h"
 
 TEST_CASE( test1, classes ) {
-	ASSERT_EQUAL( 1, 2 );
-	ASSERT_EQUAL( 1, 1 );
+	ASSERT_EQUAL( 1, 1, );
+	ASSERT_EQUAL( 2, 2, );
 }
 
 int main() {

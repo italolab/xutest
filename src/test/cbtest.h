@@ -7,6 +7,7 @@
 #include <functional>
 #include <stdexcept>
 #include <iostream>
+#include <cstring>
 
 using std::string;
 using std::stringstream;
@@ -53,18 +54,22 @@ vector<TestCase*> testCases;
         string testName = test->name; \
         if ( test->testClass != "" ) \
             testName = test->testClass +"." + testName; \
-        cout << "Executando " << testName << "..." << endl; \
+        cout << "Executando " << testName << "... "; \
         try { \
             test->func(); \
+            cout << "Ok" << endl; \
         } catch ( const assert_fail& e ) { \
-            cerr << "Erro em: " << testName << endl; \
-            cerr << "\t" << e.what(); \
+            cerr << "Erro." << endl; \
+            cerr << "\tErro em: " << testName << e.what(); \
         } \
     } \
     
 
-#define ASSERT_EQUAL( a, b ) \
+#define ASSERT_EQUAL( a, b, errorMsg ) \
     if ( (a) != (b) ) { \
+        if ( strlen( #errorMsg ) == 0 ) \
+            throw assert_fail( #errorMsg ); \
+        \
         stringstream ss; \
         ss << a << " != " << b << endl; \
         throw assert_fail( ss.str() ); \
