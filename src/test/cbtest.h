@@ -38,7 +38,10 @@ class assert_fail : public runtime_error {
 assert_fail::assert_fail( string msg ) : runtime_error( msg ) {}
 
 const char* DEFAULT_TEST_CLASS = "default";
+
 map<string, vector<TestCase*>> __test_cases_map;
+stringstream __stream;
+bool __is_imp_vectors = false;
 
 template <typename T>
 string RED( T text ) {
@@ -88,12 +91,6 @@ string VECTOR_STR( vector<T> vect ) {
     return ss.str();
 }
 
-string ERROR_MSG( string errorMsg, string otherErrorMsg ) {
-    if ( errorMsg == "" )
-        return otherErrorMsg;
-    return errorMsg;
-}
-
 template <typename T>
 bool EQUALS_ARRAYS( T* a1, T* a2, int len ) {
     for( int i = 0; i < len; i++ )
@@ -114,8 +111,20 @@ bool EQUALS_VECTORS( vector<T> v1, vector<T> v2 ) {
     return true;
 }
 
+#define THROW_FAIL( errorMsg, otherErrorMsg ) { \
+    stringstream ss; \
+    ss << "Linha(" << __LINE__ << "); "; \
+    if ( strlen( #errorMsg ) == 0 ) \
+        ss << #otherErrorMsg; \
+    ss << #errorMsg; \
+    \
+    throw assert_fail( ss.str() ); \
+}
+
+// ASSERTS PARA VECTORS E ARRAYS
+
 template <typename T>
-void ASSERT_EQUALS_VECTORS( vector<T> v1, vector<T> v2, string errorMsg = "", bool isImpVectors = true ) {
+void ASSERT_EQUALS_VECTORS( vector<T> v1, vector<T> v2, string errorMsg ) {
     if ( !EQUALS_VECTORS( v1, v2 ) ) {
         if ( errorMsg != "" )
             throw assert_fail( errorMsg + "\n" );
@@ -203,33 +212,33 @@ void ASSERT_NOT_EQUALS_ARRAYS( T* a1, T* a2, bool isImpVectors ) {
 template <typename T>
 void ASSERT_EQUALS( T a, T b, string errorMsg = "" ) {
     if ( a != b )
-        throw assert_fail( ERROR_MSG( errorMsg, "deveriam ser iguais!" ) );
+        THROW_FAIL( errorMsg, "deveriam ser iguais!" );
 }
 
 template <typename T>
 void ASSERT_NOT_EQUALS( T a, T b, string errorMsg = "" ) {
     if ( a == b )
-        throw assert_fail( ERROR_MSG( errorMsg, "deveriam ser diferentes!" ) );
+        THROW_FAIL( errorMsg, "deveriam ser diferentes!" );
 }
 
 void ASSERT_TRUE( bool condicao, string errorMsg = "" ) {
     if ( !condicao )
-        throw assert_fail( ERROR_MSG( errorMsg, "Condição que deveria ser verdadeira é falsa!" ) );
+        THROW_FAIL( errorMsg, "Condição que deveria ser verdadeira é falsa!" );
 }
 
 void ASSERT_FALSE( bool condicao, string errorMsg = "" ) {
     if ( condicao )
-        throw assert_fail( ERROR_MSG( errorMsg, "Condição que deveria ser falsa é verdadeira!" ) );    
+        THROW_FAIL( errorMsg, "Condição que deveria ser falsa é verdadeira!" );    
 }
 
 void ASSERT_NULL( void* obj, string errorMsg = "" ) {
     if ( obj != nullptr )              
-        throw assert_fail( ERROR_MSG( errorMsg, "Objeto deveria ser nulo!" ) );
+        THROW_FAIL( errorMsg, "Objeto deveria ser nulo!" );
 }
 
 void ASSERT_NOT_NULL( void* obj, string errorMsg = "" ) {
     if ( obj == nullptr )              
-        throw assert_fail( ERROR_MSG( errorMsg, "Objeto deveria ser não nulo!" ) );    
+        THROW_FAIL( errorMsg, "Objeto deveria ser não nulo!" );    
 }
 
 
@@ -240,29 +249,27 @@ void ASSERT_NOT_NULL( void* obj, string errorMsg = "" ) {
     void _##testClass##_##name () \
 
 #define ADD_TEST_CASE( name, testClass ) \
-    TestCase* tc = new TestCase { \
-        #name, \
-        #testClass, \
-        _##testClass##_##name }; \
-    \
     if ( strlen( #testClass ) == 0 ) { \
         if ( __test_cases_map.find( DEFAULT_TEST_CLASS ) == __test_cases_map.end() ) { \
             vector<TestCase*> vect; \
-            vect.push_back( tc ); \
             __test_cases_map[ DEFAULT_TEST_CLASS ] = vect; \
-        } else { \
-            __test_cases_map[ DEFAULT_TEST_CLASS ].push_back( tc ); \
         } \
+        __test_cases_map[ DEFAULT_TEST_CLASS ].push_back(  \
+            new TestCase { \
+                #name, \
+                #testClass, \
+                _##testClass##_##name } ); \
     } else { \
         if ( __test_cases_map.find( #testClass ) == __test_cases_map.end() ) { \
             vector<TestCase*> vect; \
-            vect.push_back( tc ); \
             __test_cases_map[ #testClass ] = vect; \
-        } else { \
-            __test_cases_map[ #testClass ].push_back( tc ); \
         } \
+        __test_cases_map[ #testClass ].push_back(  \
+            new TestCase { \
+                #name, \
+                #testClass, \
+                _##testClass##_##name } ); \
     } \
-    
 
 
 int RUN_TEST_CASES_BY_CLASS( string testClass ) {
@@ -314,25 +321,24 @@ void RUN_ALL_TEST_CASES() {
 
 int READ_OPTION( int numberOfOptions ) {
     int op;
-               
-    cout.clear();
-    cout << ">> ";
-      
+            
     bool ok;
     do {
+        cout << ">> " << std::flush;
         while( !(cin >> op) ) {
-            cout << "Opção inválida. Informe um valor numérico presente no menu acima!" << endl;
+            cout << RED( "Informe uma opção entre 1 e " );
+            cout << RED( numberOfOptions );
+            cout << RED( "." ) << endl;
             cin.clear();
             cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
-            cout << ">> ";
+            cout << ">> " << std::flush;
         }
 
         ok = true;
         if ( op < 0 || op > numberOfOptions-1 ) {
-            cout << GREEN( "Informe uma opção entre 1 e " );
-            cout << GREEN( numberOfOptions );
-            cout << GREEN( "." ) << endl;
-            cout << ">> ";
+            cout << RED( "Informe uma opção entre 1 e " );
+            cout << RED( numberOfOptions );
+            cout << RED( "." ) << endl;
             ok = false;
         }
     } while ( !ok );
@@ -341,7 +347,7 @@ int READ_OPTION( int numberOfOptions ) {
 }
 
 void RUN_TEST_CASES_MENU() {
-    long unsigned int op = -1;
+    int op = -1;
         
     cout << endl;
     cout << "Escolha a classe de testes para rodar: " << endl;
@@ -354,11 +360,10 @@ void RUN_TEST_CASES_MENU() {
         numberOfOptions++;
     }
     cout << "  (0) Sair" << endl;
-    cout << "  >> ";
     
     op = READ_OPTION( numberOfOptions );
 
-    if ( op > 0 && op-2 < testClasses.size() ) {
+    if ( op > 0 && op-2 < (int)testClasses.size() ) {
         if ( op == 1 ) {
             RUN_ALL_TEST_CASES();
         } else {

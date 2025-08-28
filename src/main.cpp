@@ -10,6 +10,10 @@ class X {
 
 };
 
+TEST_CASE( test0, ) {
+    ASSERT_EQUALS( 0, 1, "Houve erro..." );
+}
+
 TEST_CASE( test1, classes ) {
 	ASSERT_EQUALS( 1, 1 );
 	ASSERT_EQUALS( 2, 2 );
@@ -46,6 +50,7 @@ TEST_CASE( test1, classes ) {
 
 int main() {
 	ADD_TEST_CASE( test1, classes );
+    ADD_TEST_CASE( test0, );
 
 	RUN_TEST_CASES_MENU();
 }
