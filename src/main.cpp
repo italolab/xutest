@@ -47,5 +47,5 @@ TEST_CASE( test1, classes ) {
 int main() {
 	ADD_TEST_CASE( test1, classes );
 
-	RUN_ALL_TEST_CASES();
+	RUN_TEST_CASES_MENU();
 }

@@ -4,19 +4,23 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <map>
 #include <functional>
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
+#include <limits>
 
 using std::string;
 using std::stringstream;
 using std::vector;
+using std::map;
 using std::function;
 using std::runtime_error;
 using std::cout;
 using std::cerr;
 using std::endl;
+using std::cin;
 
 typedef struct TTestCase {
     string name;
@@ -33,10 +37,11 @@ class assert_fail : public runtime_error {
 
 assert_fail::assert_fail( string msg ) : runtime_error( msg ) {}
 
-vector<TestCase*> __test_cases;
+const char* DEFAULT_TEST_CLASS = "default";
+map<string, vector<TestCase*>> __test_cases_map;
 
 template <typename T>
-inline string RED( T text ) {
+string RED( T text ) {
     string output = "\033[31m";
     output += text;
     output += "\033[0m";
@@ -44,7 +49,7 @@ inline string RED( T text ) {
 }
 
 template <typename T>
-inline string GREEN( T text ) {
+string GREEN( T text ) {
     string output = "\033[32m";
     output += text;
     output += "\033[0m";
@@ -52,7 +57,7 @@ inline string GREEN( T text ) {
 }
 
 template <typename T>
-inline string BLUE( T text ) {
+string BLUE( T text ) {
     string output = "\033[34m";
     output += text;
     output += "\033[0m";
@@ -60,7 +65,7 @@ inline string BLUE( T text ) {
 }
 
 template <typename T>
-inline string WHITE( T text ) {
+string WHITE( T text ) {
     string output = "\033[37m";
     output += text;
     output += "\033[0m";
@@ -84,12 +89,9 @@ string VECTOR_STR( vector<T> vect ) {
 }
 
 string ERROR_MSG( string errorMsg, string otherErrorMsg ) {
-    stringstream ss;
-    ss << "Linha(" << __LINE__ << "): ";
     if ( errorMsg == "" )
-        ss << otherErrorMsg << endl;
-    else ss << errorMsg << endl;
-    return ss.str();
+        return otherErrorMsg;
+    return errorMsg;
 }
 
 template <typename T>
@@ -123,7 +125,7 @@ void ASSERT_EQUALS_VECTORS( vector<T> v1, vector<T> v2, string errorMsg = "", bo
             ss << "\nVetor(1)= " << VECTOR_STR( v1 ) << endl;
             ss << "Vetor(2)= " << VECTOR_STR( v2 ) << endl;
         }
-        ss << "Os vetores deveriam ser iguais!" << endl;
+        ss << "Os vetores deveriam ser iguais!";
         throw assert_fail( ss.str() );
     } 
 }
@@ -139,7 +141,7 @@ void ASSERT_NOT_EQUALS_VECTORS( vector<T> v1, vector<T> v2, string errorMsg = ""
             ss << "\nVetor(1)= " << VECTOR_STR( v1 ) << endl;
             ss << "Vetor(2)= " << VECTOR_STR( v2 ) << endl;
         }
-        ss << "Os vetores deveriam ser diferentes!" << endl;
+        ss << "Os vetores deveriam ser diferentes!";
         throw assert_fail( ss.str() );
     } 
 }
@@ -155,7 +157,7 @@ void ASSERT_EQUALS_ARRAYS( T* a1, T* a2, int len, string errorMsg = "", bool isI
             ss << "\nArray(1)= " << ARRAY_STR( a1, len ) << endl;
             ss << "Array(2)= " << ARRAY_STR( a2, len ) << endl;
         }
-        ss << "Os arrays deveriam ser iguais!" << endl;
+        ss << "Os arrays deveriam ser iguais!";
         throw assert_fail( ss.str() );
     } 
 }
@@ -171,7 +173,7 @@ void ASSERT_NOT_EQUALS_ARRAYS( T* a1, T* a2, int len, string errorMsg = "", bool
             ss << "\nArray(1)= " << ARRAY_STR( a1, len ) << endl;
             ss << "Array(2)= " << ARRAY_STR( a2, len ) << endl;
         }
-        ss << "Os arrays deveriam ser diferentes!" << endl;
+        ss << "Os arrays deveriam ser diferentes!";
         throw assert_fail( ss.str() );
     } 
 }
@@ -242,24 +244,129 @@ void ASSERT_NOT_NULL( void* obj, string errorMsg = "" ) {
         #name, \
         #testClass, \
         _##testClass##_##name }; \
-    __test_cases.push_back( tc ); \
+    \
+    if ( strlen( #testClass ) == 0 ) { \
+        if ( __test_cases_map.find( DEFAULT_TEST_CLASS ) == __test_cases_map.end() ) { \
+            vector<TestCase*> vect; \
+            vect.push_back( tc ); \
+            __test_cases_map[ DEFAULT_TEST_CLASS ] = vect; \
+        } else { \
+            __test_cases_map[ DEFAULT_TEST_CLASS ].push_back( tc ); \
+        } \
+    } else { \
+        if ( __test_cases_map.find( #testClass ) == __test_cases_map.end() ) { \
+            vector<TestCase*> vect; \
+            vect.push_back( tc ); \
+            __test_cases_map[ #testClass ] = vect; \
+        } else { \
+            __test_cases_map[ #testClass ].push_back( tc ); \
+        } \
+    } \
+    
 
-inline void RUN_ALL_TEST_CASES() {
-    cout << "EXECUTANDO TESTES..." << endl;
-    cout << endl;
-    for( TestCase* test : __test_cases ) {
-        string testName = test->name;
-        if ( test->testClass != "" )
-            testName = test->testClass +"." + testName;
-        cout << "Executando " << GREEN( testName ) << "... ";
+
+int RUN_TEST_CASES_BY_CLASS( string testClass ) {
+    if ( __test_cases_map.find( testClass ) == __test_cases_map.end() ) {
+        cout << BLUE( "Nenhum teste registrado para a classe: " + testClass );
+        return 0;
+    }
+
+    cout << "Executando " << GREEN( testClass ) << "..." << endl;
+
+    int countFails = 0;
+
+    vector<TestCase*> testCases = __test_cases_map[ testClass ];
+    for( TestCase* testcase : testCases ) {
+        string testName = testcase->name;
+        if ( testcase->testClass != "" )
+            testName = testcase->testClass +"." + testName;
+        cout << "\n\tExecutando " << GREEN( testName ) << "... ";
         try {
-            test->func();
-            cout << "Ok" << endl;
-        } catch ( const assert_fail& e ) {
-            cout << "\n\tErro em: " << GREEN( testName ) << " --> " << WHITE( e.what() );
+            testcase->func();
+            cout << GREEN( "Ok" ) << endl;
+        } catch ( const assert_fail& e ) {            
+            cout << "\n" << RED( "Erro" ) << " em: " << GREEN( testName ) << " --> " << WHITE( e.what() ) << endl;
+            countFails++;
         }
     }
+
     cout << endl;
+    if ( countFails == 0 )
+        cout << GREEN( testClass ) << " executado sem falhas!" << endl;
+    else cout << GREEN( testClass ) << " executado com " << std::to_string( countFails ) << " falha(s)!" << endl;
+    cout << endl;
+
+    return countFails;
+}
+
+void RUN_ALL_TEST_CASES() {
+    cout << "EXECUTANDO TESTES..." << endl;
+    cout << endl;
+    
+    int countFails = 0;
+    for( const auto& pair : __test_cases_map )
+        countFails += RUN_TEST_CASES_BY_CLASS( pair.first );
+    
+    if ( countFails == 0 )
+        cout << "Todos os testes passaram com sucesso!" << endl;
+    else cout << "Houve falha em " << countFails << " teste(s)" << endl;
+}
+
+int READ_OPTION( int numberOfOptions ) {
+    int op;
+               
+    cout.clear();
+    cout << ">> ";
+      
+    bool ok;
+    do {
+        while( !(cin >> op) ) {
+            cout << "Opção inválida. Informe um valor numérico presente no menu acima!" << endl;
+            cin.clear();
+            cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+            cout << ">> ";
+        }
+
+        ok = true;
+        if ( op < 0 || op > numberOfOptions-1 ) {
+            cout << GREEN( "Informe uma opção entre 1 e " );
+            cout << GREEN( numberOfOptions );
+            cout << GREEN( "." ) << endl;
+            cout << ">> ";
+            ok = false;
+        }
+    } while ( !ok );
+    
+    return op;
+}
+
+void RUN_TEST_CASES_MENU() {
+    long unsigned int op = -1;
+        
+    cout << endl;
+    cout << "Escolha a classe de testes para rodar: " << endl;
+    cout << "  (1) Todos os testes" << endl;
+    vector<string> testClasses;
+    int numberOfOptions = 2;
+    for( const auto& pair : __test_cases_map ) {
+        testClasses.push_back( pair.first );
+        cout << "  (" << numberOfOptions << ") " << GREEN( pair.first ) << endl;
+        numberOfOptions++;
+    }
+    cout << "  (0) Sair" << endl;
+    cout << "  >> ";
+    
+    op = READ_OPTION( numberOfOptions );
+
+    if ( op > 0 && op-2 < testClasses.size() ) {
+        if ( op == 1 ) {
+            RUN_ALL_TEST_CASES();
+        } else {
+            string testClass = testClasses[ op-2 ];
+            RUN_TEST_CASES_BY_CLASS( testClass );
+            op = 0;
+        }
+    }
 }
 
 #endif
