@@ -41,10 +41,16 @@ const char* DEFAULT_TEST_CLASS = "default";
 
 map<string, vector<TestCase*>> __test_cases_map;
 stringstream __stream;
-bool __is_imp_vectors = false;
+bool __is_imp_vectors = true;
+
+namespace cbtest {
+    void setImpVectors( bool isImpVectors ) {
+        __is_imp_vectors = isImpVectors;
+    }
+}
 
 template <typename T>
-string RED( T text ) {
+string __red( T text ) {
     string output = "\033[31m";
     output += text;
     output += "\033[0m";
@@ -52,7 +58,7 @@ string RED( T text ) {
 }
 
 template <typename T>
-string GREEN( T text ) {
+string __green( T text ) {
     string output = "\033[32m";
     output += text;
     output += "\033[0m";
@@ -60,7 +66,7 @@ string GREEN( T text ) {
 }
 
 template <typename T>
-string BLUE( T text ) {
+string __blue( T text ) {
     string output = "\033[34m";
     output += text;
     output += "\033[0m";
@@ -68,7 +74,7 @@ string BLUE( T text ) {
 }
 
 template <typename T>
-string WHITE( T text ) {
+string __white( T text ) {
     string output = "\033[37m";
     output += text;
     output += "\033[0m";
@@ -76,7 +82,7 @@ string WHITE( T text ) {
 }
 
 template <typename T>
-string ARRAY_STR( T* arr, int len ) {
+string __array_str( T* arr, int len ) {
     stringstream ss;
     for( int i = 0; i < len; i++ )
         ss << arr[ i ] << " ";
@@ -84,7 +90,7 @@ string ARRAY_STR( T* arr, int len ) {
 }
 
 template <typename T>
-string VECTOR_STR( vector<T> vect ) {
+string __vector_str( vector<T> vect ) {
     stringstream ss;
     for( T el : vect )
         ss << el << " ";
@@ -92,7 +98,7 @@ string VECTOR_STR( vector<T> vect ) {
 }
 
 template <typename T>
-bool EQUALS_ARRAYS( T* a1, T* a2, int len ) {
+bool __equals_arrays( T* a1, T* a2, int len ) {
     for( int i = 0; i < len; i++ )
         if ( a1[ i ] != a2[ i ] )
             return false;
@@ -100,7 +106,7 @@ bool EQUALS_ARRAYS( T* a1, T* a2, int len ) {
 }
 
 template <typename T>
-bool EQUALS_VECTORS( vector<T> v1, vector<T> v2 ) {
+bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( v1.size() != v2.size() )
         return false;
 
@@ -112,134 +118,103 @@ bool EQUALS_VECTORS( vector<T> v1, vector<T> v2 ) {
 }
 
 #define THROW_FAIL( errorMsg, otherErrorMsg ) { \
-    stringstream ss; \
-    ss << "Linha(" << __LINE__ << "); "; \
+    __stream.str( "" ); \
+    __stream.clear(); \
+    __stream << "Linha(" << __LINE__ << "): "; \
     if ( strlen( #errorMsg ) == 0 ) \
-        ss << #otherErrorMsg; \
-    ss << #errorMsg; \
+        __stream << #otherErrorMsg; \
+    __stream << #errorMsg; \
     \
-    throw assert_fail( ss.str() ); \
+    throw assert_fail( __stream.str() ); \
 }
 
 // ASSERTS PARA VECTORS E ARRAYS
 
-template <typename T>
-void ASSERT_EQUALS_VECTORS( vector<T> v1, vector<T> v2, string errorMsg ) {
-    if ( !EQUALS_VECTORS( v1, v2 ) ) {
-        if ( errorMsg != "" )
-            throw assert_fail( errorMsg + "\n" );
-        
-        stringstream ss;
-        if ( isImpVectors ) {
-            ss << "\nVetor(1)= " << VECTOR_STR( v1 ) << endl;
-            ss << "Vetor(2)= " << VECTOR_STR( v2 ) << endl;
-        }
-        ss << "Os vetores deveriam ser iguais!";
-        throw assert_fail( ss.str() );
-    } 
-}
+#define ASSERT_EQUALS_VECTORS( v1, v2, errorMsg ) \
+    if ( !__equals_vectors( v1, v2 ) ) { \
+        if ( strlen( #errorMsg ) != 0 ) \
+            THROW_FAIL( errorMsg, ); \
+        \
+        __stream.str( "" ); \
+        __stream.clear(); \
+        if ( __is_imp_vectors ) { \
+            __stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
+            __stream << "Vetor(2)= " << __vector_str( v2 ) << endl; \
+        } \
+        __stream << "Os vetores deveriam ser iguais!"; \
+        throw assert_fail( __stream.str() ); \
+    } \
 
-template <typename T>
-void ASSERT_NOT_EQUALS_VECTORS( vector<T> v1, vector<T> v2, string errorMsg = "", bool isImpVectors = true ) {
-    if ( EQUALS_VECTORS( v1, v2 ) ) {
-        if ( errorMsg != "" )
-            throw assert_fail( errorMsg );
-        
-        stringstream ss;
-        if ( isImpVectors ) {
-            ss << "\nVetor(1)= " << VECTOR_STR( v1 ) << endl;
-            ss << "Vetor(2)= " << VECTOR_STR( v2 ) << endl;
-        }
-        ss << "Os vetores deveriam ser diferentes!";
-        throw assert_fail( ss.str() );
-    } 
-}
+#define ASSERT_NOT_EQUALS_VECTORS( v1, v2, errorMsg ) \
+    if ( __equals_vectors( v1, v2 ) ) { \
+        if ( strlen( #errorMsg ) != 0 ) \
+            THROW_FAIL( errorMsg, ); \
+        \
+        __stream.str( "" ); \
+        __stream.clear(); \
+        if ( __is_imp_vectors ) { \
+            __stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
+            __stream << "Vetor(2)= " << __vector_str( v2 ) << endl; \
+        } \
+        __stream << "Os vetores deveriam ser diferentes!"; \
+        throw assert_fail( __stream.str() ); \
+    } \
 
-template <typename T>
-void ASSERT_EQUALS_ARRAYS( T* a1, T* a2, int len, string errorMsg = "", bool isImpArrays = true ) {
-    if ( !EQUALS_ARRAYS( a1, a2, len ) ) {
-        if ( errorMsg != "" )
-            throw assert_fail( errorMsg );
-        
-        stringstream ss;
-        if ( isImpArrays ) {
-            ss << "\nArray(1)= " << ARRAY_STR( a1, len ) << endl;
-            ss << "Array(2)= " << ARRAY_STR( a2, len ) << endl;
-        }
-        ss << "Os arrays deveriam ser iguais!";
-        throw assert_fail( ss.str() );
-    } 
-}
+#define ASSERT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) \
+    if ( !__equals_arrays( a1, a2, len ) ) { \
+        if ( strlen( #errorMsg ) != 0 ) \
+            THROW_FAIL( errorMsg, ); \
+        \
+        __stream.str( "" ); \
+        __stream.clear(); \
+        if ( __is_imp_vectors ) { \
+            __stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
+            __stream << "Array(2)= " << __array_str( a2, len ) << endl; \
+        } \
+        __stream << "Os arrays deveriam ser iguais!"; \
+        throw assert_fail( __stream.str() ); \
+    } \
 
-template <typename T>
-void ASSERT_NOT_EQUALS_ARRAYS( T* a1, T* a2, int len, string errorMsg = "", bool isImpArrays = true ) {
-    if ( EQUALS_ARRAYS( a1, a2, len ) ) {
-        if ( errorMsg != "" )
-            throw assert_fail( errorMsg );
-        
-        stringstream ss;
-        if ( isImpArrays ) {
-            ss << "\nArray(1)= " << ARRAY_STR( a1, len ) << endl;
-            ss << "Array(2)= " << ARRAY_STR( a2, len ) << endl;
-        }
-        ss << "Os arrays deveriam ser diferentes!";
-        throw assert_fail( ss.str() );
-    } 
-}
-
-template <typename T>
-void ASSERT_EQUALS_VECTORS( vector<T> v1, vector<T> v2, bool isImpVectors ) {
-    ASSERT_EQUALS_VECTORS( v1, v2, "", isImpVectors );
-}
-
-template <typename T>
-void ASSERT_NOT_EQUALS_VECTORS( vector<T> v1, vector<T> v2, bool isImpVectors ) {
-    ASSERT_NOT_EQUALS_VECTORS( v1, v2, "", isImpVectors );
-}
-
-template <typename T>
-void ASSERT_EQUALS_ARRAYS( T* a1, T* a2, bool isImpVectors ) {
-    ASSERT_EQUALS_ARRAYS( a1, a2, "", isImpVectors );
-}
-
-template <typename T>
-void ASSERT_NOT_EQUALS_ARRAYS( T* a1, T* a2, bool isImpVectors ) {
-    ASSERT_NOT_EQUALS_ARRAYS( a1, a2, "", isImpVectors );
-}
+#define ASSERT_NOT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) \
+    if ( __equals_arrays( a1, a2, len ) ) { \
+        if ( strlen( #errorMsg ) != 0 ) \
+            THROW_FAIL( errorMsg, ); \
+        \
+        __stream.str( "" ); \
+        __stream.clear(); \
+        if ( __is_imp_vectors ) { \
+            __stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
+            __stream << "Array(2)= " << __array_str( a2, len ) << endl; \
+        } \
+        __stream << "Os arrays deveriam ser diferentes!"; \
+        throw assert_fail( __stream.str() ); \
+    } \
 
 // OUTROS ASSERTS
 
-template <typename T>
-void ASSERT_EQUALS( T a, T b, string errorMsg = "" ) {
-    if ( a != b )
-        THROW_FAIL( errorMsg, "deveriam ser iguais!" );
-}
+#define ASSERT_EQUALS( a, b, errorMsg ) \
+    if ( a != b ) \
+        THROW_FAIL( errorMsg, "deveriam ser iguais!" ); \
 
-template <typename T>
-void ASSERT_NOT_EQUALS( T a, T b, string errorMsg = "" ) {
-    if ( a == b )
-        THROW_FAIL( errorMsg, "deveriam ser diferentes!" );
-}
+#define ASSERT_NOT_EQUALS( a, b, errorMsg ) \
+    if ( a == b ) \
+        THROW_FAIL( errorMsg, "deveriam ser diferentes!" ); \
 
-void ASSERT_TRUE( bool condicao, string errorMsg = "" ) {
-    if ( !condicao )
-        THROW_FAIL( errorMsg, "Condição que deveria ser verdadeira é falsa!" );
-}
+#define ASSERT_TRUE( condicao, errorMsg ) \
+    if ( !condicao ) \
+        THROW_FAIL( errorMsg, "Condição que deveria ser verdadeira é falsa!" ); \
 
-void ASSERT_FALSE( bool condicao, string errorMsg = "" ) {
-    if ( condicao )
-        THROW_FAIL( errorMsg, "Condição que deveria ser falsa é verdadeira!" );    
-}
+#define ASSERT_FALSE( condicao, errorMsg ) \
+    if ( condicao ) \
+        THROW_FAIL( errorMsg, "Condição que deveria ser falsa é verdadeira!" ); \
 
-void ASSERT_NULL( void* obj, string errorMsg = "" ) {
-    if ( obj != nullptr )              
-        THROW_FAIL( errorMsg, "Objeto deveria ser nulo!" );
-}
+#define ASSERT_NULL( obj, errorMsg ) \
+    if ( obj != nullptr ) \
+        THROW_FAIL( errorMsg, "Objeto deveria ser nulo!" ); \
 
-void ASSERT_NOT_NULL( void* obj, string errorMsg = "" ) {
-    if ( obj == nullptr )              
-        THROW_FAIL( errorMsg, "Objeto deveria ser não nulo!" );    
-}
+#define ASSERT_NOT_NULL( obj, errorMsg ) \
+    if ( obj == nullptr ) \
+        THROW_FAIL( errorMsg, "Objeto deveria ser não nulo!" ); \
 
 
 // TEST CASES DEFINES E FUNCTIONS
@@ -274,11 +249,11 @@ void ASSERT_NOT_NULL( void* obj, string errorMsg = "" ) {
 
 int RUN_TEST_CASES_BY_CLASS( string testClass ) {
     if ( __test_cases_map.find( testClass ) == __test_cases_map.end() ) {
-        cout << BLUE( "Nenhum teste registrado para a classe: " + testClass );
+        cout << __blue( "Nenhum teste registrado para a classe: " + testClass );
         return 0;
     }
 
-    cout << "Executando " << GREEN( testClass ) << "..." << endl;
+    cout << "Executando " << __green( testClass ) << "..." << endl;
 
     int countFails = 0;
 
@@ -287,20 +262,20 @@ int RUN_TEST_CASES_BY_CLASS( string testClass ) {
         string testName = testcase->name;
         if ( testcase->testClass != "" )
             testName = testcase->testClass +"." + testName;
-        cout << "\n\tExecutando " << GREEN( testName ) << "... ";
+        cout << "\n\tExecutando " << __green( testName ) << "... ";
         try {
             testcase->func();
-            cout << GREEN( "Ok" ) << endl;
+            cout << __green( "Ok" ) << endl;
         } catch ( const assert_fail& e ) {            
-            cout << "\n" << RED( "Erro" ) << " em: " << GREEN( testName ) << " --> " << WHITE( e.what() ) << endl;
+            cout << "\n" << __red( "Erro" ) << " em: " << __green( testName ) << " --> " << __white( e.what() ) << endl;
             countFails++;
         }
     }
 
     cout << endl;
     if ( countFails == 0 )
-        cout << GREEN( testClass ) << " executado sem falhas!" << endl;
-    else cout << GREEN( testClass ) << " executado com " << std::to_string( countFails ) << " falha(s)!" << endl;
+        cout << __green( testClass ) << " executado sem falhas!" << endl;
+    else cout << __green( testClass ) << " executado com " << std::to_string( countFails ) << " falha(s)!" << endl;
     cout << endl;
 
     return countFails;
@@ -319,16 +294,16 @@ void RUN_ALL_TEST_CASES() {
     else cout << "Houve falha em " << countFails << " teste(s)" << endl;
 }
 
-int READ_OPTION( int numberOfOptions ) {
+int __read_option( int numberOfOptions ) {
     int op;
             
     bool ok;
     do {
         cout << ">> " << std::flush;
         while( !(cin >> op) ) {
-            cout << RED( "Informe uma opção entre 1 e " );
-            cout << RED( numberOfOptions );
-            cout << RED( "." ) << endl;
+            cout << __red( "Informe uma opção entre 1 e " );
+            cout << __red( numberOfOptions );
+            cout << __red( "." ) << endl;
             cin.clear();
             cin.ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
             cout << ">> " << std::flush;
@@ -336,9 +311,9 @@ int READ_OPTION( int numberOfOptions ) {
 
         ok = true;
         if ( op < 0 || op > numberOfOptions-1 ) {
-            cout << RED( "Informe uma opção entre 1 e " );
-            cout << RED( numberOfOptions );
-            cout << RED( "." ) << endl;
+            cout << __red( "Informe uma opção entre 1 e " );
+            cout << __red( numberOfOptions );
+            cout << __red( "." ) << endl;
             ok = false;
         }
     } while ( !ok );
@@ -356,12 +331,12 @@ void RUN_TEST_CASES_MENU() {
     int numberOfOptions = 2;
     for( const auto& pair : __test_cases_map ) {
         testClasses.push_back( pair.first );
-        cout << "  (" << numberOfOptions << ") " << GREEN( pair.first ) << endl;
+        cout << "  (" << numberOfOptions << ") " << __green( pair.first ) << endl;
         numberOfOptions++;
     }
     cout << "  (0) Sair" << endl;
     
-    op = READ_OPTION( numberOfOptions );
+    op = __read_option( numberOfOptions );
 
     if ( op > 0 && op-2 < (int)testClasses.size() ) {
         if ( op == 1 ) {
