@@ -123,7 +123,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 #define THROW_FAIL( errorMsg, otherErrorMsg ) { \
     __stream.str( "" ); \
     __stream.clear(); \
-    __stream << "Linha(" << __LINE__ << "): "; \
+    __stream << __FILE__ << "(" << __LINE__ << "): "; \
     if ( strlen( #errorMsg ) == 0 ) \
         __stream << #otherErrorMsg; \
     __stream << #errorMsg; \
@@ -140,7 +140,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         \
         __stream.str( "" ); \
         __stream.clear(); \
-        __stream << "Linha(" << __LINE__ << "): Os vetores deveriam ser iguais!" << endl; \
+        __stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser iguais!" << endl; \
         if ( __is_imp_vectors ) { \
             __stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
             __stream << "Vetor(2)= " << __vector_str( v2 ); \
@@ -155,7 +155,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         \
         __stream.str( "" ); \
         __stream.clear(); \
-        __stream << "Linha(" << __LINE__ << "): Os vetores deveriam ser diferentes!" << endl; \
+        __stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser diferentes!" << endl; \
         if ( __is_imp_vectors ) { \
             __stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
             __stream << "Vetor(2)= " << __vector_str( v2 ); \
@@ -170,7 +170,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         \
         __stream.str( "" ); \
         __stream.clear(); \
-        __stream << "Linha(" << __LINE__ << "): Os arrays deveriam ser iguais!" << endl; \
+        __stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser iguais!" << endl; \
         if ( __is_imp_vectors ) { \
             __stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
             __stream << "Array(2)= " << __array_str( a2, len ); \
@@ -185,7 +185,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         \
         __stream.str( "" ); \
         __stream.clear(); \
-        __stream << "Linha(" << __LINE__ << "): Os arrays deveriam ser diferentes!" << endl; \
+        __stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser diferentes!" << endl; \
         if ( __is_imp_vectors ) { \
             __stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
             __stream << "Array(2)= " << __array_str( a2, len ); \
