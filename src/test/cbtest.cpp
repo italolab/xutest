@@ -32,22 +32,21 @@ int RUN_TEST_CASES_BY_CLASS( string testClass ) {
     vector<TestCase*> testCases = __test_cases_map[ testClass ];
     for( TestCase* testcase : testCases ) {
         string testName = testcase->name;
-        if ( testcase->testClass != "" )
-            testName = testcase->testClass +"." + testName;
-        cout << "\n\tExecutando " << __green( testName ) << "... ";
+        cout << "\tExecutando " << __green( testName ) << "... ";
         try {
             testcase->func();
-            cout << __green( "Ok" ) << endl;
+            cout << __white( "Ok" ) << endl;
         } catch ( const __assert_fail& e ) {            
+            cout << endl;
             cout << "\n" << __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl;
+            cout << endl;
             countFails++;
         }
     }
 
-    cout << endl;
     if ( countFails == 0 )
-        cout << __green( testClass ) << " executado sem falhas!" << endl;
-    else cout << __green( testClass ) << " executado com " << std::to_string( countFails ) << " falha(s)!" << endl;
+        cout << __green( testClass ) << __white( " Ok!" ) << endl;
+    else cout << __green( testClass ) << ": " << __red( std::to_string( countFails ) ) << __white( " falha(s)!" ) << endl;
     cout << endl;
 
     return countFails;
@@ -111,6 +110,7 @@ void RUN_TEST_CASES_MENU() {
     op = __read_option( numberOfOptions );
 
     if ( op > 0 && op-2 < (int)testClasses.size() ) {
+        cout << endl;
         if ( op == 1 ) {
             RUN_ALL_TEST_CASES();
         } else {

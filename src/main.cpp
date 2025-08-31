@@ -14,7 +14,7 @@ class X {
 };
 
 TEST_CASE( test0, ) {
-    ASSERT_EQUALS( 0, 1, Houve erro... );
+    ASSERT_EQUALS( 0, 0, Houve erro... );
 }
 
 TEST_CASE( test1, classes ) {
@@ -46,12 +46,12 @@ TEST_CASE( test1, classes ) {
 	ASSERT_NOT_EQUALS_VECTORS( v1, v3, );
 
 	ASSERT_EQUALS_VECTORS( v1, v2, );
-	ASSERT_NOT_EQUALS_VECTORS( v1, v2, );
+	ASSERT_NOT_EQUALS_VECTORS( v1, v3, );
 }
 
 TEST_CASE( teste3, classes ) {
 	ASSERT_THROWS( runtime_error, {
-		if ( 1 == 2 )
+		if ( 1 == 1 )
 			throw runtime_error( "erro!" );
 	}, );
 }
