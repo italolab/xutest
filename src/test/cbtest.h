@@ -234,6 +234,8 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         THROW_FAIL( errorMsg, Não deveria lancar exceção: #except ); \
     } \
 
+#define FAIL( errorMsg ) \
+    THROW_FAIL( errorMsg, ); \
 
 // TEST CASES DEFINES E FUNCTIONS
 

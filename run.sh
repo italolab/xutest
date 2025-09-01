@@ -5,7 +5,7 @@ fi
 
 
 if [ "$type" == "lib" ]; then
-    ./cbuild buildall --settings-file=settings-staticlib-linux.txt
+    ./cbuild archivebuildall --settings-file=settings-staticlib-linux.txt
 else
     ./cbuild build --settings-file=settings-linux.txt
     ./build/cbtest

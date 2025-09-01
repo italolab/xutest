@@ -56,10 +56,15 @@ TEST_CASE( teste3, classes ) {
 	}, );
 }
 
+TEST_CASE( teste4, ) {
+	FAIL( "Falha...." );
+}
+
 int main() {
 	ADD_TEST_CASE( test1, classes );
     ADD_TEST_CASE( test0, );
 	ADD_TEST_CASE( teste3, classes );
+	ADD_TEST_CASE( teste4, );
 
 	RUN_TEST_CASES_MENU();
 }
