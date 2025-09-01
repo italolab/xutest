@@ -1,6 +1,8 @@
 
 #include "cbtest.h"
 
+#include <dlfcn.h>
+
 const char* DEFAULT_TEST_CLASS = "default";
 
 map<string, vector<TestCase*>> __test_cases_map;
@@ -33,9 +35,11 @@ void __exec_function_by_name( string testName, string testClassName ) {
     void* handle = dlopen( nullptr, RTLD_LAZY );
 
     if ( !handle ) {
-        cout << "Shared library de funções de teste não carregada: " << "\n"; 
-        cout << dlerror() << endl;
-        return;
+        stringstream ss;
+        ss << __red( "Shared library de funções de teste não carregada: " ) << "\n"; 
+        ss << __red( dlerror() );
+
+        throw runtime_error( ss.str() );
     }
 
     dlerror();
@@ -46,9 +50,12 @@ void __exec_function_by_name( string testName, string testClassName ) {
     FunctionType func = (FunctionType)dlsym( handle, fname.c_str() );
     const char* error = dlerror();
     if ( error ) {
-        cout << "Função de teste não carregada: " << fname << "\n" << error << endl;
+        stringstream ss;
+        ss << __red( "Função de teste não carregada." ) << "\n";
+        ss << __red( error );
         dlclose( handle );
-        return;
+
+        throw runtime_error( ss.str() );
     }
 
     func();

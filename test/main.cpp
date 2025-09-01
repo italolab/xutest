@@ -1,6 +1,5 @@
 
-#include "test/cbtest.h"
-#include "test/sourcecode/SourceCodeManager.h"
+#include <test/cbtest.h>
 
 #include <string>
 #include <vector>
@@ -62,15 +61,5 @@ TEST_CASE( teste4, ) {
 }
 
 int main() {
-	/*
-	ADD_TEST_CASE( test1, classes );
-    ADD_TEST_CASE( test0, );
-	ADD_TEST_CASE( teste3, classes );
-	ADD_TEST_CASE( teste4, );
-
 	RUN_TEST_CASES_MENU();
-	*/
-
-	RUN_TEST_CASES_MENU();
-
 }

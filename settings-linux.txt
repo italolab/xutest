@@ -1,35 +1,16 @@
 
 compiler=g++
-output.file.name=cbtest
 
 src.dir=src
 build.dir=build
+test.dir=test
 
-build.files=
+bin.dir=bin/Debug
+obj.dir=obj/Debug
 
-$target=debug
+test.compiler.params=-Wall -fexceptions -g -std=c++17
+test.linker.params=-ldl -rdynamic
 
-$debug_bin_dir=bin/Debug
-$debug_obj_dir=obj/Debug/link
-$debug_compiler_params=-Wall -fexceptions -g -std=c++17
-$debug_linker_params=-ldl -rdynamic
-
-$release_bin_dir=bin/Release
-$release_obj_dir=obj/Release/link
-$release_compiler_params=-Wall -fexceptions -O2
-$release_linker_params=-s -ldl -std=c++17
-
-
-bin.dir=$($(target)_bin_dir)
-obj.dir=$($(target)_obj_dir)
-compiler.params=$($(target)_compiler_params)
-linker.params=$($(target)_linker_params)
-
-lib.dirs=
-include.dirs=include
-libs=
-#defines=
-
-task debug 
-    @./build/cbtest
-endtask
+test.lib.dirs=lib
+test.include.dirs=src
+test.libs=cbtest

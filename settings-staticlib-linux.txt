@@ -10,3 +10,7 @@ bin.dir=bin/Release
 obj.dir=obj/Release/archive
 compiler.params=-Wall -O2 -std=c++17
 archiver.params=
+
+task copy after
+    cp $(build.dir)/$(output.file.name) lib/$(output.file.name)
+endtask

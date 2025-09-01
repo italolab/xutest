@@ -12,7 +12,6 @@
 #include <iostream>
 #include <cstring>
 #include <limits>
-#include <dlfcn.h>
 
 using std::string;
 using std::stringstream;
@@ -46,7 +45,6 @@ class __assert_fail {
 
 extern const char* DEFAULT_TEST_CLASS;
 
-extern map<string, vector<TestCase*>> __test_cases_map;
 extern bool __is_imp_vectors;
 
 extern stringstream __stream;
@@ -265,29 +263,6 @@ inline string __test_function_name( string testName, string testClass ) {
         return "___" + testName;
     return "__" + testClass + "_" + testName;
 }
-
-#define ADD_TEST_CASE( name, testClass ) \
-    if ( strlen( #testClass ) == 0 ) { \
-        if ( __test_cases_map.find( DEFAULT_TEST_CLASS ) == __test_cases_map.end() ) { \
-            vector<TestCase*> ___vect; \
-            __test_cases_map[ DEFAULT_TEST_CLASS ] = ___vect; \
-        } \
-        __test_cases_map[ DEFAULT_TEST_CLASS ].push_back(  \
-            new TestCase { \
-                #name, \
-                #testClass, \
-                __##testClass##_##name } ); \
-    } else { \
-        if ( __test_cases_map.find( #testClass ) == __test_cases_map.end() ) { \
-            vector<TestCase*> ___vect; \
-            __test_cases_map[ #testClass ] = ___vect; \
-        } \
-        __test_cases_map[ #testClass ].push_back(  \
-            new TestCase { \
-                #name, \
-                #testClass, \
-                __##testClass##_##name } ); \
-    } \
 
 #define RUN_TEST_CASES_BY_CLASS( testClass, testInfos ) \
     cout << "Executando " << __green( testClass ) << "..." << endl; \
