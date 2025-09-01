@@ -219,7 +219,7 @@ string __white( T text ) {
         THROW_FAIL( errorMsg, Deveriam ser diferentes! ); \
 
 #define ASSERT_TRUE( condicao, errorMsg ) \
-    if ( !condicao ) \
+    if ( !(condicao) ) \
         THROW_FAIL( errorMsg, Condição que deveria ser verdadeira é falsa! ); \
 
 #define ASSERT_FALSE( condicao, errorMsg ) \

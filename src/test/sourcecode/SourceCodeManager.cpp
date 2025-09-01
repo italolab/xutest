@@ -20,6 +20,9 @@ map<string, vector<TestInfo*>> SourceCodeManager::testInfos( string filePath ) {
     return testInfosMap;
 }
 
+#include <iostream>
+using namespace std;
+
 void SourceCodeManager::loadTestInfos( 
             map<string, vector<TestInfo*>>& testInfosMap, 
             vector<string>& processedFilePaths,
@@ -78,7 +81,7 @@ bool SourceCodeManager::interpretsInclude( string line, string filePath, string&
     if ( i == string::npos || j == string::npos )
         return false;
 
-    includePath = line.substr( i, j-i );
+    includePath = line.substr( i+1, j-i-1 );
 
     string dir = io::dirPath( filePath );
     includePath = io::resolvePath( dir, includePath );            
