@@ -12,6 +12,7 @@
 #include <iostream>
 #include <cstring>
 #include <limits>
+#include <dlfcn.h>
 
 using std::string;
 using std::stringstream;
@@ -19,6 +20,7 @@ using std::vector;
 using std::map;
 using std::function;
 using std::runtime_error;
+using std::exception;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -50,14 +52,24 @@ extern bool __is_imp_vectors;
 extern stringstream __stream;
 extern int __countFails;
 
+extern SourceCodeManager* sourceCodeManager;
+extern map<string, vector<TestInfo*>> __test_infos_map;
+extern vector<string> __test_classes;
+extern string __test_class;
+extern int __op;
+extern int __number_of_options;
+
 namespace cbtest {
 
     void setImpVectors( bool isImpVectors );
     
 }
 
+void __exec_function_by_name( string testName, string testClassName );
+int __read_option( int numberOfOptions ) ;
+
 template <typename T>
-inline string __array_str( T* arr, int len ) {
+string __array_str( T* arr, int len ) {
     stringstream ss;
     for( int i = 0; i < len; i++ )
         ss << arr[ i ] << " ";
@@ -65,7 +77,7 @@ inline string __array_str( T* arr, int len ) {
 }
 
 template <typename T>
-inline string __vector_str( vector<T> vect ) {
+string __vector_str( vector<T> vect ) {
     stringstream ss;
     for( T el : vect )
         ss << el << " ";
@@ -73,7 +85,7 @@ inline string __vector_str( vector<T> vect ) {
 }
 
 template <typename T>
-inline bool __equals_arrays( T* a1, T* a2, int len ) {
+bool __equals_arrays( T* a1, T* a2, int len ) {
     for( int i = 0; i < len; i++ )
         if ( a1[ i ] != a2[ i ] )
             return false;
@@ -81,7 +93,7 @@ inline bool __equals_arrays( T* a1, T* a2, int len ) {
 }
 
 template <typename T>
-inline bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
+bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( v1.size() != v2.size() )
         return false;
 
@@ -91,6 +103,39 @@ inline bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
             return false;
     return true;
 }
+
+template <typename T>
+string __red( T text ) {
+    string output = "\033[31m";
+    output += text;
+    output += "\033[0m";
+    return output;
+}
+
+template <typename T>
+string __green( T text ) {
+    string output = "\033[32m";
+    output += text;
+    output += "\033[0m";
+    return output;
+}
+
+template <typename T>
+string __blue( T text ) {
+    string output = "\033[34m";
+    output += text;
+    output += "\033[0m";
+    return output;
+}
+
+template <typename T>
+string __white( T text ) {
+    string output = "\033[37m";
+    output += text;
+    output += "\033[0m";
+    return output;
+}
+
 
 #define THROW_FAIL( errorMsg, otherErrorMsg ) { \
     __stream.str( "" ); \
@@ -213,10 +258,11 @@ inline bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 
 
 #define TEST_CASE( name, testClass ) \
-    void __##testClass##_##name () \
+    extern "C" void __##testClass##_##name () \
 
-#define RUN_TEST_CASE_FUNC( name, testClass ) \
-    __testClass##_name(); \
+inline string __test_function_name( string testName, string testClass ) {
+    return "__" + testClass + "_" + testName;
+}
 
 #define ADD_TEST_CASE( name, testClass ) \
     if ( strlen( #testClass ) == 0 ) { \
@@ -249,7 +295,7 @@ inline bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     for( TestInfo* testInfo : testInfos ) { \
         cout << "\tExecutando " << __green( testInfo->name ) << "... "; \
         try { \
-            RUN_TEST_CASE_FUNC( testInfo->name, testInfo->className ); \
+            __exec_function_by_name( testInfo->name, testInfo->className ); \
             cout << __white( "Ok" ) << endl; \
         } catch ( const __assert_fail& e ) { \
             cout << endl; \
@@ -274,8 +320,56 @@ inline bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     else cout << __green( testClass ) << ": " << __red( std::to_string( __countFails ) ) << __white( " falha(s)!" ) << endl; \
     cout << endl; \
 
-//int RUN_TEST_CASES_BY_CLASS( string testClass );
-void RUN_ALL_TEST_CASES();
-void RUN_TEST_CASES_MENU();
+#define RUN_ALL_TEST_CASES() \
+    cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
+    cout << endl; \
+    \
+    int countFails = 0; \
+    __test_infos_map = sourceCodeManager->testInfos( __FILE__ ); \
+    for( const auto& pair : __test_infos_map ) { \
+        RUN_TEST_CASES_BY_CLASS( pair.first, pair.second ); \
+        countFails += __countFails; \
+    } \
+    \
+    if ( countFails == 0 ) \
+        cout << "Todos os testes passaram com sucesso!" << endl; \
+    else cout << "Houve falha em " << countFails << " teste(s)" << endl; \
+
+#define RUN_TEST_CASES_MENU() \
+    __op = -1; \
+    \
+    cout << endl; \
+    cout << "Escolha a classe de testes para rodar: " << endl; \
+    cout << "  (1) Todos os testes" << endl; \
+    __number_of_options = 2; \
+    \
+    __test_infos_map = sourceCodeManager->testInfos( __FILE__ ); \
+    \
+    __test_classes.clear(); \
+    for( const auto& pair : __test_infos_map ) { \
+        __test_classes.push_back( pair.first ); \
+        cout << "  (" << __number_of_options << ") " << __green( pair.first ) << endl; \
+        __number_of_options++; \
+    } \
+    cout << "  (0) Sair" << endl; \
+    \
+    __op = __read_option( __number_of_options ); \
+    \
+    if ( __op > 0 && __op-2 < (int)__test_classes.size() ) { \
+        cout << endl; \
+        if ( __op == 1 ) { \
+            RUN_ALL_TEST_CASES(); \
+        } else { \
+            cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
+            cout << endl; \
+            \
+            __test_class = __test_classes[ __op-2 ]; \
+            __test_infos_map = sourceCodeManager->testInfos( __FILE__ ); \
+            if ( __test_infos_map.find( __test_class ) != __test_infos_map.end() ) { \
+                RUN_TEST_CASES_BY_CLASS( __test_class, __test_infos_map[ __test_class ] ); \
+            } \
+            __op = 0; \
+        } \
+    } \
 
 #endif
