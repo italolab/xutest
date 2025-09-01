@@ -1,3 +1,9 @@
-/home/italo/workspace-cpp/cbtest/src/main.cpp=1756723419
+/home/italo/workspace-cpp/cbtest/src/main.cpp=1756737483
 /home/italo/workspace-cpp/cbtest/src/test/cbtest.cpp=1756724246
-/home/italo/workspace-cpp/cbtest/src/test/cbtest.h=1756724238
+/home/italo/workspace-cpp/cbtest/src/test/cbtest.h=1756729038
+/home/italo/workspace-cpp/cbtest/src/test/sourcecode/SourceCodeManager.cpp=1756737526
+/home/italo/workspace-cpp/cbtest/src/test/sourcecode/SourceCodeManager.h=1756737203
+/home/italo/workspace-cpp/cbtest/src/test/util/io.cpp=1756734467
+/home/italo/workspace-cpp/cbtest/src/test/util/io.h=1756736998
+/home/italo/workspace-cpp/cbtest/src/test/util/strutil.cpp=1756733872
+/home/italo/workspace-cpp/cbtest/src/test/util/strutil.h=1756733882

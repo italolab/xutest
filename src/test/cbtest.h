@@ -1,6 +1,8 @@
 #ifndef CBTEST_H
 #define CBTEST_H
 
+#include "sourcecode/SourceCodeManager.h"
+
 #include <string>
 #include <sstream>
 #include <vector>
@@ -46,6 +48,7 @@ extern map<string, vector<TestCase*>> __test_cases_map;
 extern bool __is_imp_vectors;
 
 extern stringstream __stream;
+extern int __countFails;
 
 namespace cbtest {
 
@@ -210,32 +213,68 @@ inline bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 
 
 #define TEST_CASE( name, testClass ) \
-    void _##testClass##_##name () \
+    void __##testClass##_##name () \
+
+#define RUN_TEST_CASE_FUNC( name, testClass ) \
+    __testClass##_name(); \
 
 #define ADD_TEST_CASE( name, testClass ) \
     if ( strlen( #testClass ) == 0 ) { \
         if ( __test_cases_map.find( DEFAULT_TEST_CLASS ) == __test_cases_map.end() ) { \
-            vector<TestCase*> vect; \
-            __test_cases_map[ DEFAULT_TEST_CLASS ] = vect; \
+            vector<TestCase*> ___vect; \
+            __test_cases_map[ DEFAULT_TEST_CLASS ] = ___vect; \
         } \
         __test_cases_map[ DEFAULT_TEST_CLASS ].push_back(  \
             new TestCase { \
                 #name, \
                 #testClass, \
-                _##testClass##_##name } ); \
+                __##testClass##_##name } ); \
     } else { \
         if ( __test_cases_map.find( #testClass ) == __test_cases_map.end() ) { \
-            vector<TestCase*> vect; \
-            __test_cases_map[ #testClass ] = vect; \
+            vector<TestCase*> ___vect; \
+            __test_cases_map[ #testClass ] = ___vect; \
         } \
         __test_cases_map[ #testClass ].push_back(  \
             new TestCase { \
                 #name, \
                 #testClass, \
-                _##testClass##_##name } ); \
+                __##testClass##_##name } ); \
     } \
 
-int RUN_TEST_CASES_BY_CLASS( string testClass );
+#define RUN_TEST_CASES_BY_CLASS( testClass, testInfos ) \
+    cout << "Executando " << __green( testClass ) << "..." << endl; \
+    \
+    __countFails = 0; \
+    \
+    for( TestInfo* testInfo : testInfos ) { \
+        cout << "\tExecutando " << __green( testInfo->name ) << "... "; \
+        try { \
+            RUN_TEST_CASE_FUNC( testInfo->name, testInfo->className ); \
+            cout << __white( "Ok" ) << endl; \
+        } catch ( const __assert_fail& e ) { \
+            cout << endl; \
+            cout << "\n" << __red( "Falha" ) << " em: " << __green( testInfo->name ) << " --> " << e.what() << endl; \
+            cout << endl; \
+            __countFails++; \
+        } catch ( const exception& e ) { \
+            cout << endl; \
+            cout << "\nException em: " << __green( testInfo->name ) << " --> " << __red( e.what() ) << endl; \
+            cout << endl; \
+            __countFails++; \
+        } catch ( ... ) { \
+            cout << endl; \
+            cout << "\nException desconhecida em: " << __green( testInfo->name ) << endl; \
+            cout << endl; \
+            __countFails++; \
+        } \
+    } \
+    \
+    if ( __countFails == 0 ) \
+        cout << __green( testClass ) << __white( " Ok!" ) << endl; \
+    else cout << __green( testClass ) << ": " << __red( std::to_string( __countFails ) ) << __white( " falha(s)!" ) << endl; \
+    cout << endl; \
+
+//int RUN_TEST_CASES_BY_CLASS( string testClass );
 void RUN_ALL_TEST_CASES();
 void RUN_TEST_CASES_MENU();
 

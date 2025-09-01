@@ -10,6 +10,7 @@ map<string, vector<TestCase*>> __test_cases_map;
 bool __is_imp_vectors = true;
 
 stringstream __stream;
+int __countFails = 0;
 
 __assert_fail::__assert_fail( string msg ) : msg( msg ) {}
 
@@ -56,6 +57,7 @@ inline string __white( T text ) {
     return output;
 }
 
+/*
 int RUN_TEST_CASES_BY_CLASS( string testClass ) {
     if ( __test_cases_map.find( testClass ) == __test_cases_map.end() ) {
         cout << __blue( "Nenhum teste registrado para a classe: " ) << __green( testClass );
@@ -98,15 +100,18 @@ int RUN_TEST_CASES_BY_CLASS( string testClass ) {
 
     return countFails;
 }
+*/
 
 void RUN_ALL_TEST_CASES() {
     cout << __white( "**** EXECUTANDO TESTES ****" ) << endl;
     cout << endl;
     
     int countFails = 0;
-    for( const auto& pair : __test_cases_map ) {
-        int count = RUN_TEST_CASES_BY_CLASS( pair.first );
-        countFails += count;
+    SourceCodeManager* sourceCodeManager = new SourceCodeManager( DEFAULT_TEST_CLASS );
+    map<string, vector<TestInfo*>> testInfosMap = sourceCodeManager->testInfos( __FILE__ );
+    for( const auto& pair : testInfosMap ) {
+        RUN_TEST_CASES_BY_CLASS( pair.first, pair.second );
+        countFails += __countFails;
     }
     
     if ( countFails == 0 )
@@ -142,7 +147,12 @@ void RUN_TEST_CASES_MENU() {
             cout << endl;
 
             string testClass = testClasses[ op-2 ];
-            RUN_TEST_CASES_BY_CLASS( testClass );
+            SourceCodeManager* sourceCodeManager = new SourceCodeManager( DEFAULT_TEST_CLASS );
+            map<string, vector<TestInfo*>> testInfosMap = sourceCodeManager->testInfos( __FILE__ );
+            if ( testInfosMap.find( testClass ) != testInfosMap.end() ) {
+                vector<TestInfo*> testInfos = testInfosMap[ testClass ];
+                RUN_TEST_CASES_BY_CLASS( testClass, testInfos );          
+            }   
             op = 0;
         }
     }
