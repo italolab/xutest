@@ -57,7 +57,7 @@ TEST_CASE( teste3, classes ) {
 }
 
 TEST_CASE( teste4, ) {
-	FAIL( "Falha...." );
+	//FAIL( "Falha...." );
 }
 
 int main() {

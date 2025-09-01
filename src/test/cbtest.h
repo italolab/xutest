@@ -43,8 +43,11 @@ class __assert_fail {
 extern const char* DEFAULT_TEST_CLASS;
 
 extern map<string, vector<TestCase*>> __test_cases_map;
-extern stringstream __stream;
 extern bool __is_imp_vectors;
+extern string __testName;
+extern int __countFails;
+
+extern stringstream __stream;
 
 namespace cbtest {
 
@@ -266,13 +269,47 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
                 _##testClass##_##name } ); \
     } \
 
-
-int RUN_TEST_CASES_BY_CLASS( string testClass );
+#define RUN_TEST_CASES_BY_CLASS( testClass ) \
+    if ( __test_cases_map.find( testClass ) == __test_cases_map.end() ) { \
+        cout << __blue( "Nenhum teste registrado para a classe: " ) << __green( testClass ); \
+    } else { \
+        cout << "Executando " << __green( testClass ) << "..." << endl; \
+        \
+        __countFails = 0; \
+        \
+        vector<TestCase*> testCases = __test_cases_map[ testClass ]; \
+        for( TestCase* testcase : testCases ) { \
+            __testName = testcase->name; \
+            cout << "\tExecutando " << __green( __testName ) << "... "; \
+            try { \
+                testcase->func(); \
+                cout << __white( "Ok" ) << endl; \
+            } catch ( const __assert_fail& e ) { \
+                cout << endl; \
+                cout << "\n" << __red( "Falha" ) << " em: " << __green( __testName ) << " --> " << e.what() << endl; \
+                cout << endl; \
+                __countFails++; \
+            } catch ( const exception& e ) { \
+                cout << endl; \
+                cout << "\nException em: " << __green( __testName ) << " --> "; \
+                cout << __FILE__ << "(" << __LINE__ << "): " << __red( e.what() ) << endl; \
+                cout << endl; \
+                __countFails++; \
+            } catch ( ... ) { \
+                cout << endl; \
+                cout << "\nException desconhecida em: " << __green( __testName ) << endl; \
+                cout << endl; \
+                __countFails++; \
+            } \
+        } \
+        \
+        if ( __countFails == 0 ) \
+            cout << __green( testClass ) << __white( " Ok!" ) << endl; \
+        else cout << __green( testClass ) << ": " << __red( std::to_string( __countFails ) ) << __white( " falha(s)!" ) << endl; \
+        cout << endl; \
+    } \
 
 void RUN_ALL_TEST_CASES();
-
-int __read_option( int numberOfOptions );
-
 void RUN_TEST_CASES_MENU();
 
 #endif
