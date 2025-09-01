@@ -56,39 +56,7 @@ namespace cbtest {
 }
 
 template <typename T>
-string __red( T text ) {
-    string output = "\033[31m";
-    output += text;
-    output += "\033[0m";
-    return output;
-}
-
-template <typename T>
-string __green( T text ) {
-    string output = "\033[32m";
-    output += text;
-    output += "\033[0m";
-    return output;
-}
-
-template <typename T>
-string __blue( T text ) {
-    string output = "\033[34m";
-    output += text;
-    output += "\033[0m";
-    return output;
-}
-
-template <typename T>
-string __white( T text ) {
-    string output = "\033[37m";
-    output += text;
-    output += "\033[0m";
-    return output;
-}
-
-template <typename T>
-string __array_str( T* arr, int len ) {
+inline string __array_str( T* arr, int len ) {
     stringstream ss;
     for( int i = 0; i < len; i++ )
         ss << arr[ i ] << " ";
@@ -96,7 +64,7 @@ string __array_str( T* arr, int len ) {
 }
 
 template <typename T>
-string __vector_str( vector<T> vect ) {
+inline string __vector_str( vector<T> vect ) {
     stringstream ss;
     for( T el : vect )
         ss << el << " ";
@@ -104,7 +72,7 @@ string __vector_str( vector<T> vect ) {
 }
 
 template <typename T>
-bool __equals_arrays( T* a1, T* a2, int len ) {
+inline bool __equals_arrays( T* a1, T* a2, int len ) {
     for( int i = 0; i < len; i++ )
         if ( a1[ i ] != a2[ i ] )
             return false;
@@ -112,7 +80,7 @@ bool __equals_arrays( T* a1, T* a2, int len ) {
 }
 
 template <typename T>
-bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
+inline bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( v1.size() != v2.size() )
         return false;
 
@@ -269,46 +237,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
                 _##testClass##_##name } ); \
     } \
 
-#define RUN_TEST_CASES_BY_CLASS( testClass ) \
-    if ( __test_cases_map.find( testClass ) == __test_cases_map.end() ) { \
-        cout << __blue( "Nenhum teste registrado para a classe: " ) << __green( testClass ); \
-    } else { \
-        cout << "Executando " << __green( testClass ) << "..." << endl; \
-        \
-        __countFails = 0; \
-        \
-        vector<TestCase*> testCases = __test_cases_map[ testClass ]; \
-        for( TestCase* testcase : testCases ) { \
-            __testName = testcase->name; \
-            cout << "\tExecutando " << __green( __testName ) << "... "; \
-            try { \
-                testcase->func(); \
-                cout << __white( "Ok" ) << endl; \
-            } catch ( const __assert_fail& e ) { \
-                cout << endl; \
-                cout << "\n" << __red( "Falha" ) << " em: " << __green( __testName ) << " --> " << e.what() << endl; \
-                cout << endl; \
-                __countFails++; \
-            } catch ( const exception& e ) { \
-                cout << endl; \
-                cout << "\nException em: " << __green( __testName ) << " --> "; \
-                cout << __FILE__ << "(" << __LINE__ << "): " << __red( e.what() ) << endl; \
-                cout << endl; \
-                __countFails++; \
-            } catch ( ... ) { \
-                cout << endl; \
-                cout << "\nException desconhecida em: " << __green( __testName ) << endl; \
-                cout << endl; \
-                __countFails++; \
-            } \
-        } \
-        \
-        if ( __countFails == 0 ) \
-            cout << __green( testClass ) << __white( " Ok!" ) << endl; \
-        else cout << __green( testClass ) << ": " << __red( std::to_string( __countFails ) ) << __white( " falha(s)!" ) << endl; \
-        cout << endl; \
-    } \
-
+int RUN_TEST_CASES_BY_CLASS( string testClass );
 void RUN_ALL_TEST_CASES();
 void RUN_TEST_CASES_MENU();
 
