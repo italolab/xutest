@@ -7,17 +7,17 @@ build.dir=build
 
 build.files=
 
-$target=release
+$target=debug
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug/link
 $debug_compiler_params=-Wall -fexceptions -g -std=c++17
-$debug_linker_params=-ldl
+$debug_linker_params=-ldl -rdynamic
 
 $release_bin_dir=bin/Release
 $release_obj_dir=obj/Release/link
-$release_compiler_params=-Wall -fexceptions -O2 -std=c++17
-$release_linker_params=-s -ldl
+$release_compiler_params=-Wall -fexceptions -O2
+$release_linker_params=-s -ldl -std=c++17
 
 
 bin.dir=$($(target)_bin_dir)
