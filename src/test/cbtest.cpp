@@ -8,8 +8,6 @@ const char* DEFAULT_TEST_CLASS = "default";
 
 map<string, vector<TestCase*>> __test_cases_map;
 bool __is_imp_vectors = true;
-string __testName = "";
-int __countFails = 0;
 
 stringstream __stream;
 

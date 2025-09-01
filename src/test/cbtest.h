@@ -44,8 +44,6 @@ extern const char* DEFAULT_TEST_CLASS;
 
 extern map<string, vector<TestCase*>> __test_cases_map;
 extern bool __is_imp_vectors;
-extern string __testName;
-extern int __countFails;
 
 extern stringstream __stream;
 
