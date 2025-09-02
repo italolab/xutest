@@ -3,7 +3,7 @@
 
 #include <test/cbtest.h>
 
-TESTCASE( startsWithTest, StrutilTests ) {
+TEST_CASE( startsWithTest, StrutilTests ) {
     string a = "ABC";
     ASSERT_EQUALS( a, "ABC", );
 }

@@ -29,7 +29,7 @@ typedef struct TTestCase {
     string name;
     string testClass;
     function<void()> func;
-} TestCase;
+} TEST_CASE;
 
 class __assert_fail {
 
@@ -276,7 +276,7 @@ string __white( T text ) {
 // TEST CASES DEFINES E FUNCTIONS
 
 
-#define TESTCASE( name, testClass ) \
+#define TEST_CASE( name, testClass ) \
     extern "C" void __##testClass##_##name () \
 
 inline string __test_function_name( string testName, string testClass ) {

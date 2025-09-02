@@ -94,7 +94,7 @@ bool SourceCodeManager::interpretsInclude( string line, string filePath, string&
 
 bool SourceCodeManager::interpretsTestCase( string line, string filePath, TestInfo*& testInfo ) {
     string line2 = strutil::removeStartWhiteSpaces( line );
-    if ( !strutil::startsWith( line2, "TESTCASE" ) )
+    if ( !strutil::startsWith( line2, "TEST_CASE" ) )
         return false;
     
     size_t i = line2.find( '(' );
