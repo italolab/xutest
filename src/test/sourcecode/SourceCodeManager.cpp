@@ -45,7 +45,7 @@ void SourceCodeManager::loadTestInfos(
             interpreted = this->interpretsTestCase( line, filePath, testInfo );
             if ( interpreted ) {
                 if ( testInfo->className == "" )
-                    testInfo->className = io::fileOrDirName( filePath );
+                    testInfo->className = io::fileOrDirNameWithoutExtension( filePath );
                 
                 if ( testInfosMap.find( testInfo->className ) == testInfosMap.end() ) {
                     vector<TestInfo*> testInfosVect;

@@ -15,6 +15,7 @@ namespace io {
 
     string dirPath( string path );
     string fileOrDirName( string path );
+    string fileOrDirNameWithoutExtension( string path );
 
 }
 

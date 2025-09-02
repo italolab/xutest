@@ -64,6 +64,16 @@ namespace io {
         return p.substr( 0, i+1 );
     }
 
+    string fileOrDirNameWithoutExtension( string path ) {
+        string fname = io::fileOrDirName( path );
+        if ( !filesystem::is_directory( path ) ) {
+            size_t i = fname.find_last_of( '.' );
+            if ( i != string::npos )
+                fname = fname.substr( 0, i );
+        }
+        return fname;        
+    }
+
     string fileOrDirName( string path ) {
         string p = makePreferred( path );
 
