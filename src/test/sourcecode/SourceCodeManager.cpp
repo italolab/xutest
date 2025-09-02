@@ -7,10 +7,6 @@
 
 using std::ifstream;
 
-SourceCodeManager::SourceCodeManager( string defaultTestClass ) {
-    this->defaultTestClass = defaultTestClass;
-}
-
 map<string, vector<TestInfo*>> SourceCodeManager::testInfos( string filePath ) {
     map<string, vector<TestInfo*>> testInfosMap;
     vector<string> processedFilePaths;
@@ -49,7 +45,7 @@ void SourceCodeManager::loadTestInfos(
             interpreted = this->interpretsTestCase( line, filePath, testInfo );
             if ( interpreted ) {
                 if ( testInfo->className == "" )
-                    testInfo->className = defaultTestClass;
+                    testInfo->className = io::fileOrDirName( filePath );
                 
                 if ( testInfosMap.find( testInfo->className ) == testInfosMap.end() ) {
                     vector<TestInfo*> testInfosVect;

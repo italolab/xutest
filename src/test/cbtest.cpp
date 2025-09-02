@@ -5,18 +5,18 @@
 
 const char* DEFAULT_TEST_CLASS = "default";
 
-map<string, vector<TestCase*>> __test_cases_map;
-bool __is_imp_vectors = true;
+map<string, vector<TestCase*>> __cbtest_test_cases_map;
+bool __cbtest_is_imp_vectors = true;
 
-stringstream __stream;
-int __countFails = 0;
+stringstream __cbtest_stream;
+int __cbtest_count_fails = 0;
 
-SourceCodeManager* sourceCodeManager = new SourceCodeManager( DEFAULT_TEST_CLASS );
-map<string, vector<TestInfo*>> __test_infos_map;
-vector<string> __test_classes;
-string __test_class = "";
-int __op = -1;
-int __number_of_options = 0;
+SourceCodeManager* __ctest_source_code_manager = new SourceCodeManager();
+map<string, vector<TestInfo*>> __cbtest_test_infos_map;
+vector<string> __cbtest_test_classes;
+string __cbtest_test_class = "";
+int __cbtest_op = -1;
+int __cbtest_number_of_options = 0;
 
 
 __assert_fail::__assert_fail( string msg ) : msg( msg ) {}
@@ -27,7 +27,7 @@ string __assert_fail::what() const {
 
 namespace cbtest {
     void setImpVectors( bool isImpVectors ) {
-        __is_imp_vectors = isImpVectors;
+        __cbtest_is_imp_vectors = isImpVectors;
     }
 }
 
