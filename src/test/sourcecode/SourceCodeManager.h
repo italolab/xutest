@@ -17,6 +17,8 @@ typedef struct TTestInfo {
 class SourceCodeManager {
 
     private:
+        string defaultTestClass;
+
         void loadTestInfos( 
                 map<string, vector<TestInfo*>>& testInfos, 
                 vector<string>& processedFilePaths, 
@@ -26,6 +28,8 @@ class SourceCodeManager {
         bool interpretsTestCase( string line, string filePath, TestInfo*& testInfo );
 
     public:
+        SourceCodeManager( string defaultTestClass );
+        
         map<string, vector<TestInfo*>> testInfos( string filePath );
 
 };

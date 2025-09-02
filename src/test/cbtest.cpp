@@ -11,13 +11,12 @@ bool __cbtest_is_imp_vectors = true;
 stringstream __cbtest_stream;
 int __cbtest_count_fails = 0;
 
-SourceCodeManager* __ctest_source_code_manager = new SourceCodeManager();
+SourceCodeManager* __ctest_source_code_manager = new SourceCodeManager( DEFAULT_TEST_CLASS );
 map<string, vector<TestInfo*>> __cbtest_test_infos_map;
 vector<string> __cbtest_test_classes;
 string __cbtest_test_class = "";
 int __cbtest_op = -1;
 int __cbtest_number_of_options = 0;
-
 
 __assert_fail::__assert_fail( string msg ) : msg( msg ) {}
 
