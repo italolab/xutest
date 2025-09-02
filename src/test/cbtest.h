@@ -276,7 +276,7 @@ string __white( T text ) {
 // TEST CASES DEFINES E FUNCTIONS
 
 
-#define TEST_CASE( name, testClass ) \
+#define TESTCASE( name, testClass ) \
     extern "C" void __##testClass##_##name () \
 
 inline string __test_function_name( string testName, string testClass ) {

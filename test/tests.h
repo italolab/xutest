@@ -15,11 +15,11 @@ class X {
 
 };
 
-TEST_CASE( test0, ) {
+TESTCASE( test0, ) {
     ASSERT_NOT_NULL( new X, );
 }
 
-TEST_CASE( test1, classes ) {
+TESTCASE( test1, classes ) {
 	ASSERT_EQUALS( 1, 1, );
 	ASSERT_EQUALS( 2, 2, );
 
@@ -51,14 +51,14 @@ TEST_CASE( test1, classes ) {
 	ASSERT_NOT_EQUALS_VECTORS( v1, v3, );
 }
 
-TEST_CASE( teste3, classes ) {
+TESTCASE( teste3, classes ) {
 	ASSERT_THROWS( runtime_error, {
 		if ( 1 == 1 )
 			throw runtime_error( "erro!" );
 	}, );
 }
 
-TEST_CASE( teste4, ) {
+TESTCASE( teste4, ) {
 	//FAIL( "Falha...." );
 }
 
