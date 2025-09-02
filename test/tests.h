@@ -16,7 +16,7 @@ class X {
 };
 
 TEST_CASE( test0, ) {
-    ASSERT_EQUALS( 0, 0, Houve erro... );
+    ASSERT_NOT_NULL( nullptr, );
 }
 
 TEST_CASE( test1, classes ) {

@@ -48,6 +48,7 @@ extern const char* DEFAULT_TEST_CLASS;
 extern bool __cbtest_is_imp_vectors;
 
 extern stringstream __cbtest_stream;
+extern stringstream __cbtest_throws_fail_stream;
 extern int __cbtest_count_fails;
 
 extern SourceCodeManager* __ctest_source_code_manager;
@@ -136,14 +137,14 @@ string __white( T text ) {
 
 
 #define THROW_FAIL( errorMsg, otherErrorMsg ) { \
-    __cbtest_stream.str( "" ); \
-    __cbtest_stream.clear(); \
-    __cbtest_stream << __FILE__ << "(" << __LINE__ << "): "; \
+    __cbtest_throws_fail_stream.str( "" ); \
+    __cbtest_throws_fail_stream.clear(); \
+    __cbtest_throws_fail_stream << __FILE__ << "(" << __LINE__ << "): "; \
     if ( strlen( #errorMsg ) == 0 ) \
-        __cbtest_stream << #otherErrorMsg; \
-    __cbtest_stream << #errorMsg; \
+        __cbtest_throws_fail_stream << __blue( otherErrorMsg ); \
+    __cbtest_throws_fail_stream << __blue( #errorMsg ); \
     \
-    throw __assert_fail( __cbtest_stream.str() ); \
+    throw __assert_fail( __cbtest_throws_fail_stream.str() ); \
 }
 
 // ASSERTS PARA VECTORS E ARRAYS
@@ -151,7 +152,7 @@ string __white( T text ) {
 #define ASSERT_EQUALS_VECTORS( v1, v2, errorMsg ) \
     if ( !__equals_vectors( v1, v2 ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, ); \
+            THROW_FAIL( errorMsg, "" ); \
         \
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
@@ -166,7 +167,7 @@ string __white( T text ) {
 #define ASSERT_NOT_EQUALS_VECTORS( v1, v2, errorMsg ) \
     if ( __equals_vectors( v1, v2 ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, ); \
+            THROW_FAIL( errorMsg, "" ); \
         \
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
@@ -181,7 +182,7 @@ string __white( T text ) {
 #define ASSERT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) \
     if ( !__equals_arrays( a1, a2, len ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, ); \
+            THROW_FAIL( errorMsg, "" ); \
         \
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
@@ -196,7 +197,7 @@ string __white( T text ) {
 #define ASSERT_NOT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) \
     if ( __equals_arrays( a1, a2, len ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, ); \
+            THROW_FAIL( errorMsg, "" ); \
         \
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
@@ -211,33 +212,53 @@ string __white( T text ) {
 // OUTROS ASSERTS
 
 #define ASSERT_EQUALS( a, b, errorMsg ) \
-    if ( a != b ) \
-        THROW_FAIL( errorMsg, deveriam ser iguais! ); \
+    if ( a != b ) { \
+        __cbtest_stream.str( "" ); \
+        __cbtest_stream << "( " << a << " ) != ( " << b << " )"; \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+    } \
 
 #define ASSERT_NOT_EQUALS( a, b, errorMsg ) \
-    if ( a == b ) \
-        THROW_FAIL( errorMsg, Deveriam ser diferentes! ); \
+    if ( a == b ) { \
+        __cbtest_stream.str( "" ); \
+        __cbtest_stream << "( " << a << " ) == ( " << b << " )"; \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+    }
 
 #define ASSERT_TRUE( condicao, errorMsg ) \
-    if ( !(condicao) ) \
-        THROW_FAIL( errorMsg, Condição que deveria ser verdadeira é falsa! ); \
+    if ( !(condicao) ) { \
+        __cbtest_stream.str( "" ); \
+        __cbtest_stream << "( " << #condicao << " ) != true"; \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+    } \
 
 #define ASSERT_FALSE( condicao, errorMsg ) \
-    if ( condicao ) \
-        THROW_FAIL( errorMsg, Condição que deveria ser falsa é verdadeira! ); \
+    if ( condicao ) { \
+        __cbtest_stream.str( "" ); \
+        __cbtest_stream << "( " << #condicao << " ) != false"; \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+    } \
 
 #define ASSERT_NULL( obj, errorMsg ) \
-    if ( obj != nullptr ) \
-        THROW_FAIL( errorMsg, Objeto deveria ser nulo! ); \
+    if ( obj != nullptr ) { \
+        __cbtest_stream.str( "" ); \
+        __cbtest_stream << "( " << #obj << " ) != nullptr"; \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+    } \
 
 #define ASSERT_NOT_NULL( obj, errorMsg ) \
-    if ( obj == nullptr ) \
-        THROW_FAIL( errorMsg, Objeto deveria ser não nulo! ); \
+    if ( obj == nullptr ) { \
+        __cbtest_stream.str( "" ); \
+        __cbtest_stream << "( " << #obj << " ) == nullptr"; \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+    } \
 
 #define ASSERT_THROWS( except, block, errorMsg ) \
     try { \
         block \
-        THROW_FAIL( errorMsg, Deveria lancar uma exceção: #except ); \
+        __cbtest_stream.str(); \
+        __cbtest_stream << "Deveria lancar uma exceção: " << #except; \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } catch ( const except& ex ) { \
         \
     } \
@@ -250,7 +271,7 @@ string __white( T text ) {
     } \
 
 #define FAIL( errorMsg ) \
-    THROW_FAIL( errorMsg, ); \
+    THROW_FAIL( errorMsg, "" ); \
 
 // TEST CASES DEFINES E FUNCTIONS
 

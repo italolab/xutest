@@ -9,6 +9,7 @@ map<string, vector<TestCase*>> __cbtest_test_cases_map;
 bool __cbtest_is_imp_vectors = true;
 
 stringstream __cbtest_stream;
+stringstream __cbtest_throws_fail_stream;
 int __cbtest_count_fails = 0;
 
 SourceCodeManager* __ctest_source_code_manager = new SourceCodeManager( DEFAULT_TEST_CLASS );
