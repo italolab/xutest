@@ -5,7 +5,6 @@
 
 const char* DEFAULT_TEST_CLASS = "default";
 
-map<string, vector<TestCase*>> __cbtest_test_cases_map;
 bool __cbtest_is_imp_vectors = true;
 
 stringstream __cbtest_stream;

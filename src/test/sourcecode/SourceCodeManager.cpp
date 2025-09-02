@@ -23,9 +23,6 @@ map<string, vector<TestInfo*>> SourceCodeManager::testInfos( string filePath ) {
     return testInfosMap;
 }
 
-#include <iostream>
-using namespace std;
-
 void SourceCodeManager::loadTestInfos( 
             map<string, vector<TestInfo*>>& testInfosMap, 
             vector<string>& processedFilePaths,
