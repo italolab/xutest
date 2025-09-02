@@ -214,14 +214,14 @@ string __white( T text ) {
 #define ASSERT_EQUALS( a, b, errorMsg ) \
     if ( a != b ) { \
         __cbtest_stream.str( "" ); \
-        __cbtest_stream << "( " << a << " ) != ( " << b << " )"; \
+        __cbtest_stream << a << " != " << b; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
 
 #define ASSERT_NOT_EQUALS( a, b, errorMsg ) \
     if ( a == b ) { \
         __cbtest_stream.str( "" ); \
-        __cbtest_stream << "( " << a << " ) == ( " << b << " )"; \
+        __cbtest_stream << a << " == " << b; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     }
 
@@ -242,14 +242,14 @@ string __white( T text ) {
 #define ASSERT_NULL( obj, errorMsg ) \
     if ( obj != nullptr ) { \
         __cbtest_stream.str( "" ); \
-        __cbtest_stream << "( " << #obj << " ) != nullptr"; \
+        __cbtest_stream << #obj << " != nullptr"; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
 
 #define ASSERT_NOT_NULL( obj, errorMsg ) \
     if ( obj == nullptr ) { \
         __cbtest_stream.str( "" ); \
-        __cbtest_stream << "( " << #obj << " ) == nullptr"; \
+        __cbtest_stream << #obj << " == nullptr"; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
 

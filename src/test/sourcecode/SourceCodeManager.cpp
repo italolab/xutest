@@ -69,8 +69,6 @@ void SourceCodeManager::loadTestInfos(
         this->loadTestInfos( testInfosMap, processedFilePaths, includePath );
 }
 
-
-
 bool SourceCodeManager::interpretsInclude( string line, string filePath, string& includePath ) {
     if ( !strutil::startsWith( line, "#include" ) )
         return false;
@@ -83,8 +81,8 @@ bool SourceCodeManager::interpretsInclude( string line, string filePath, string&
 
     includePath = line.substr( i+1, j-i-1 );
 
-    string dir = io::dirPath( filePath );
-    includePath = io::resolvePath( dir, includePath );            
+    string dir = io::path::dirPath( filePath );
+    includePath = io::path::resolvePath( dir, includePath );            
 
     return true;
 }

@@ -16,7 +16,7 @@ class X {
 };
 
 TEST_CASE( test0, ) {
-    ASSERT_NOT_NULL( new X, );
+    ASSERT_NULL( new X, Erro... );
 }
 
 TEST_CASE( test1, classes ) {

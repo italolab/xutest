@@ -10,26 +10,6 @@ using std::istringstream;
 namespace testfw {
 namespace strutil {
 
-    bool endsWithSome( string str, string prefixes ) {
-        istringstream iss( prefixes );
-        string prefix;
-
-        while( iss >> prefix )
-            if ( endsWith( str, prefix ) )
-                return true;
-        return false;
-    }
-
-    bool isEqualToSome( string str, string values ) {
-        istringstream iss( values );
-        string value;
-
-        while( iss >> value )
-            if ( str == value )
-                return true;
-        return false;
-    }
-
     bool endsWith( string str, string suffix ) {
         size_t suffixLen = suffix.length();
         size_t strLen = str.length();
@@ -41,6 +21,17 @@ namespace strutil {
         }
         return false;
     }
+
+    bool endsWithSome( string str, string prefixes ) {
+        istringstream iss( prefixes );
+        string prefix;
+
+        while( iss >> prefix )
+            if ( endsWith( str, prefix ) )
+                return true;
+        return false;
+    }
+
 
     bool startsWith( string str, string prefix ) {
         size_t prefixLen = prefix.length();
@@ -73,15 +64,12 @@ namespace strutil {
         return newStr;
     }
 
-    string replaceAll( string str, string replaceStr, string newReplaceStr ) {
+    string replaceAll( string str, char ch, char newCh ) {
         string newStr = str;
-        int replaceStrLen = replaceStr.length();
-
-        size_t i = newStr.find( replaceStr );
-        while ( i != string::npos ) {
-            newStr.replace( i, replaceStrLen, newReplaceStr );
-            i = newStr.find( replaceStr );
-        }
+        int len = str.length();
+        for( int i = 0; i < len; i++ )
+            if ( newStr[ i ] == ch )
+                newStr[ i ] = newCh;                    
         return newStr;
     }
     

@@ -11,16 +11,14 @@ using std::vector;
 namespace testfw {
 namespace strutil {
 
-    bool startsWith( string str, string prefix );
     bool endsWith( string str, string suffix );
     bool endsWithSome( string str, string prefixes );
-    bool isEqualToSome( string str, string values );
+    bool startsWith( string str, string prefix );
     string trim( string str );
-    string replace( string str, string subStr, string newSubStr );
-    string replaceAll( string str, string replaceStr, string newReplaceStr );
-
-    bool isWhiteSpace( char ch );
+    string replace( string str, string replaceStr, string newReplaceStr );
+    string replaceAll( string str, char ch, char newCh );    
     string removeStartWhiteSpaces( string str );
+    bool isWhiteSpace( char ch );
 
 }
 }
