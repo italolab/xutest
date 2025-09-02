@@ -5,6 +5,7 @@
 
 using std::string;
 
+namespace testfw {
 namespace io {
 
     string absolutePath( string path );
@@ -17,6 +18,7 @@ namespace io {
     string fileOrDirName( string path );
     string fileOrDirNameWithoutExtension( string path );
 
+}
 }
 
 #endif

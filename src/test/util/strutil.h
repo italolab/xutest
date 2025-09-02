@@ -8,6 +8,7 @@
 using std::string;
 using std::vector;
 
+namespace testfw {
 namespace strutil {
 
     bool startsWith( string str, string prefix );
@@ -21,6 +22,7 @@ namespace strutil {
     bool isWhiteSpace( char ch );
     string removeStartWhiteSpaces( string str );
 
+}
 }
 
 #endif

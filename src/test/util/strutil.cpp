@@ -7,6 +7,7 @@
 using std::stringstream;
 using std::istringstream;
 
+namespace testfw {
 namespace strutil {
 
     bool endsWithSome( string str, string prefixes ) {
@@ -106,4 +107,5 @@ namespace strutil {
         return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r';
     }
 
+}
 }

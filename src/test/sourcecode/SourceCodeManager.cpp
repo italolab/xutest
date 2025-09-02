@@ -7,6 +7,9 @@
 
 using std::ifstream;
 
+namespace strutil = testfw::strutil;
+namespace io = testfw::io;
+
 SourceCodeManager::SourceCodeManager( string defaultTestClass ) {
     this->defaultTestClass = defaultTestClass;
 }

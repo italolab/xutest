@@ -6,6 +6,7 @@
 
 namespace filesystem = std::filesystem;
 
+namespace testfw {
 namespace io {
 
     string currentPath() {
@@ -209,4 +210,5 @@ namespace io {
         return resolvedPath.replace( 0, k, dir );
     }
 
+}
 }

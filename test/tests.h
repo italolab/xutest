@@ -16,7 +16,7 @@ class X {
 };
 
 TEST_CASE( test0, ) {
-    ASSERT_NOT_NULL( nullptr, );
+    ASSERT_NOT_NULL( new X, );
 }
 
 TEST_CASE( test1, classes ) {
