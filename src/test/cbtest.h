@@ -330,8 +330,8 @@ inline string __test_function_name( string testName, string testClass ) {
     } \
     \
     if ( countFails == 0 ) \
-        cout << "Todos os testes passaram com sucesso!" << endl; \
-    else cout << "Houve falha em " << countFails << " teste(s)" << endl; \
+        cout << __white( "Todos os testes passaram com sucesso!" ) << endl; \
+    else cout << "Houve " << __red( "falha" ) << " em " << __red( std::to_string( countFails ) ) << " teste(s)" << endl; \
 
 #define RUN_TEST_CASES_MENU() \
     __cbtest_op = -1; \
