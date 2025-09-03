@@ -1,7 +1,6 @@
 
 #include "cbtest.h"
-
-#include <dlfcn.h>
+#include "fexec/fexec.h"
 
 const char* DEFAULT_TEST_CLASS = "default";
 
@@ -31,35 +30,8 @@ namespace cbtest {
 }
 
 void __exec_function_by_name( string testName, string testClassName ) {
-    void* handle = dlopen( nullptr, RTLD_LAZY );
-
-    if ( !handle ) {
-        stringstream ss;
-        ss << __red( "Shared library de funções de teste não carregada: " ) << "\n"; 
-        ss << __red( dlerror() );
-
-        throw runtime_error( ss.str() );
-    }
-
-    dlerror();
-
-    string fname = __test_function_name( testName, testClassName );
-
-    typedef void (*FunctionType)();
-    FunctionType func = (FunctionType)dlsym( handle, fname.c_str() );
-    const char* error = dlerror();
-    if ( error ) {
-        stringstream ss;
-        ss << __red( "Função de teste não carregada." ) << "\n";
-        ss << __red( error );
-        dlclose( handle );
-
-        throw runtime_error( ss.str() );
-    }
-
-    func();
-
-    dlclose( handle );
+    string funcName = __test_function_name( testName, testClassName );
+    fexec::exec( funcName );
 }
 
 int __read_option( int numberOfOptions ) {

@@ -2,6 +2,7 @@
 #define CBTEST_H
 
 #include "sourcecode/SourceCodeManager.h"
+#include "output/output.h"
 
 #include <string>
 #include <sstream>
@@ -102,39 +103,6 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
             return false;
     return true;
 }
-
-template <typename T>
-string __red( T text ) {
-    string output = "\033[31m";
-    output += text;
-    output += "\033[0m";
-    return output;
-}
-
-template <typename T>
-string __green( T text ) {
-    string output = "\033[32m";
-    output += text;
-    output += "\033[0m";
-    return output;
-}
-
-template <typename T>
-string __blue( T text ) {
-    string output = "\033[34m";
-    output += text;
-    output += "\033[0m";
-    return output;
-}
-
-template <typename T>
-string __white( T text ) {
-    string output = "\033[37m";
-    output += text;
-    output += "\033[0m";
-    return output;
-}
-
 
 #define THROW_FAIL( errorMsg, otherErrorMsg ) { \
     __cbtest_throws_fail_stream.str( "" ); \
@@ -277,7 +245,7 @@ string __white( T text ) {
 
 
 #define TEST_CASE( name, testClass ) \
-    extern "C" void __##testClass##_##name () \
+    extern "C" __declspec(dllexport) void __##testClass##_##name () \
 
 inline string __test_function_name( string testName, string testClass ) {
     if ( testClass == DEFAULT_TEST_CLASS ) 
