@@ -24,7 +24,7 @@ string __assert_fail::what() const {
 }
 
 namespace cbtest {
-    void setImpVectors( bool isImpVectors ) {
+    void set_imp_vectors( bool isImpVectors ) {
         __cbtest_is_imp_vectors = isImpVectors;
     }
 }

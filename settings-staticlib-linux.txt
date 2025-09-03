@@ -1,7 +1,7 @@
 
 compiler=g++
 archiver=ar
-output.file.name=libcbtest.lib
+output.file.name=libcbtest.a
 
 src.dir=src
 build.dir=build

@@ -8,7 +8,6 @@
 #include <sstream>
 #include <vector>
 #include <map>
-#include <functional>
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
@@ -18,19 +17,12 @@ using std::string;
 using std::stringstream;
 using std::vector;
 using std::map;
-using std::function;
 using std::runtime_error;
 using std::exception;
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::cin;
-
-typedef struct TTestCase {
-    string name;
-    string testClass;
-    function<void()> func;
-} TEST_CASE;
 
 class __assert_fail {
 
@@ -61,7 +53,7 @@ extern int __cbtest_number_of_options;
 
 namespace cbtest {
 
-    void setImpVectors( bool isImpVectors );
+    void set_imp_vectors( bool isImpVectors );
     
 }
 
@@ -113,11 +105,11 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     __cbtest_throws_fail_stream << __blue( #errorMsg ); \
     \
     throw __assert_fail( __cbtest_throws_fail_stream.str() ); \
-}
+} \
 
 // ASSERTS PARA VECTORS E ARRAYS
 
-#define ASSERT_EQUALS_VECTORS( v1, v2, errorMsg ) \
+#define ASSERT_EQUALS_VECTORS( v1, v2, errorMsg ) { \
     if ( !__equals_vectors( v1, v2 ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
             THROW_FAIL( errorMsg, "" ); \
@@ -131,8 +123,9 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         } \
         throw __assert_fail( __cbtest_stream.str() ); \
     } \
+} \
 
-#define ASSERT_NOT_EQUALS_VECTORS( v1, v2, errorMsg ) \
+#define ASSERT_NOT_EQUALS_VECTORS( v1, v2, errorMsg ) { \
     if ( __equals_vectors( v1, v2 ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
             THROW_FAIL( errorMsg, "" ); \
@@ -146,8 +139,9 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         } \
         throw __assert_fail( __cbtest_stream.str() ); \
     } \
+} \
 
-#define ASSERT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) \
+#define ASSERT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) { \
     if ( !__equals_arrays( a1, a2, len ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
             THROW_FAIL( errorMsg, "" ); \
@@ -161,8 +155,9 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         } \
         throw __assert_fail( __cbtest_stream.str() ); \
     } \
+} \
 
-#define ASSERT_NOT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) \
+#define ASSERT_NOT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) { \
     if ( __equals_arrays( a1, a2, len ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
             THROW_FAIL( errorMsg, "" ); \
@@ -176,52 +171,59 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         } \
         throw __assert_fail( __cbtest_stream.str() ); \
     } \
+} \
 
 // OUTROS ASSERTS
 
-#define ASSERT_EQUALS( a, b, errorMsg ) \
+#define ASSERT_EQUALS( a, b, errorMsg ) { \
     if ( a != b ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << a << " != " << b; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
+} \
 
-#define ASSERT_NOT_EQUALS( a, b, errorMsg ) \
+#define ASSERT_NOT_EQUALS( a, b, errorMsg ) { \
     if ( a == b ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << a << " == " << b; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
-    }
+    } \
+} \
 
-#define ASSERT_TRUE( condicao, errorMsg ) \
+#define ASSERT_TRUE( condicao, errorMsg ) { \
     if ( !(condicao) ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << "( " << #condicao << " ) != true"; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
+} \
 
-#define ASSERT_FALSE( condicao, errorMsg ) \
+#define ASSERT_FALSE( condicao, errorMsg ) { \
     if ( condicao ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << "( " << #condicao << " ) != false"; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
+} \
 
-#define ASSERT_NULL( obj, errorMsg ) \
+#define ASSERT_NULL( obj, errorMsg ) { \
     if ( obj != nullptr ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << #obj << " != nullptr"; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
+} \
 
-#define ASSERT_NOT_NULL( obj, errorMsg ) \
+#define ASSERT_NOT_NULL( obj, errorMsg ) { \
     if ( obj == nullptr ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << #obj << " == nullptr"; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
+} \
 
-#define ASSERT_THROWS( except, block, errorMsg ) \
+#define ASSERT_THROWS( except, block, errorMsg ) { \
     try { \
         block \
         __cbtest_stream.str(); \
@@ -230,16 +232,19 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     } catch ( const except& ex ) { \
         \
     } \
+} \
 
-#define ASSERT_NOT_THROWS( except, block, errorMsg ) \
+#define ASSERT_NOT_THROWS( except, block, errorMsg ) { \
     try { \
         block \
     } catch ( const except& ex ) { \
         THROW_FAIL( errorMsg, Não deveria lancar exceção: #except ); \
     } \
+} \
 
-#define FAIL( errorMsg ) \
+#define FAIL( errorMsg ) { \
     THROW_FAIL( errorMsg, "" ); \
+} \
 
 // TEST CASES DEFINES E FUNCTIONS
 
@@ -247,13 +252,13 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 #define TEST_CASE( name, testClass ) \
     extern "C" __declspec(dllexport) void __##testClass##_##name () \
 
-inline string __test_function_name( string testName, string testClass ) {
+inline string __test_function_name( string testName, string testClass )  {
     if ( testClass == DEFAULT_TEST_CLASS ) 
         return "___" + testName;
     return "__" + testClass + "_" + testName;
 }
 
-#define RUN_TEST_CASES_BY_CLASS( testClass, testInfos ) \
+#define RUN_TEST_CASES_BY_CLASS( testClass, testInfos ) { \
     cout << "Executando " << __green( testClass ) << "..." << endl; \
     \
     __cbtest_count_fails = 0; \
@@ -285,8 +290,9 @@ inline string __test_function_name( string testName, string testClass ) {
         cout << __green( testClass ) << __white( " Ok!" ) << endl; \
     else cout << __green( testClass ) << ": " << __red( std::to_string( __cbtest_count_fails ) ) << __white( " falha(s)!" ) << endl; \
     cout << endl; \
+} \
 
-#define RUN_ALL_TEST_CASES() \
+#define RUN_ALL_TEST_CASES() { \
     cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
     cout << endl; \
     \
@@ -300,8 +306,9 @@ inline string __test_function_name( string testName, string testClass ) {
     if ( countFails == 0 ) \
         cout << __white( "Todos os testes passaram com sucesso!" ) << endl; \
     else cout << "Houve " << __red( "falha" ) << " em " << __red( std::to_string( countFails ) ) << " teste(s)" << endl; \
+} \
 
-#define RUN_TEST_CASES_MENU() \
+#define RUN_TEST_CASES_MENU() { \
     __cbtest_op = -1; \
     \
     cout << endl; \
@@ -337,5 +344,6 @@ inline string __test_function_name( string testName, string testClass ) {
             __cbtest_op = 0; \
         } \
     } \
+} \
 
 #endif
