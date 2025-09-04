@@ -32,7 +32,9 @@ AFTER_EACH( classes ) {
 }
 
 TEST_CASE( test0, ) {
-    ASSERT_NOT_NULL( new X, Erro... )
+    ASSERT_NOT_THROWS( runtime_error, {
+		
+	}, );
 }
 
 TEST_CASE( test1, classes ) {

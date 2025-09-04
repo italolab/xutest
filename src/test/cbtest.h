@@ -246,7 +246,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     try { \
         block \
     } catch ( const except& ex ) { \
-        THROW_FAIL( errorMsg, Não deveria lancar exceção: #except ); \
+        THROW_FAIL( errorMsg, "Não deveria lancar exceção: " #except ); \
     } \
 } \
 
