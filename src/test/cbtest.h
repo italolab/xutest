@@ -45,7 +45,8 @@ extern stringstream __cbtest_throws_fail_stream;
 extern int __cbtest_count_fails;
 
 extern SourceCodeManager* __ctest_source_code_manager;
-extern map<string, vector<TestInfo*>> __cbtest_test_infos_map;
+extern vector<TestClassInfo*> __cbtest_test_class_infos_vect;
+extern TestClassInfo* __cbtest_test_class_info;
 extern vector<string> __cbtest_test_classes;
 extern string __cbtest_test_class;
 extern int __cbtest_op;
@@ -57,7 +58,14 @@ namespace cbtest {
     
 }
 
-void __exec_function_by_name( string testName, string testClassName );
+void __exec_function_by_name( string testClass, string testName );
+void __exec_before_all_by_name( string testClass );
+void __exec_after_all_by_name( string testClass );
+void __exec_before_each_by_name( string testClass );
+void __exec_after_each_by_name( string testClass );
+
+TestClassInfo* getTestClassInfo( vector<TestClassInfo*> tcInfos, string testClass );
+
 int __read_option( int numberOfOptions ) ;
 
 template <typename T>
@@ -112,7 +120,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 #define ASSERT_EQUALS_VECTORS( v1, v2, errorMsg ) { \
     if ( !__equals_vectors( v1, v2 ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, "" ); \
+            THROW_FAIL( errorMsg, "" ) \
         \
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
@@ -128,7 +136,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 #define ASSERT_NOT_EQUALS_VECTORS( v1, v2, errorMsg ) { \
     if ( __equals_vectors( v1, v2 ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, "" ); \
+            THROW_FAIL( errorMsg, "" ) \
         \
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
@@ -144,7 +152,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 #define ASSERT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) { \
     if ( !__equals_arrays( a1, a2, len ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, "" ); \
+            THROW_FAIL( errorMsg, "" ) \
         \
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
@@ -160,7 +168,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 #define ASSERT_NOT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) { \
     if ( __equals_arrays( a1, a2, len ) ) { \
         if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, "" ); \
+            THROW_FAIL( errorMsg, "" ) \
         \
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
@@ -179,7 +187,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( a != b ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << a << " != " << b; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
     } \
 } \
 
@@ -187,7 +195,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( a == b ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << a << " == " << b; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
     } \
 } \
 
@@ -195,7 +203,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( !(condicao) ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << "( " << #condicao << " ) != true"; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
     } \
 } \
 
@@ -203,7 +211,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( condicao ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << "( " << #condicao << " ) != false"; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
     } \
 } \
 
@@ -211,7 +219,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( obj != nullptr ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << #obj << " != nullptr"; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
     } \
 } \
 
@@ -219,7 +227,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     if ( obj == nullptr ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << #obj << " == nullptr"; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
     } \
 } \
 
@@ -228,7 +236,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         block \
         __cbtest_stream.str(); \
         __cbtest_stream << "Deveria lancar uma exceção: " << #except; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
     } catch ( const except& ex ) { \
         \
     } \
@@ -243,52 +251,91 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 } \
 
 #define FAIL( errorMsg ) { \
-    THROW_FAIL( errorMsg, "" ); \
+    THROW_FAIL( errorMsg, "" ) \
 } \
 
 // TEST CASES DEFINES E FUNCTIONS
 
+#ifdef __WIN32
 
-#define TEST_CASE( name, testClass ) \
-    extern "C" __declspec(dllexport) void __##testClass##_##name () \
+    #define TEST_CASE( name, testClass ) \
+        extern "C" __declspec(dllexport) void __##testClass##_##name () \
 
-inline string __test_function_name( string testName, string testClass )  {
-    if ( testClass == DEFAULT_TEST_CLASS ) 
-        return "___" + testName;
-    return "__" + testClass + "_" + testName;
-}
+    #define BEFORE_ALL( testClass ) \
+        extern "C" __declspec(dllexport) void __##testClass##_before_all () \
 
-#define RUN_TEST_CASES_BY_CLASS( testClass, testInfos ) { \
-    cout << "Executando " << __green( testClass ) << "..." << endl; \
+    #define BEFORE_EACH( testClass ) \
+        extern "C" __declspec(dllexport) void __##testClass##_before_each () \
+
+    #define AFTER_ALL( testClass ) \
+        extern "C" __declspec(dllexport) void __##testClass##_after_all () \
+
+    #define AFTER_EACH( testClass ) \
+        extern "C" __declspec(dllexport) void __##testClass##_after_each () \
+
+#else
+
+    #define TEST_CASE( name, testClass ) \
+        extern "C" void __##testClass##_##name () \
+
+    #define BEFORE_ALL( testClass ) \
+        extern "C" void __##testClass##_before_all () \
+
+    #define BEFORE_EACH( testClass ) \
+        extern "C" void __##testClass##_before_each () \
+
+    #define AFTER_ALL( testClass ) \
+        extern "C" void __##testClass##_after_all () \
+
+    #define AFTER_EACH( testClass ) \
+        extern "C" void __##testClass##_after_each () \
+
+#endif
+
+#define RUN_TEST_CASES_BY_CLASS( testClassInfo ) { \
+    cout << "Executando " << __green( testClassInfo->className ) << "..." << endl; \
     \
     __cbtest_count_fails = 0; \
     \
-    for( TestInfo* testInfo : testInfos ) { \
-        cout << "\tExecutando " << __green( testInfo->name ) << "... "; \
+    if ( testClassInfo->beforeAllFlag ) \
+        __exec_before_all_by_name( testClassInfo->className ); \
+    \
+    for( string testName : testClassInfo->testNames ) { \
+        cout << "\tExecutando " << __green( testName ) << "... "; \
         try { \
-            __exec_function_by_name( testInfo->name, testInfo->className ); \
+            if ( testClassInfo->beforeEachFlag ) \
+                __exec_before_each_by_name( testClassInfo->className ); \
+            \
+            __exec_function_by_name( testClassInfo->className, testName ); \
+            \
+            if ( testClassInfo->afterEachFlag ) \
+                __exec_after_each_by_name( testClassInfo->className ); \
+            \
             cout << __white( "Ok" ) << endl; \
         } catch ( const __assert_fail& e ) { \
             cout << endl; \
-            cout << "\n" << __red( "Falha" ) << " em: " << __green( testInfo->name ) << " --> " << e.what() << endl; \
+            cout << "\n" << __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl; \
             cout << endl; \
             __cbtest_count_fails++; \
         } catch ( const exception& e ) { \
             cout << endl; \
-            cout << "\nException em: " << __green( testInfo->name ) << " --> " << __red( e.what() ) << endl; \
+            cout << "\nException em: " << __green( testName ) << " --> " << __red( e.what() ) << endl; \
             cout << endl; \
             __cbtest_count_fails++; \
         } catch ( ... ) { \
             cout << endl; \
-            cout << "\nException desconhecida em: " << __green( testInfo->name ) << endl; \
+            cout << "\nException desconhecida em: " << __green( testName ) << endl; \
             cout << endl; \
             __cbtest_count_fails++; \
         } \
     } \
     \
+    if ( testClassInfo->afterAllFlag ) \
+        __exec_after_all_by_name( testClassInfo->className ); \
+    \
     if ( __cbtest_count_fails == 0 ) \
-        cout << __green( testClass ) << __white( " Ok!" ) << endl; \
-    else cout << __green( testClass ) << ": " << __red( std::to_string( __cbtest_count_fails ) ) << __white( " falha(s)!" ) << endl; \
+        cout << __green( testClassInfo->className ) << __white( " Ok!" ) << endl; \
+    else cout << __green( testClassInfo->className ) << ": " << __red( std::to_string( __cbtest_count_fails ) ) << __white( " falha(s)!" ) << endl; \
     cout << endl; \
 } \
 
@@ -297,9 +344,9 @@ inline string __test_function_name( string testName, string testClass )  {
     cout << endl; \
     \
     int countFails = 0; \
-    __cbtest_test_infos_map = __ctest_source_code_manager->testInfos( __FILE__ ); \
-    for( const auto& pair : __cbtest_test_infos_map ) { \
-        RUN_TEST_CASES_BY_CLASS( pair.first, pair.second ); \
+    __cbtest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
+    for( TestClassInfo* tcInfo : __cbtest_test_class_infos_vect ) { \
+        RUN_TEST_CASES_BY_CLASS( tcInfo ) \
         countFails += __cbtest_count_fails; \
     } \
     \
@@ -316,12 +363,12 @@ inline string __test_function_name( string testName, string testClass )  {
     cout << "  (1) Todos os testes" << endl; \
     __cbtest_number_of_options = 2; \
     \
-    __cbtest_test_infos_map = __ctest_source_code_manager->testInfos( __FILE__ ); \
+    __cbtest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
     \
     __cbtest_test_classes.clear(); \
-    for( const auto& pair : __cbtest_test_infos_map ) { \
-        __cbtest_test_classes.push_back( pair.first ); \
-        cout << "  (" << __cbtest_number_of_options << ") " << __green( pair.first ) << endl; \
+    for( TestClassInfo* tcInfo : __cbtest_test_class_infos_vect ) { \
+        __cbtest_test_classes.push_back( tcInfo->className ); \
+        cout << "  (" << __cbtest_number_of_options << ") " << __green( tcInfo->className ) << endl; \
         __cbtest_number_of_options++; \
     } \
     cout << "  (0) Sair" << endl; \
@@ -331,16 +378,17 @@ inline string __test_function_name( string testName, string testClass )  {
     if ( __cbtest_op > 0 && __cbtest_op-2 < (int)__cbtest_test_classes.size() ) { \
         cout << endl; \
         if ( __cbtest_op == 1 ) { \
-            RUN_ALL_TEST_CASES(); \
+            RUN_ALL_TEST_CASES() \
         } else { \
             cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
             cout << endl; \
             \
             __cbtest_test_class = __cbtest_test_classes[ __cbtest_op-2 ]; \
-            __cbtest_test_infos_map = __ctest_source_code_manager->testInfos( __FILE__ ); \
-            if ( __cbtest_test_infos_map.find( __cbtest_test_class ) != __cbtest_test_infos_map.end() ) { \
-                RUN_TEST_CASES_BY_CLASS( __cbtest_test_class, __cbtest_test_infos_map[ __cbtest_test_class ] ); \
-            } \
+            __cbtest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
+            __cbtest_test_class_info = getTestClassInfo( __cbtest_test_class_infos_vect, __cbtest_test_class ); \
+            \
+            RUN_TEST_CASES_BY_CLASS( __cbtest_test_class_info ) \
+            \
             __cbtest_op = 0; \
         } \
     } \

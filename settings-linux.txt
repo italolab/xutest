@@ -9,7 +9,7 @@ bin.dir=bin/Debug
 obj.dir=obj/Debug
 
 test.compiler.params=-Wall -fexceptions -g -std=c++17
-test.linker.params=-ldl -variadic
+test.linker.params=-ldl -rdynamic
 
 test.lib.dirs=lib
 test.include.dirs=src

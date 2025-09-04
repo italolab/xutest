@@ -9,10 +9,14 @@ using std::string;
 using std::vector;
 using std::map;
 
-typedef struct TTestInfo {
-    string name;
+typedef struct TTestClassInfo {
     string className;
-} TestInfo;
+    vector<string> testNames;
+    bool beforeAllFlag;
+    bool afterAllFlag;
+    bool beforeEachFlag;
+    bool afterEachFlag;
+} TestClassInfo;
 
 class SourceCodeManager {
 
@@ -20,17 +24,29 @@ class SourceCodeManager {
         string defaultTestClass;
 
         void loadTestInfos( 
-                map<string, vector<TestInfo*>>& testInfos, 
+                vector<TestClassInfo*>& testClassInfosVect, 
                 vector<string>& processedFilePaths, 
                 string filePath );
 
         bool interpretsInclude( string line, string filePath, string& includePath );
-        bool interpretsTestCase( string line, string filePath, TestInfo*& testInfo );
+        
+        bool interpretsTestCase( 
+                string line, 
+                string& testClass, 
+                string& testName );
+
+        bool interpretsClassMethod( string line, string macroName, string& testClass );
+
+        TestClassInfo* getAndAddClassIfNeed( 
+            vector<TestClassInfo*>& testClassInfosVect, string& testClass );
+
+        TestClassInfo* getTestClassFromVector( 
+                vector<TestClassInfo*>& testClassInfoVect, string testClass );
 
     public:
         SourceCodeManager( string defaultTestClass );
         
-        map<string, vector<TestInfo*>> testInfos( string filePath );
+        vector<TestClassInfo*> testInfos( string filePath );
 
 };
 

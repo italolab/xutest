@@ -11,7 +11,8 @@ stringstream __cbtest_throws_fail_stream;
 int __cbtest_count_fails = 0;
 
 SourceCodeManager* __ctest_source_code_manager = new SourceCodeManager( DEFAULT_TEST_CLASS );
-map<string, vector<TestInfo*>> __cbtest_test_infos_map;
+vector<TestClassInfo*> __cbtest_test_class_infos_vect;
+TestClassInfo* __cbtest_test_class_info;
 vector<string> __cbtest_test_classes;
 string __cbtest_test_class = "";
 int __cbtest_op = -1;
@@ -29,9 +30,42 @@ namespace cbtest {
     }
 }
 
-void __exec_function_by_name( string testName, string testClassName ) {
-    string funcName = __test_function_name( testName, testClassName );
+inline string __function_name( string testClass, string suffix )  {
+    if ( testClass == DEFAULT_TEST_CLASS ) 
+        return "___" + suffix;
+    return "__" + testClass + "_" + suffix;
+}
+
+void __exec_function_by_name( string testClass, string testName ) {
+    string funcName = __function_name( testClass, testName );
     fexec::exec( funcName );
+}
+
+void __exec_before_all_by_name( string testClass ) {
+    string funcName = __function_name( testClass, "before_all" );
+    fexec::exec( funcName );
+}
+
+void __exec_after_all_by_name( string testClass ) {
+    string funcName = __function_name( testClass, "after_all" );
+    fexec::exec( funcName );
+}
+
+void __exec_before_each_by_name( string testClass ) {
+    string funcName = __function_name( testClass, "before_each" );
+    fexec::exec( funcName );
+}
+
+void __exec_after_each_by_name( string testClass ) {
+    string funcName = __function_name( testClass, "after_each" );
+    fexec::exec( funcName );
+}
+
+TestClassInfo* getTestClassInfo( vector<TestClassInfo*> tcInfos, string testClass ) {
+    for( TestClassInfo* tcInfo : tcInfos )
+        if ( tcInfo->className == testClass )
+            return tcInfo;
+    return nullptr;
 }
 
 int __read_option( int numberOfOptions ) {

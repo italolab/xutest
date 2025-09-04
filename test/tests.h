@@ -15,6 +15,22 @@ class X {
 
 };
 
+BEFORE_ALL( classes ) {
+	
+}
+
+AFTER_ALL( classes ) {
+	
+}
+
+BEFORE_EACH( classes ) {
+	
+}
+
+AFTER_EACH( classes ) {
+	
+}
+
 TEST_CASE( test0, ) {
     ASSERT_NOT_NULL( new X, Erro... )
 }
