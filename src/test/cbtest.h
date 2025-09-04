@@ -246,7 +246,10 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     try { \
         block \
     } catch ( const except& ex ) { \
-        THROW_FAIL( errorMsg, "Não deveria lancar exceção: " #except ); \
+        __cbtest_stream.str(); \
+        __cbtest_stream << "Exceção lançada: " << #except; \
+        __cbtest_stream << "\nMensagem de exceção: " << ex.what(); \
+        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
     } \
 } \
 
