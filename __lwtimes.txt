@@ -9,6 +9,3 @@ C:/Users/italo/workspace-cpp/cbtest/src/test/util/io.cpp=1756910094
 C:/Users/italo/workspace-cpp/cbtest/src/test/util/io.h=1756910094
 C:/Users/italo/workspace-cpp/cbtest/src/test/util/strutil.cpp=1756910094
 C:/Users/italo/workspace-cpp/cbtest/src/test/util/strutil.h=1756910094
-C:/Users/italo/workspace-cpp/cbtest/test/main.cpp=1757078876
-C:/Users/italo/workspace-cpp/cbtest/test/strutiltests.h=1756924529
-C:/Users/italo/workspace-cpp/cbtest/test/tests.h=1757078876
