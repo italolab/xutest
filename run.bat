@@ -1,3 +1,3 @@
-.\cbuild.exe archivebuildall --settings-file=settings-staticlib-windows.txt
+.\cbuild.exe archivebuildall --script=CBuildFile-StaticLib
 
-.\cbuild.exe testbuildall --settings-file=settings-windows.txt
+.\cbuild.exe testbuildall --script=CBuildFile

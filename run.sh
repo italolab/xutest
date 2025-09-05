@@ -1,4 +1,4 @@
 
-./cbuild archivebuildall --cbuild-file=CBuildFile-StaticLib
+./cbuild archivebuildall --script=CBuildFile-StaticLib
 
-./cbuild testbuildall --cbuild-file=CBuildFile
+./cbuild testbuildall --script=CBuildFile
