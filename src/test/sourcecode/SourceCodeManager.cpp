@@ -39,7 +39,24 @@ void SourceCodeManager::loadTestInfos(
     vector<string> includePaths;
 
     string line;
+    bool isIgnoreLine = false;
     while( getline( in, line ) ) {
+        if ( isIgnoreLine ) {
+            size_t i = line.find( "*/" );
+            if ( i == string::npos )
+                continue;
+
+            line = line.substr( i+2, line.length()-i-2 );
+            isIgnoreLine = false;            
+        }
+
+        bool isFinishedComment = removeComments( line );
+        if ( !isFinishedComment ) {
+            isIgnoreLine = true;
+            if ( strutil::trim( line ) == "" )
+                continue;
+        }
+
         string includePath;
         bool interpreted = this->interpretsInclude( line, filePath, includePath );
         if ( interpreted ) {
@@ -119,6 +136,43 @@ TestClassInfo* SourceCodeManager::getTestClassFromVector(
         if ( tcInfo->className == testClass )
             return tcInfo;
     return nullptr;
+}
+
+/*
+Remove os comentários  da linha e retorna se foi encontrado um abre bloco de comentário 
+e foi fechado ou não foi encontrado comentário na linha
+*/
+bool SourceCodeManager::removeComments( string& line ) {
+    size_t i = line.find( "/*" );
+    size_t k = line.find( "//" );
+    if ( i == string::npos && k == string::npos )
+        return true;
+        
+    size_t j = -1;
+    do {
+        if ( i != string::npos ) {
+            j = line.find( "*/" );
+            if ( j != string::npos ) {
+                string sub1 = line.substr( 0, i );
+                string sub2 = line.substr( j+1, line.length()-j-1 );
+                line = sub1 + sub2;
+
+                i = line.find( "/*", i+1 );
+            }
+        }
+    } while( i != string::npos && j != string::npos );
+
+    bool isFinishedComment = true;
+    if ( i != string::npos && j == string::npos ) {
+        line = line.substr( 0, i );
+        isFinishedComment = false;
+    }
+
+    k = line.find( "//" );
+    if ( k != string::npos )
+        line = line.substr( 0, k );
+
+    return isFinishedComment;
 }
 
 bool SourceCodeManager::interpretsInclude( string line, string filePath, string& includePath ) {

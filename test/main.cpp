@@ -1,5 +1,11 @@
-#include "tests.h"
+#include "tests.h"// aaa
 #include "strutiltests.h"
+
+/*
+TEST_CASE( abcTest, abc ) {
+	ASSERT_EQUALS( 1, 1, );
+}
+*/
 
 #include <test/cbtest.h>
 

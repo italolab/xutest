@@ -37,6 +37,8 @@ class SourceCodeManager {
 
         bool interpretsClassMethod( string line, string macroName, string& testClass );
 
+        bool removeComments( string& line );
+
         TestClassInfo* getAndAddClassIfNeed( 
             vector<TestClassInfo*>& testClassInfosVect, string& testClass );
 

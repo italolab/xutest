@@ -32,9 +32,8 @@ AFTER_EACH( classes ) {
 }
 
 TEST_CASE( test0, ) {
-	ASSERT_NOT_THROWS( runtime_error, {
+	ASSERT_THROWS( runtime_error, {
 	    throw runtime_error( "XXX" );
-
 	}, );
 }
 
