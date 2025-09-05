@@ -9,7 +9,11 @@ Logo, para utilizar, basta incluir os cabeçalhos na compilação dos arquivos d
 
 A classe SourceCodeManager definida na pasta "test/sourcecode" é responsável por fazer uma busca nos arquivos de código fonte de teste, a começar pelo programa principal, e, dados os includes do arquivo de código, procurar também nos arquivos de código fonte correspondentes aos includes. Esta função é recursiva. Um arquivo pode ter vários includes para outros arquivos e, estes, podem ter também includes para outros arquivos.
 
-O método de carregamento das informações das funções de teste lê os arquivos e busca neles os includes e os trata e extrai também as informações dos casos de teste presentes no arquivo.
+O método de carregamento das informações das funções de teste lê os arquivos e busca neles os includes, os trata, e extrai também as informações dos casos de teste presentes no arquivo. Ignora os comentários.
+
+Atenção: Se tentar executar o executável de testes em outro local, não vai funcionar. Isso porque o método de carregamento de informações dos casos de teste recebe como parâmetro o nome do arquivo de código fonte onde a macro RUN_ALL_TEST_CASES ou RUN_TEST_CASES_MENU é chamada. Essa macro pega o nome do arquivo de código fonte com __FILE__ e passa como parâmetro para as informações dos casos de teste serem carregadas com o processamento desse arquivo e os arquivos inclusos.
+
+Em resumo, a execução do executável de testes depende da presença do código fonte dele!
 
 ## O arquivo cbtest.h
 
