@@ -12,5 +12,6 @@ compiler.params=-Wall -O2 -std=c++17
 archiver.params=
 
 task copy after
-    cp $(build.dir)/$(output.file.name) lib/$(output.file.name)
+    mkdir -p lib/linux
+    cp $(build.dir)/$(output.file.name) lib/linux/$(output.file.name)
 endtask
