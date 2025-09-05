@@ -1,4 +1,4 @@
 
-./cbuild archivebuildall --settings-file=settings-staticlib-linux.txt
+./cbuild archivebuildall --cbuild-file=CBuildFile-StaticLib
 
-./cbuild testbuildall --settings-file=settings-linux.txt
+./cbuild testbuildall --cbuild-file=CBuildFile
