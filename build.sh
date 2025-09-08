@@ -5,7 +5,7 @@ SO=linux
 ARCH=x64
 
 DEB_CONTROL_PACKAGE_NAME=cbtest
-DEB_CONTROL_INSTALLED_SIZE=2796
+DEB_CONTROL_INSTALLED_SIZE=116
 DEB_CONTROL_MAINTAINER="Italo Herbert Siqueira Gabriel (italoherbert@outlook.com)"
 DEB_CONTROL_DESCRIPTION="Trata-se de um framework para testes de unidade em C/C++"
 
