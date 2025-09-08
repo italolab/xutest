@@ -7,7 +7,7 @@ TEST_CASE( abcTest, abc ) {
 }
 */
 
-#include <test/cbtest.h>
+#include <cbtest/cbtest.h>
 
 int main() {
 	RUN_TEST_CASES_MENU();

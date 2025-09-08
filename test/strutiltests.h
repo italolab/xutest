@@ -1,7 +1,7 @@
 #ifndef STRUTIL_TESTS_H
 #define STRUTIL_TESTS_H
 
-#include <test/cbtest.h>
+#include <cbtest/cbtest.h>
 
 TEST_CASE( startsWithTest, StrutilTests ) {
     string a = "ABC";

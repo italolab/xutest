@@ -1,10 +1,19 @@
+$version=1.0
+$arch=x64
+
+IFWIN32
+    $so=windows
+ENDIF
+IFNOWIN32
+    $so=linux
+ENDIF
 
 compiler=g++
 archiver=ar
 output.file.name=libcbtest.a
 
 src.dir=src
-build.dir=build
+build.dir=build/cbtest-$(version)-$(so)-$(arch)
 
 bin.dir=bin/Release
 obj.dir=obj/Release/archive
