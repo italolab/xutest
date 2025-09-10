@@ -52,7 +52,7 @@ echo
 
 # COMPILANDO...
 
-./cbuild archivebuild --script=CBuildFile-StaticLib
+./cbuild archivebuildall --script=CBuildFile-StaticLib
 
 # COPIANDO HEADERS PARA A PASTA INCLUDE DO SOFTWARE EM BUILD
 
