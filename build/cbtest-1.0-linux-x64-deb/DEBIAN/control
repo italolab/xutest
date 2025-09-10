@@ -1,7 +1,0 @@
-Package: cbtest
-Version: 1.0
-Section: games
-Architecture: amd64
-Installed-Size: 116
-Maintainer: Italo Herbert Siqueira Gabriel (italoherbert@outlook.com)
-Description: Trata-se de um framework para testes de unidade em C/C++
