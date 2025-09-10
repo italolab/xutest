@@ -10,7 +10,7 @@ obj.dir=obj/Debug
 
 test.compiler.params=-Wall -fexceptions -g -std=c++17
 
-IFNOWIN32
+IF os != "windows"
     test.linker.params=-ldl -rdynamic
 ENDIF
 
