@@ -80,7 +80,7 @@ cp $APP_LIB_FILE $DEB_APP_DIR/usr/lib/x86_64-linux-gnu/$LIB_FILE_NAME
 # Copiando os headers para pasta /usr/include do .DEB
 
 mkdir -p $DEB_APP_DIR/usr/include
-cp -r $APP_DIR/include $DEB_APP_DIR/usr/include
+cp -r $APP_DIR/include/* $DEB_APP_DIR/usr/include
 
 
 # GERANDO O ARQUIVO CONTROL DO .DEB
