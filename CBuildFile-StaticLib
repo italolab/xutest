@@ -1,19 +1,10 @@
-$version=1.0
-$arch=x64
-
-IF os == "windows"
-    $soname=windows
-ENDIF
-IF os != "windows"
-    $soname=linux
-ENDIF
 
 compiler=g++
 archiver=ar
 output.file.name=libcbtest.a
 
 src.dir=src
-build.dir=build/cbtest-$(version)-$(soname)-$(arch)
+build.dir=build
 
 bin.dir=bin/Release
 obj.dir=obj/Release/archive
@@ -21,6 +12,12 @@ compiler.params=-Wall -O2 -std=c++17
 archiver.params=
 
 task copy after
-    mkdir -p lib/$(soname)
-    cp $(build.dir)/$(output.file.name) lib/$(soname)/$(output.file.name)    
+    IFWIN32
+        mkdir -p lib/windows
+        cp $(build.dir)/$(output.file.name) lib/windows/$(output.file.name)
+    ENDIF
+    IFNOWIN32
+        mkdir -p lib/linux
+        cp $(build.dir)/$(output.file.name) lib/linux/$(output.file.name)
+    ENDIF
 endtask
