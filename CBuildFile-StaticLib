@@ -12,11 +12,11 @@ compiler.params=-Wall -O2 -std=c++17
 archiver.params=
 
 task copy after
-    IFWIN32
+    IF os == "windows"
         mkdir -p lib/windows
         cp $(build.dir)/$(output.file.name) lib/windows/$(output.file.name)
     ENDIF
-    IFNOWIN32
+    IF os != "windows"
         mkdir -p lib/linux
         cp $(build.dir)/$(output.file.name) lib/linux/$(output.file.name)
     ENDIF
