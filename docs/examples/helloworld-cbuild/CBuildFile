@@ -1,0 +1,8 @@
+src.dir=src
+test.dir=test
+test.libs=cbtest
+
+IF os != "windows"
+    # interpretado somente se estiver no linux
+    test.linker.params=-ldl -rdynamic
+ENDIF

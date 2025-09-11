@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbtest - overview - visão geral">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="lib/prism/prism.css" rel="stylesheet">
+    <link href="style/style.css" rel="stylesheet">
+    
+    <title>Visão Geral - cbtest - Página oficial</title>
+
+    <script src="lib/jquery-3.7.1.min.js"></script>    
+    <script src="lib/fontawesome/all.min.js"></script>
+    <script src="js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+    
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <section>
+            <h1 class="text-center">Visão Geral</h1>
+
+            <br />
+
+            <p>O cbtest pode ser utilizado para criação e execução de testes unitários 
+            em C/C++.</p>
+
+            <section>
+                <h3>Instalação</h3>
+
+                <p>Para instruções de como instalar o cbtest, acesse: 
+                    <a href="downloads.html#how-install">como instalar</a>.
+                </p>
+            </section>
+
+            <article id="tests-with-cbtest">
+                <header>
+                    <h3>Um primeiro exemplo</h3>
+                </header>
+
+                <p>Crie o arquivo "main.cpp" em seu projeto com o seguinte conteúdo:</p>
+
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
+
+TEST_CASE( primeiroTeste, Testes ) {
+    int a = 1;
+    int b = 1;
+    int c = 2;
+    ASSERT_EQUALS( a, b, )
+    ASSERT_TRUE( a == b, )
+    ASSERT_FALSE( a == c, )
+}
+
+int main() {
+    RUN_TEST_CASES_MENU();
+    return 0;
+}
+</code></pre>                 
+
+                    <p>Agora compile o projeto acima com o seguinte comando: </p>
+
+                    <p>Se estiver no windows faça: </p>
+<pre><code>g++ -o main main.cpp -lcbtest </code></pre>
+                    <p>Se estiver no linux faça: </p>
+<pre><code>g++ -o main.o main.cpp -lcbtest -ldl -rdynamic</code></pre>
+
+                    <p>Se estiver no linux, não esqueça das opções -ldl e -rdynamic.</p>
+
+                    <p>Agora execute o executável criado que tem o nome "main", se 
+                    estiver no linux e "main.exe", se estiver no windows. Exemplos: </p>
+
+                    <p>Se estiver no windows faça: </p>
+<pre><code>.\main.exe</code></pre>
+                    <p>Se estiver no linux faça: </p>
+<pre><code>./main</code></pre>
+
+                    <p>Agora você deve visualizar a seguinte saída: </p>
+
+                    <figure>
+                        <img src="images/helloworld-output.png" />
+                    </figure>
+                
+            </article>
+
+            <article>
+                <header>
+                    <h3>Integrando com o cbuild</h3>
+                </header>
+
+                <p>Para integrar com o cbuild, basta criar o CBuildFile na raiz do 
+                projeto e executar os testes com o cbuild e as seguintes tarefas: 
+                test, testbuild ou testbuildall</p>
+
+                <p>Para tanto, é necessário definir as propriedades <b>"src.dir", "test.dir"  
+                e "test.libs"</b> no CBuildFile.</p>
+
+                <p>Se estiver no linux, é necessário também definir a propriedade 
+                "test.linker.params"</p>
+
+                <p>Caso não tenha instalado o cbtest e quiser incluí-lo manualmente no 
+                projeto, precisa definir também as propriedades <b>"test.include.dirs", 
+                "test.lib.dirs"</b>.</p>
+
+                <p>Se o cbtest já estiver instalado no sistema operacional, não precisa definir 
+                as propriedades <b>"test.include.dirs", "test.lib.dirs" e "test.libs"</b>.</p>
+
+                <p><b>Atenção</b>: A propriedade <b>"src.dir"</b> deve ser definida e ter valor diferente do 
+                diretório raiz do projeto ou parente dele.</p>
+
+                <p>Após configurado o <b>CBuildFile</b> com os caminhos dos includes, lib do cbtest e 
+                parâmetros para o comando que linka os arquivos de teste, é só criar os testes 
+                na pasta da propriedade <b>"test.dir"</b>.</p>
+
+                <p>Veja abaixo o exemplo de configuração básica do script <b>CBuildFile</b>: </p>
+
+<pre class="line-numbers"><code>src.dir=src
+test.dir=test
+test.libs=cbtest
+
+IF os != "windows"
+# interpretado somente se estiver no linux
+test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre> 
+                <p>O exemplo acima assume que a pasta de testes é a pasta <b>"test"</b>.</p>
+                
+                <p>Caso não tenha instalado o cbuild e quiser inclur manualmente, faça 
+                conforme o seguinte exemplo: </p>
+
+<pre class="line-numbers"><code>src.dir=src
+test.dir=test
+
+test.include.dirs=include
+test.lib.dirs=.
+test.libs=cbtest
+
+IF os != "windows"
+# interpretado somente se estiver no linux
+test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre>                
+    
+                <p>O exemplo acima assume que o diretório onde deve procurar o arquivo 
+                <b>"libcbtest.a"</b> é o diretório corrente. Para outro diretório, é só 
+                alterar <b>"test.lib.dirs"</b>. Claro, o exemplo acima assume que o nome da 
+                static library do cbtest tem o nome <b>"libcbtest.*"</b>, onde o "*" geralmente 
+                corresponde a "a" ou "lib". Esse exemplo assume também que a os arquivos 
+                de cabeçalho do cbtest estão na pasta <b>"include"</b>.</p>
+
+                <p>Agora, seguindo o exemplo anterior, siga os seguintes passos: </p>
+                
+                <ol>
+                    <li>crie uma pasta "src" e uma pasta "test".</li>
+                    <li>Copie o arquivo "main.cpp" para a pasta "test".</li>
+                    <li>Agora execute o seguinte comando:<br />
+
+<pre><code>cbuild testbuildall</code></pre>
+
+                        <p>Você deve ver agora a seguinte saída:</p>
+
+                        <figure>
+                            <img src="images/helloworld-cbuild-output.png" />
+                        </figure>
+
+                    </li>
+
+                </ol>
+
+            </article>
+
+            <article id="include-in-project">
+                <header>
+                    <h3>Como incluir o cbtest sem instalar</h3>
+                </header>
+
+                <p>Para incluír o cbtest no projeto sem instalar, baixe o cbtest da 
+                página <a href="downloads.html">downloads</a>, e então, extraia o arquivo 
+                baixado e coloque o arquivo "libcbtest.a" e a pasta "include" na raiz do 
+                seu projeto. Seu projeto helloworld deve ter agora a seguinte estrutura: </p>
+
+<pre>
+helloworld
+├── include
+│   └── cbtest
+│       ├── cbtest.cpp
+│       ├── cbtest.h
+│       ├── fexec
+│       │   ├── fexec.cpp
+│       │   └── fexec.h
+│       ├── output
+│       │   └── output.h
+│       ├── sourcecode
+│       │   ├── SourceCodeManager.cpp
+│       │   └── SourceCodeManager.h
+│       └── util
+│           ├── io.cpp
+│           ├── io.h
+│           ├── strutil.cpp
+│           └── strutil.h
+├── libcbtest.a
+└── main.cpp  
+</pre>
+
+                <p>Agora execute o seguinte comando para compilar e linkar: </p>
+
+                <p>Se estiver no linux faça: </p>
+
+<pre><code>g++ -o main main.cpp -lcbtest -L. -Iinclude -ldl -rdynamic</code></pre>
+
+                <p>Se estiver no windows faça: </p>
+
+<pre><code>g++ -o main.exe main.cpp -lcbtest -L. -Iinclude</code></pre>
+
+                <p>Foram acrescentadas as opções "-L." e "-Iinclude", onde, "-L." 
+                especifica onde procurar pela static library. Nesse caso, a lib de 
+                nome: "libcbtest.a" que está na raiz do projeto. Por isso o ".". E 
+                o "-Iinclude" especifica onde encontrar os arquivos header que, nesse 
+                caso, está na pasta "include". A opção "-lcbtest" deve corresponder ao 
+                nome da lib, sem o prefixo "lib" e sem a extenção ".a". Isto é, "cbtest".</p>
+
+                <p>Agora você pode rodar o arquivo linkado: O "main.exe" se estiver no windows ou 
+                "main", se estiver no linux e, então, visualizar o resultado.</p>
+            </article>
+
+            <article>
+                <header>
+                    <h3>A macro TEST_CASE</h3>
+                </header>
+
+                <p>Na macro TEST_CASE, fica a escrita do caso de teste em si. Isto é, as 
+                chamadas as macros de ASSERT.</p>
+
+                <p>O primeiro argumento passado a TEST_CASE, é o nome do caso de teste e o 
+                segundo argumento (opcional) é o nome da classe do caso de teste. Se não 
+                quiser informar, o caso de teste é vinculado a classe de nome "default" e, 
+                a virgula após o nome do caso de teste é obrigatória, mesmo que, após a virgula, 
+                não seja definido o nome da classe do caso de testes. Veja o exemplo abaixo: </p>
+
+<pre class="line-numbers"><code class="language-cpp">TEST_CASE( primeiroTeste, MeusTestes ) {
+    ASSERT_EQUALS( 1, 1, )
+}
+</code></pre>
+
+            </article>
+
+            <article>
+                <header>
+                    <h3>As macros de assert</h3>
+                </header>
+
+                <p>As macros de assert suportam uma mensagem personalizada a ser mostrada 
+                no caso do assert falhar e não precisam ser finalizadas com ponto e vírgula.</p>
+
+                <p>No caso da macro ser chamada, por exemplo, dentro de um if/else sem blóco de 
+                código, é obrigatório não colocar o ponto e virgula no final da macro. Exemplo: </p>
+
+<pre class="line-numbers"><code class="language-cpp">
+    bool condicao = true;
+    if ( condicao )
+        ASSERT_EQUALS( 1, 1, );
+    else ASSERT_EQUALS( 1, 2, )
+</code></pre>
+
+                <p>O exemplo acima está errado porque há um ponto e virgula após a macro de 
+                assert, e antes do else do if. O correto é retirar o ponto e virgula como a 
+                seguir: </p>
+
+<pre class="line-numbers"><code class="language-cpp">
+    bool condicao = true;
+    if ( condicao )
+        ASSERT_EQUALS( 1, 1, )
+    else ASSERT_EQUALS( 1, 2, )
+</code></pre>
+
+                <section>
+                    <h3>A macro ASSERT_EQUALS</h3>
+                </section>
+
+            </article>
+
+            <section>
+                <h3>Finalizando...</h3>
+                
+                <p>E assim chegamos ao final da visão geral sobre o cbtest.</p>
+
+                <p>Para um tutorial organizado em aulas, acesse: <a href="get-started/index.html">Get Started</a>.</p>
+            </section>
+        </section>        
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="lib/prism/prism.js"></script>
+</body>
+
+</html>
