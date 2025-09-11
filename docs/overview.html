@@ -450,7 +450,55 @@ ASSERT_EQUALS_VECTORS( vect1, vect2, )
             <br />
 
             <section>
-                
+                <h5>A macro ASSERT_TRUE</h5>
+
+                <p>A macro assert true testa se uma condição é verdadeira. Exemplo: </p>
+
+<pre class="line-numbers"><code class="language-cpp">int a = 1;
+
+ASSERT_TRUE( a > 0, )
+</code></pre>
+            </section>
+
+            <br />
+
+            <section>
+                <h5>A macro ASSERT_FALSE</h5>
+
+                <p>A macro assert false testa se uma condição é falsa. Exemplo: </p>
+
+<pre class="line-numbers"><code class="language-cpp">int a = 1;
+
+ASSERT_FALSE( a == 0, )
+</code></pre>
+            </section>
+
+            <br />
+
+            <section>
+                <h5>A macro ASSERT_NULL</h5>
+
+                <p>A macro ASSERT_NULL testa se o ponteiro aponta 
+                para nullptr ou NULL. Exemplo: </p>
+
+<pre class="line-numbers"><code class="language-cpp">string* strptr = nullptr;
+
+ASSERT_NULL( strptr, )
+</code></pre>
+            </section>
+
+            <br />
+
+            <section>
+                <h5>A macro ASSERT_NOT_NULL</h5>
+
+                <p>A macro ASSERT_NOT_NULL testa se o ponteiro não aponta, nem 
+                para nullptr, nem para NULL. Exemplo: </p>
+
+<pre class="line-numbers"><code class="language-cpp">string* strptr = new string( "abc" );
+
+ASSERT_NOT_NULL( strptr, )
+</code></pre>
             </section>
 
             <section>

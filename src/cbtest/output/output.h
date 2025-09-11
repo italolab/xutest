@@ -6,6 +6,14 @@
 using std::string;
 
 template <typename T>
+string __bold( T text ) {
+    string output = "\033[1m";
+    output += text;
+    output += "\033[0m";
+    return output;
+}
+
+template <typename T>
 string __red( T text ) {
     string output = "\033[31m";
     output += text;

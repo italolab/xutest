@@ -4,7 +4,7 @@
 
 const char* DEFAULT_TEST_CLASS = "default";
 
-bool __cbtest_is_imp_vectors = true;
+bool __cbtest_is_print_vectors = true;
 
 stringstream __cbtest_stream;
 stringstream __cbtest_throws_fail_stream;
@@ -25,8 +25,8 @@ string __assert_fail::what() const {
 }
 
 namespace cbtest {
-    void set_imp_vectors( bool isImpVectors ) {
-        __cbtest_is_imp_vectors = isImpVectors;
+    void set_print_vectors( bool is_print_vectors ) {
+        __cbtest_is_print_vectors = is_print_vectors;
     }
 }
 

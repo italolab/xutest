@@ -38,7 +38,7 @@ class __assert_fail {
 
 extern const char* DEFAULT_TEST_CLASS;
 
-extern bool __cbtest_is_imp_vectors;
+extern bool __cbtest_is_print_vectors;
 
 extern stringstream __cbtest_stream;
 extern stringstream __cbtest_throws_fail_stream;
@@ -54,7 +54,7 @@ extern int __cbtest_number_of_options;
 
 namespace cbtest {
 
-    void set_imp_vectors( bool isImpVectors );
+    void set_print_vectors( bool isImpVectors );
     
 }
 
@@ -125,7 +125,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
         __cbtest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser iguais!" << endl; \
-        if ( __cbtest_is_imp_vectors ) { \
+        if ( __cbtest_is_print_vectors ) { \
             __cbtest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
             __cbtest_stream << "Vetor(2)= " << __vector_str( v2 ); \
         } \
@@ -141,7 +141,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
         __cbtest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser diferentes!" << endl; \
-        if ( __cbtest_is_imp_vectors ) { \
+        if ( __cbtest_is_print_vectors ) { \
             __cbtest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
             __cbtest_stream << "Vetor(2)= " << __vector_str( v2 ); \
         } \
@@ -157,7 +157,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
         __cbtest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser iguais!" << endl; \
-        if ( __cbtest_is_imp_vectors ) { \
+        if ( __cbtest_is_print_vectors ) { \
             __cbtest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
             __cbtest_stream << "Array(2)= " << __array_str( a2, len ); \
         } \
@@ -173,7 +173,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         __cbtest_stream.str( "" ); \
         __cbtest_stream.clear(); \
         __cbtest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser diferentes!" << endl; \
-        if ( __cbtest_is_imp_vectors ) { \
+        if ( __cbtest_is_print_vectors ) { \
             __cbtest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
             __cbtest_stream << "Array(2)= " << __array_str( a2, len ); \
         } \
@@ -216,7 +216,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 } \
 
 #define ASSERT_NULL( obj, errorMsg ) { \
-    if ( obj != nullptr ) { \
+    if ( obj != nullptr && obj != NULL ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << #obj << " != nullptr"; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
@@ -224,7 +224,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 } \
 
 #define ASSERT_NOT_NULL( obj, errorMsg ) { \
-    if ( obj == nullptr ) { \
+    if ( obj == nullptr || obj == NULL ) { \
         __cbtest_stream.str( "" ); \
         __cbtest_stream << #obj << " == nullptr"; \
         THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
@@ -317,7 +317,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
             cout << __white( "Ok" ) << endl; \
         } catch ( const __assert_fail& e ) { \
             cout << endl; \
-            cout << "\n" << __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl; \
+            cout << "\n" <<  __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl; \
             cout << endl; \
             __cbtest_count_fails++; \
         } catch ( const exception& e ) { \
@@ -343,7 +343,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 } \
 
 #define RUN_ALL_TEST_CASES() { \
-    cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
+    cout << __bold( __white( "**** EXECUTANDO TESTES ****" ) ) << endl; \
     cout << endl; \
     \
     int countFails = 0; \
@@ -354,7 +354,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     } \
     \
     if ( countFails == 0 ) \
-        cout << __white( "Todos os testes passaram com sucesso!" ) << endl; \
+        cout << __bold( __white( "Todos os testes passaram com sucesso!" ) ) << endl; \
     else cout << "Houve " << __red( "falha" ) << " em " << __red( std::to_string( countFails ) ) << " teste(s)" << endl; \
 } \
 
