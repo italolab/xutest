@@ -1,0 +1,19 @@
+
+IF os == "windows"
+    output.file.name=calculator.exe
+ENDIF
+IF os != "windows"
+    output.file.name=calculator
+ENDIF
+
+src.dir=src
+test.dir=test
+build.dir=build
+obj.dir=obj
+bin.dir=bin
+
+IF os != "windows"
+    test.linker.params=-ldl -rdynamic
+ENDIF
+
+test.libs=cbtest
