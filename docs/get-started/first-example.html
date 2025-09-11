@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbuild - get started - primeiro exemplo">
+    <meta name="description" content="Página oficial do cbtest - get started - primeiro exemplo">
     <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Primeiro Exemplo - CBuild - Site oficial</title>
+    <title>Primeiro Exemplo - cbtest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -35,116 +35,68 @@
                 <h5 class="text-center">Agora, vamos criar um primeiro projeto</h5>
             </header>
 
-            <section>
-                <p>Crie um programa para ser compilado e linkado. Então faça o seguinte:</p>
+            <article id="tests-with-cbtest">
+                <header>
+                    <h3>Um primeiro exemplo</h3>
+                </header>
 
-                <p>Na raiz do projeto crie o arquivo main.cpp e coloque nele o seguinte conteúdo: </p>
+                <p>Crie o arquivo "main.cpp" em seu projeto com o seguinte conteúdo:</p>
 
-<pre class="line-numbers"><code class="language-cpp">#include &lt;iostream&gt;
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
 
-using namespace std;
+TEST_CASE( primeiroTeste, Testes ) {
+    int a = 1;
+    int b = 1;
+    int c = 2;
+    ASSERT_EQUALS( a, b, )
+    ASSERT_TRUE( a == b, )
+    ASSERT_FALSE( a == c, )
+}
 
 int main() {
-    cout "Hello world!" &lt;&lt; endl;
+    RUN_TEST_CASES_MENU();
     return 0;
 }
-</code></pre>
+</code></pre>                 
 
-                <p>Depois de criado o programa, seu projeto deve ter a seguinte estrutura:</p>
+                    <p>Agora compile o projeto acima com o seguinte comando: </p>
 
-<pre>
-helloworld
-└── main.cpp
-</pre>
+                    <p>Se estiver no windows faça: </p>
+<pre><code>g++ -o main main.cpp -lcbtest </code></pre>
+                    <p>Se estiver no linux faça: </p>
+<pre><code>g++ -o main.o main.cpp -lcbtest -ldl -rdynamic</code></pre>
 
-                <p>Agora faça o seguinte:</p>
+                    <p>Se estiver no linux, não esqueça das opções -ldl e -rdynamic.</p>
 
-                <ol>
-                    <li>Instale o cbuild, se não já estiver instalado</li>
-                    <li>Crie o arquivo CBuildFile com o seguinte conteúdo na raiz do seu projeto:<br />
-                        Se estiver no linux coloque:
+                    <p>Agora execute o executável criado que tem o nome "main", se 
+                    estiver no linux e "main.exe", se estiver no windows. Exemplos: </p>
 
-<pre class="line-numbers"><code>output.file.name=executavel</code></pre>
-                        
-                        Se estiver no windows coloque:
+                    <p>Se estiver no windows faça: </p>
+<pre><code>.\main.exe</code></pre>
+                    <p>Se estiver no linux faça: </p>
+<pre><code>./main</code></pre>
 
-<pre class="line-numbers"><code>output.file.name=executavel.exe</code></pre>
-                    </li>
-                    <li>Agora execute o seguinte comando no shell:<br />
-<pre><code>cbuild compile link</code></pre>
-                        Você também poderia executar com a tarefa <b>"build"</b> ou <b>"buildall"</b>. A 
-                        tarefa <b>build</b> inclue: <b>clean, compile, link, copy</b>. E a tarefa 
-                        <b>buildall</b> inclue: <b>clean, compileall, link, copy</b>.
-                    </li>
+                    <p>Agora você deve visualizar a seguinte saída: </p>
 
-                    <li>Execute o executável criado:<br />
-                        Se estiver no linux execute:
-
-<pre><code>./executavel</code></pre>
-
-                        Se estiver no windows execute:
-
-<pre><code>executavel.exe</code></pre>
-                    </li>
-
-                </ol>
-
-                <p>Se tudo ocorreu bem, o seu projeto deve ter agora a seguinte estrutura: </p>
-
-<pre>
-helloworld
-├── CBuildFile
-├── executavel
-├── __lwtimes.txt
-├── main.cpp
-└── obj
-    └── src
-        └── main.o    
-</pre>
-
-                <p>Foram criadas duas pastas: build e obj. A pasta obj é para onde foram os arquivos 
-                resultantes da compilação (os arquivos objeto). O executável resultante da linkagem, 
-                foi para pasta build e, se houvesse uma pasta bin, iria para ela também. Como ela não 
-                foi configurada no script, o executável vai para pasta raiz do projeto.</p>
-
-                <p>Repare que foi criado também um arquivo __lwtimes.txt. Esse arquivo é um arquivo de 
-                propriedades. Onde, as chaves representam os arquivos de código fonte 
-                (headers e implementações), e os valores, representam o tempo de última alteração desses 
-                arquivos no momento da última compilação.</p>
-
-                <p>A cada compilação, o arquivo _lwtimes.txt é atualizado (ou criado, caso não já exista). 
-                Na próxima compilação, se não for especificada a tarefa compileall ou outra que também 
-                compila todos os arquivos, esse arquivo é verificado para compilar apenas os arquivos 
-                modificados após as datas correspondentes gravadas nesse arquivo.</p>
-
-                <p>Trata-se de uma compilação inteligente, onde é compilado somente o necessário para 
-                diminuir o tempo necessário para compilação do código fonte.</p>
-            </section>
-
-            <section>
-                <h3>Recomendação</h3>
-
-                <p>É recomendável configurar as pastas src e bin para o projeto ficar mais organizado. 
-                Para tanto, é só adicionar as propriedades: src.dir=src e bin.dir=bin no arquivo de 
-                script: CBuildFile.</p>
-            </section>
+                    <figure>
+                        <img src="../images/helloworld-output.png" />
+                    </figure>
+                
+            </article>
 
             <section>
                 <h3>Próxima aula</h3>
 
-                <p>O próxima aula ensina como criar e configurar as pastas "src" e "bin" para 
-                organizar melhor o projeto.</p>
+                <p>O próxima aula ensina como integrar o cbtest ao cbuild.</p>
             </section>
 
             <footer class="d-flex justify-content-between">
-                <a class="btn btn-dark" href="index.html">
-                    Voltar
-                </button>
+                <span></span>
                 <a class="btn btn-dark" href="index.html">
                     Cima
                 </a>
-                <a class="btn btn-dark" href="src-and-bin-folders.html">
-                    Avançar
+                <a class="btn btn-dark" href="cbuild-integration.html">
+                    Proxima
                 </a>            
             </footer>
         </article>
