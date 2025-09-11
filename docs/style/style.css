@@ -43,6 +43,18 @@ aside ul {
     bottom: 1em;
 }
 
+.warning {    
+    width: 80%;
+    padding: 0.7em;
+    border-radius: 0.35em;
+    border: 1px solid #cc5;
+}
+
+.warning > h5 {    
+    color: #cc5;
+    border-left: 2px solid #882;
+}
+
 div#mobile-dropdown-menu {
     display: none;
     visibility: hidden;

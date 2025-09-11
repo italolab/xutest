@@ -1,12 +1,15 @@
 #include <cbtest/cbtest.h>
 
 TEST_CASE( primeiroTeste, Testes ) {
+    ASSERT_EQUALS( 1, 1, )
+
     int a = 1;
     int b = 1;
-    int c = 2;
+    string c = "teste";
+    string d = "teste";
+
     ASSERT_EQUALS( a, b, )
-    ASSERT_TRUE( a == b, )
-    ASSERT_FALSE( a == c, )
+    ASSERT_EQUALS( c, d, As strings não são iguais! )
 }
 
 int main() {
