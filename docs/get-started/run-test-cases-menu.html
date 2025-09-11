@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbtest - get started - primeiro exemplo">
+    <meta name="description" content="Página oficial do cbtest - get started - rodar menu de casos de teste">
     <meta name="keyworks" content="cbtest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Primeiro Exemplo - cbtest - Site oficial</title>
+    <title>Rodar menu de casos de teste - cbtest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -31,20 +31,19 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Primeiro exemplo</h1>
-                <h5 class="text-center">Agora, vamos criar um primeiro projeto</h5>
+                <h1 class="text-center">A macro RUN_TEST_CASES_MENU</h1>
             </header>
 
-            <article id="tests-with-cbtest">
-                <header>
-                    <h3>Um primeiro exemplo</h3>
-                </header>
-
-                <p>Crie o arquivo "main.cpp" em seu projeto com o seguinte conteúdo:</p>
+            <article id="RUN_TEST_CASES_MENU">
+                <p>A macro RUN_TEST_CASES_MENU, pode ser utilizada como alternativa a 
+                RUN_ALL_TEST_CASES. A diferença é que RUN_TEST_CASES_MENU mostra um 
+                menu para o usuário escolher se deseja mostrar todos os testes ou os testes 
+                de uma determinada classe. Já RUN_ALL_TEST_CASES, mostra diretamente todos os 
+                testes. Exemplo: </p>
 
 <pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
 
-TEST_CASE( primeiroTeste, Testes ) {
+TEST_CASE( teste, Testes ) {
     int a = 1;
     int b = 1;
     int c = 2;
@@ -57,47 +56,25 @@ int main() {
     RUN_TEST_CASES_MENU();
     return 0;
 }
-</code></pre>                 
+</code></pre> 
 
-                    <p>Agora compile o projeto acima com o seguinte comando: </p>
-
-                    <p>Se estiver no windows faça: </p>
-<pre><code>g++ -o main main.cpp -lcbtest </code></pre>
-                    <p>Se estiver no linux faça: </p>
-<pre><code>g++ -o main.o main.cpp -lcbtest -ldl -rdynamic</code></pre>
-
-                    <p>Se estiver no linux, não esqueça das opções -ldl e -rdynamic.</p>
-
-                    <p>Agora execute o executável criado que tem o nome "main", se 
-                    estiver no linux e "main.exe", se estiver no windows. Exemplos: </p>
-
-                    <p>Se estiver no windows faça: </p>
-<pre><code>.\main.exe</code></pre>
-                    <p>Se estiver no linux faça: </p>
-<pre><code>./main</code></pre>
-
-                    <p>Agora você deve visualizar a seguinte saída: </p>
-
-                    <figure>
-                        <img src="../images/helloworld-output.png" />
-                    </figure>
-                
             </article>
 
             <section>
                 <h3>Próxima aula</h3>
 
-                <p>O próxima aula ensina como dividir os testes em mais de um arquivo 
-                de código fonte.</p>
+                <p>O próxima aula ensina como integrar o cbtest com o cbuild.</p>
             </section>
 
             <footer class="d-flex justify-content-between">
-                <span></span>
+                <a class="btn btn-dark" href="multiples-test-files.html">
+                    Anterior
+                </a> 
                 <a class="btn btn-dark" href="index.html">
                     Cima
                 </a>
-                <a class="btn btn-dark" href="multiples-test-files.html">
-                    Próxima
+                <a class="btn btn-dark" href="cbuild-integration.html">
+                    Proxima
                 </a>            
             </footer>
         </article>

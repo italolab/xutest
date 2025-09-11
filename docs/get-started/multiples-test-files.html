@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbtest - get started - primeiro exemplo">
+    <meta name="description" content="Página oficial do cbtest - get started - multiplos arquivos de teste">
     <meta name="keyworks" content="cbtest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Primeiro Exemplo - cbtest - Site oficial</title>
+    <title>Multiplos arquivos de teste - cbtest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -31,73 +31,68 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Primeiro exemplo</h1>
-                <h5 class="text-center">Agora, vamos criar um primeiro projeto</h5>
+                <h1 class="text-center">Multiplos arquivos de teste</h1>
             </header>
 
-            <article id="tests-with-cbtest">
-                <header>
-                    <h3>Um primeiro exemplo</h3>
-                </header>
+            <article id="multiples-test-files">
+                <p>Se precisar dividir os testes em vários arquivos. Por exemplo, um 
+                arquivo por classe de casos de teste, pode fazer conforme a seguir:</p>
 
-                <p>Crie o arquivo "main.cpp" em seu projeto com o seguinte conteúdo:</p>
+                <p>Suponha que agora você tem o arquivo "main.cpp" e o arquivo "tests.h", 
+                veja abaixo o conteúdo de "test.h": </p>
 
+                <b><i>tests.h</i></b><br />
 <pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
 
-TEST_CASE( primeiroTeste, Testes ) {
-    int a = 1;
-    int b = 1;
-    int c = 2;
-    ASSERT_EQUALS( a, b, )
-    ASSERT_TRUE( a == b, )
-    ASSERT_FALSE( a == c, )
+TEST_CASE( test1, MyTests ) {
+    ASSERT_EQUALS( 1, 1, )
 }
+
+TEST_CASE( test2, MyTests ) {
+    ASSERT_TRUE( true, )
+}
+
+TEST_CASE( test3, MyTests ) {
+    ASSERT_NULL( nullptr, )
+}
+</code></pre>
+
+                <p>Agora vamos para o conteúdo do arquivo "main.cpp": </p>
+
+                <b><i>main.cpp</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include "tests.h"
+
+#include &lt;cbtest/cbtest.h&gt;
 
 int main() {
-    RUN_TEST_CASES_MENU();
+    RUN_ALL_TEST_CASES()
     return 0;
 }
-</code></pre>                 
+</code></pre>
 
-                    <p>Agora compile o projeto acima com o seguinte comando: </p>
+                <p>Perceba que o arquivo "tests.h" está sendo incluído em "main.cpp", mesmo 
+                sem ter uma de suas funções, métodos, classes, ou outro recurso diretamente 
+                chamados no arquivo "main.cpp". Isso é obrigatório. Isto é, para que as definições 
+                de casos de testes sejam encontradas, é necessária a inclusão do arquivo 
+                "tests.h".</p>
 
-                    <p>Se estiver no windows faça: </p>
-<pre><code>g++ -o main main.cpp -lcbtest </code></pre>
-                    <p>Se estiver no linux faça: </p>
-<pre><code>g++ -o main.o main.cpp -lcbtest -ldl -rdynamic</code></pre>
-
-                    <p>Se estiver no linux, não esqueça das opções -ldl e -rdynamic.</p>
-
-                    <p>Agora execute o executável criado que tem o nome "main", se 
-                    estiver no linux e "main.exe", se estiver no windows. Exemplos: </p>
-
-                    <p>Se estiver no windows faça: </p>
-<pre><code>.\main.exe</code></pre>
-                    <p>Se estiver no linux faça: </p>
-<pre><code>./main</code></pre>
-
-                    <p>Agora você deve visualizar a seguinte saída: </p>
-
-                    <figure>
-                        <img src="../images/helloworld-output.png" />
-                    </figure>
-                
             </article>
 
             <section>
                 <h3>Próxima aula</h3>
 
-                <p>O próxima aula ensina como dividir os testes em mais de um arquivo 
-                de código fonte.</p>
+                <p>O próxima aula ensina como rodar o menu de casos de teste.</p>
             </section>
 
             <footer class="d-flex justify-content-between">
-                <span></span>
+                <a class="btn btn-dark" href="first-example.html">
+                    Anterior
+                </a> 
                 <a class="btn btn-dark" href="index.html">
                     Cima
                 </a>
-                <a class="btn btn-dark" href="multiples-test-files.html">
-                    Próxima
+                <a class="btn btn-dark" href="run-test-cases-menu.html">
+                    Proxima
                 </a>            
             </footer>
         </article>

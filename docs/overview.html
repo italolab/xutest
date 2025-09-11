@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Página oficial do cbtest - overview - visão geral">
-    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="keyworks" content="cbtest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -64,7 +64,7 @@ TEST_CASE( primeiroTeste, Testes ) {
 }
 
 int main() {
-    RUN_TEST_CASES_MENU();
+    RUN_ALL_TEST_CASES();
     return 0;
 }
 </code></pre>                 
@@ -72,9 +72,9 @@ int main() {
                     <p>Agora compile o projeto acima com o seguinte comando: </p>
 
                     <p>Se estiver no windows faça: </p>
-<pre><code>g++ -o main main.cpp -lcbtest </code></pre>
+<pre><code>g++ -o main.exe main.cpp -lcbtest </code></pre>
                     <p>Se estiver no linux faça: </p>
-<pre><code>g++ -o main.o main.cpp -lcbtest -ldl -rdynamic</code></pre>
+<pre><code>g++ -o main main.cpp -lcbtest -ldl -rdynamic</code></pre>
 
                     <p>Se estiver no linux, não esqueça das opções -ldl e -rdynamic.</p>
 
@@ -92,6 +92,84 @@ int main() {
                         <img src="images/helloworld-output.png" />
                     </figure>
                 
+            </article>
+
+            <article id="multiples-test-files">
+                <header>
+                    <h3>Multiplos arquivos de teste</h3>
+                </header>
+
+                <p>Se precisar dividir os testes em vários arquivos. Por exemplo, um 
+                arquivo por classe de casos de teste, pode fazer conforme a seguir:</p>
+
+                <p>Suponha que agora você tem o arquivo "main.cpp" e o arquivo "tests.h", 
+                veja abaixo o conteúdo de "test.h": </p>
+
+                <b><i>tests.h</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
+
+TEST_CASE( test1, MyTests ) {
+    ASSERT_EQUALS( 1, 1, )
+}
+
+TEST_CASE( test2, MyTests ) {
+    ASSERT_TRUE( true, )
+}
+
+TEST_CASE( test3, MyTests ) {
+    ASSERT_NULL( nullptr, )
+}
+</code></pre>
+
+                <p>Agora vamos para o conteúdo do arquivo "main.cpp": </p>
+
+                <b><i>main.cpp</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include "tests.h"
+
+#include &lt;cbtest/cbtest.h&gt;
+
+int main() {
+    RUN_ALL_TEST_CASES()
+    return 0;
+}
+</code></pre>
+
+                <p>Perceba que o arquivo "tests.h" está sendo incluído em "main.cpp", mesmo 
+                sem ter uma de suas funções, métodos, classes, ou outro recurso diretamente 
+                chamados no arquivo "main.cpp". Isso é obrigatório. Isto é, para que as definições 
+                de casos de testes sejam encontradas, é necessária a inclusão do arquivo 
+                "tests.h".</p>
+
+            </article>
+
+            <article id="RUN_TEST_CASES_MENU">
+                <header>
+                    <h3>A macro RUN_TEST_CASES_MENU</h3>
+                </header>
+
+                <p>A macro RUN_TEST_CASES_MENU, pode ser utilizada como alternativa a 
+                RUN_ALL_TEST_CASES. A diferença é que RUN_TEST_CASES_MENU mostra um 
+                menu para o usuário escolher se deseja mostrar todos os testes ou os testes 
+                de uma determinada classe. Já RUN_ALL_TEST_CASES, mostra diretamente todos os 
+                testes. Exemplo: </p>
+
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
+
+TEST_CASE( teste, Testes ) {
+    int a = 1;
+    int b = 1;
+    int c = 2;
+    ASSERT_EQUALS( a, b, )
+    ASSERT_TRUE( a == b, )
+    ASSERT_FALSE( a == c, )
+}
+
+int main() {
+    RUN_TEST_CASES_MENU();
+    return 0;
+}
+</code></pre> 
+
             </article>
 
             <article id="cbuild-integration">
@@ -173,7 +251,6 @@ ENDIF
                         <figure>
                             <img src="images/helloworld-cbuild-output.png" />
                         </figure>
-
                     </li>
 
                 </ol>
