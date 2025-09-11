@@ -54,7 +54,7 @@ extern int __cbtest_number_of_options;
 
 namespace cbtest {
 
-    void set_print_vectors( bool isImpVectors );
+    void set_print_vectors( bool is_print_vectors );
     
 }
 

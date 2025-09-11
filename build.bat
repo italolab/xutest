@@ -49,7 +49,7 @@ rem COPIANDO STATIC LIBRARY PARA PASTA LIB
 echo.
 echo Copiando static library para pasta lib
 mkdir %APP_DIR%\lib
-copy %BUILD_FOLDER%\libcbtest.a %APP_DIR%\lib
+copy %APP_DIR%\libcbtest.a %APP_DIR%\lib
 
 rem EMPACOTANDO EM .ZIP
 
