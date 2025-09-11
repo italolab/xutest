@@ -23,7 +23,7 @@
     <script src="js/main.js"></script>
 </head>
 
-<body>
+<body>    
     <nav id="nav"></nav>
     
 <div class="d-flex flex-nowrap">
@@ -45,7 +45,7 @@
                 </p>
             </section>
 
-            <article id="tests-with-cbtest">
+            <article id="first-example">
                 <header>
                     <h3>Um primeiro exemplo</h3>
                 </header>
@@ -94,7 +94,7 @@ int main() {
                 
             </article>
 
-            <article>
+            <article id="cbuild-integration">
                 <header>
                     <h3>Integrando com o cbuild</h3>
                 </header>
@@ -234,7 +234,7 @@ helloworld
                 "main", se estiver no linux e, então, visualizar o resultado.</p>
             </article>
 
-            <article>
+            <article id="TEST_CASE">
                 <header>
                     <h3>A macro TEST_CASE</h3>
                 </header>
@@ -284,7 +284,7 @@ helloworld
 
                 <br />
 
-                <section>
+                <section id="ASSERT_EQUALS">
                     <h5>A macro ASSERT_EQUALS</h5>
 
                     <p>A macro de assert pode ser utilizada para testar se dois valores 
@@ -317,7 +317,7 @@ ASSERT_EQUALS( c, d, As strings não são iguais! )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_NOT_EQUALS">
                     <header>
                         <h5>A macro ASSERT_NOT_EQUALS</h5>
                     </header>
@@ -335,7 +335,7 @@ ASSERT_NOT_EQUALS( str1, str2, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_EQUALS_ARRAYS">
                     <header>
                         <h5>A macro ASSERT_EQUALS_ARRAYS</h5>
                     </header>
@@ -355,7 +355,7 @@ ASSERT_EQUALS_ARRAYS( arr1, arr2, 3, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_NOT_EQUALS_ARRAYS">
                     <header>
                         <h5>A macro ASSERT_NOT_EQUALS_ARRAYS</h5>
                     </header>
@@ -372,7 +372,7 @@ ASSERT_EQUALS_ARRAYS( arr1, arr2, 3, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_EQUALS_VECTORS">
                     <header>
                         <h5>A macro ASSERT_EQUALS_VECTORS</h5>
                     </header>
@@ -389,7 +389,7 @@ ASSERT_EQUALS_VECTORS( vect1, vect2, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_NOT_EQUALS_VECTORS">
                     <header>
                         <h5>A macro ASSERT_NOT_EQUALS_VECTORS</h5>
                     </header>
@@ -406,7 +406,7 @@ ASSERT_NOT_EQUALS_VECTORS( vect1, vect2, )
 
                 <br />
 
-                <section>
+                <section id="set_print_vectors">
                     <h5>Atenção</h5>
 
                     <p>Você pode desabilitar, ou habilitar, a impressão dos vetores 
@@ -447,7 +447,7 @@ ASSERT_EQUALS_VECTORS( vect1, vect2, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_TRUE">
                     <h5>A macro ASSERT_TRUE</h5>
 
                     <p>A macro assert true testa se uma condição é verdadeira. Exemplo: </p>
@@ -460,7 +460,7 @@ ASSERT_TRUE( a > 0, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_FALSE">
                     <h5>A macro ASSERT_FALSE</h5>
 
                     <p>A macro assert false testa se uma condição é falsa. Exemplo: </p>
@@ -473,7 +473,7 @@ ASSERT_FALSE( a == 0, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_NULL">
                     <h5>A macro ASSERT_NULL</h5>
 
                     <p>A macro ASSERT_NULL testa se o ponteiro aponta 
@@ -487,7 +487,7 @@ ASSERT_NULL( strptr, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_NOT_NULL">
                     <h5>A macro ASSERT_NOT_NULL</h5>
 
                     <p>A macro ASSERT_NOT_NULL testa se o ponteiro não aponta, nem 
@@ -501,7 +501,7 @@ ASSERT_NOT_NULL( strptr, )
 
                 <br />
 
-                <section>
+                <section id="ASSERT_THROWS">
                     <h5>A macro ASSERT_THROWS</h5>
 
                     <p>A macro ASSERT_THROWS testa se uma determinada exceção foi lançada. 
@@ -514,7 +514,7 @@ ASSERT_NOT_NULL( strptr, )
 </code></pre>
                 </section>
 
-                <section>
+                <section id="ASSERT_NOT_THROWS">
                     <h5>A macro ASSERT_NOT_THROWS</h5>
 
                     <p>A macro ASSERT_THROWS testa se uma determinada exceção não foi lançada. 
@@ -541,7 +541,7 @@ ASSERT_NOT_NULL( strptr, )
                 bloco de código que deve ser executado antes de todos os testes da classe, 
                 ou, após todos os testes da classe, respectivemante.</p>
 
-                <section>
+                <section id="BEFORE_ALL">
                     <h5>A macro BEFORE_ALL</h5>
 
                     <p>A macro BEFORE_ALL pode ser usada para definir o que deve ser 
@@ -566,7 +566,7 @@ TEST_CASE( teste2, MeusTestes ) {
 
                 <br />
 
-                <section>
+                <section id="AFTER_ALL">
                     <h5>A macro AFTER_ALL</h5>
 
                     <p>A macro AFTER_ALL pode ser usada para definir o que deve ser 
@@ -591,7 +591,7 @@ TEST_CASE( teste2, MeusTestes ) {
                 bloco de código que deve ser executado antes de cada caso de teste da classe, 
                 ou, após cada caso de teste da classe, respectivemante.</p>
 
-                <section>
+                <section id="BEFORE_EACH">
                     <h5>A macro BEFORE_EACH</h5>
 
                     <p>A macro BEFORE_EACH pode ser usada para definir o que deve ser 
@@ -608,7 +608,7 @@ TEST_CASE( teste2, MeusTestes ) {
 
                 <br />
 
-                <section>
+                <section id="AFTER_EACH">
                     <h5>A macro AFTER_EACH</h5>
 
                     <p>A macro AFTER_EACH pode ser usada para definir o que deve ser 

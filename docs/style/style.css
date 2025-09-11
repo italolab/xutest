@@ -34,13 +34,14 @@ aside {
 }
 
 aside ul {
-    width: 15em;
+    width: 18em;
 }
 
 #top-icon {
     position: fixed;
     right: 1em;
     bottom: 1em;
+    z-index: 1000;
 }
 
 .warning {    

@@ -5,7 +5,7 @@ $(document).ready( function() {
     $("#footer").load( "/cbtest/layout/footer.html" );
     $("#footer").load( "/cbtest/layout/footer.html" );
 
-    $("body").append( "<span id='top-icon'></span>" );
+    $("main").append( "<span id='top-icon'></span>" );
 
     $("#top-icon").load( "/cbtest/layout/top-icon.html" );
     
