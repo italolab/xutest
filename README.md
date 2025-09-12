@@ -5,6 +5,8 @@ realização de testes de unidade. A biblioteca dispõe de macros de assert para
 
 Logo, para utilizar, basta incluir os cabeçalhos na compilação dos arquivos de teste e carregar a static library do cbtest que tem o nome "libcbtest.a".
 
+Para uma documentação de uso, você pode acessar: [documentação de uso](https://italolab.github.com/cbtest)
+
 ## A classe SourceCodeManager
 
 A classe SourceCodeManager definida na pasta "test/sourcecode" é responsável por fazer uma busca nos arquivos de código fonte de teste, a começar pelo programa principal, e, dados os includes do arquivo de código, procurar também nos arquivos de código fonte correspondentes aos includes. Esta função é recursiva. Um arquivo pode ter vários includes para outros arquivos e, estes, podem ter também includes para outros arquivos.
