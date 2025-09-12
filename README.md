@@ -5,7 +5,7 @@ realização de testes de unidade. A biblioteca dispõe de macros de assert para
 
 Logo, para utilizar, basta incluir os cabeçalhos na compilação dos arquivos de teste e carregar a static library do cbtest que tem o nome "libcbtest.a".
 
-Para uma documentação de uso, você pode acessar: [documentação de uso](https://italolab.github.com/cbtest)
+Para uma documentação de uso, você pode acessar: [documentação de uso](https://italolab.github.io/cbtest)
 
 ## A classe SourceCodeManager
 
