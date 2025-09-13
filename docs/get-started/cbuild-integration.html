@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do xutest - get started - integração com cbuild">
-    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
+    <meta name="description" content="Página oficial do xutest - get started - integração com foxmake">
+    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, foxmake, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Integração com cbuild - xutest - Site oficial</title>
+    <title>Integração com foxmake - xutest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -31,16 +31,16 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Integrando com o cbuild</h1>
+                <h1 class="text-center">Integrando com o foxmake</h1>
             </header>
 
             <article>
-                <p>Para integrar com o cbuild, basta criar o CBuildFile na raiz do 
-                projeto e executar os testes com o cbuild e as seguintes tarefas: 
+                <p>Para integrar com o foxmake, basta criar o foxmakeFile na raiz do 
+                projeto e executar os testes com o foxmake e as seguintes tarefas: 
                 test, testbuild ou testbuildall</p>
 
                 <p>Para tanto, é necessário definir as propriedades <b>"src.dir", "test.dir"  
-                e "test.libs"</b> no CBuildFile.</p>
+                e "test.libs"</b> no foxmakeFile.</p>
 
                 <p>Se estiver no linux, é necessário também definir a propriedade 
                 "test.linker.params"</p>
@@ -55,11 +55,11 @@
                 <p><b>Atenção</b>: A propriedade <b>"src.dir"</b> deve ser definida e ter valor diferente do 
                 diretório raiz do projeto ou parente dele.</p>
 
-                <p>Após configurado o <b>CBuildFile</b> com os caminhos dos includes, lib do xutest e 
+                <p>Após configurado o <b>foxmakeFile</b> com os caminhos dos includes, lib do xutest e 
                 parâmetros para o comando que linka os arquivos de teste, é só criar os testes 
                 na pasta da propriedade <b>"test.dir"</b>.</p>
 
-                <p>Veja abaixo o exemplo de configuração básica do script <b>CBuildFile</b>: </p>
+                <p>Veja abaixo o exemplo de configuração básica do script <b>foxmakeFile</b>: </p>
 
 <pre class="line-numbers"><code>src.dir=src
 test.dir=test
@@ -72,7 +72,7 @@ ENDIF
 </code></pre> 
                 <p>O exemplo acima assume que a pasta de testes é a pasta <b>"test"</b>.</p>
                 
-                <p>Caso não tenha instalado o cbuild e quiser inclur manualmente, faça 
+                <p>Caso não tenha instalado o foxmake e quiser inclur manualmente, faça 
                 conforme o seguinte exemplo: </p>
 
 <pre class="line-numbers"><code>src.dir=src
@@ -102,12 +102,12 @@ ENDIF
                     <li>Copie o arquivo "main.cpp" para a pasta "test".</li>
                     <li>Agora execute o seguinte comando:<br />
 
-<pre><code>cbuild testbuildall</code></pre>
+<pre><code>foxmake testbuildall</code></pre>
 
                         <p>Você deve ver agora a seguinte saída:</p>
 
                         <figure>
-                            <img src="../images/helloworld-cbuild-output.png" />
+                            <img src="../images/helloworld-foxmake-output.png" />
                         </figure>
 
                     </li>

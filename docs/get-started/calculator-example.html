@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Página oficial do xutest - get started - calculadora - um exemplo completo">
-    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
+    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, foxmake, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -37,9 +37,9 @@
             <article>
                 <p>Agora vamos a um exemplo completo de uma calculadora de áreas.</p>
 
-                <p>Para esse exemplo, é necessário o cbuild instalado na sua máquina 
+                <p>Para esse exemplo, é necessário o foxmake instalado na sua máquina 
                 (ou ele incluído no seu projeto). Acesse a página do projeto em:
-                <a href="https://italolab.github.io/cbuild">documentação do cbuild</a>.
+                <a href="https://italolab.github.io/foxmake">documentação do foxmake</a>.
                 </p>
 
                 <p>Vamos lá: </p>
@@ -233,9 +233,9 @@ int main() {
 </code></pre>
                     </li>
 
-                    <li>Agora só falta o arquivo CBuildFile. Crie ele com o seguinte conteúdo: <br /><br />
+                    <li>Agora só falta o arquivo foxmakeFile. Crie ele com o seguinte conteúdo: <br /><br />
 
-                        <b><i>CBuildFile</i></b><br />
+                        <b><i>foxmakeFile</i></b><br />
 <pre class="line-numbers"><code>IF os == "windows"
     output.file.name=calculator.exe
 ENDIF
@@ -262,7 +262,7 @@ test.libs=xutest
 
 <pre>
 calculator
-├── CBuildFile
+├── foxmakeFile
 ├── src
 │   ├── calc
 │   │   ├── calc.cpp
@@ -274,9 +274,9 @@ calculator
     └── main.cpp
 </pre>
 
-                <p>Agora você pode executar o build com cbuild. Execute o seguinte: </p>
+                <p>Agora você pode executar o build com foxmake. Execute o seguinte: </p>
 
-<pre><code>cbuild testbuildall</code></pre>
+<pre><code>foxmake testbuildall</code></pre>
 
                 <p>Você deverá ver a seguinte saída: </p>
 
@@ -286,7 +286,7 @@ calculator
 
                 <p>Se quiser rodar o projeto, execute: </p>
 
-<pre><code>cbuild buildall
+<pre><code>foxmake buildall
 ./build/calculator
 </code></pre>
 
@@ -299,9 +299,9 @@ calculator
                 </figure>
 
                 <section>
-                    <h5>Como rodar sem o cbuild</h5>
+                    <h5>Como rodar sem o foxmake</h5>
 
-                    <p>Para rodar sem o cbuild, você pode colocar o conteúdo dos testes na pasta 
+                    <p>Para rodar sem o foxmake, você pode colocar o conteúdo dos testes na pasta 
                         src e utilizar os argumentos da linha de comandos para executar os testes 
                         caso, por exemplo, seja passado o argumento "test". Vamos ao exemplo. Você 
                         pode fazer o seguinte:
@@ -336,7 +336,7 @@ int main( int argc, char* argv[] ) {
 
                 <p>E assim chegamos ao final do exemplo de calculadora de áreas completo. 
                 Espero que tenha gostado das aulas e, agora, divirta-se com o xutest e, o 
-                cbuild combina muito bem com ele!</p>
+                foxmake combina muito bem com ele!</p>
             </section>
 
             <footer class="d-flex justify-content-between">

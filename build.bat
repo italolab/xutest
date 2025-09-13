@@ -37,7 +37,7 @@ echo.
 echo Compilando...
 echo.
 
-.\cbuild.exe archivebuildall --script=CBuildFile-StaticLib
+.\foxmake.exe archivebuildall --script=foxmakeFile-StaticLib
 
 rem COPIANDO HEADERS PARA A PASTA INCLUDE DO SOFTWARE EM BUILD
 
