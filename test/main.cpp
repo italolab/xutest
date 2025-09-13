@@ -7,7 +7,7 @@ TEST_CASE( abcTest, abc ) {
 	ASSERT_NOT_NULL( new string( "" ), );
 }
 
-#include <cbtest/cbtest.h>
+#include <xutest/xutest.h>
 
 int main() {
 	RUN_TEST_CASES_MENU();

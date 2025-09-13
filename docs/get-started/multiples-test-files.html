@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbtest - get started - multiplos arquivos de teste">
-    <meta name="keyworks" content="cbtest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
+    <meta name="description" content="Página oficial do xutest - get started - multiplos arquivos de teste">
+    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Multiplos arquivos de teste - cbtest - Site oficial</title>
+    <title>Multiplos arquivos de teste - xutest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -42,7 +42,7 @@
                 veja abaixo o conteúdo de "test.h": </p>
 
                 <b><i>tests.h</i></b><br />
-<pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
+<pre class="line-numbers"><code class="language-cpp">#include &lt;xutest/xutest.h&gt;
 
 TEST_CASE( test1, MyTests ) {
     ASSERT_EQUALS( 1, 1, )
@@ -62,7 +62,7 @@ TEST_CASE( test3, MyTests ) {
                 <b><i>main.cpp</i></b><br />
 <pre class="line-numbers"><code class="language-cpp">#include "tests.h"
 
-#include &lt;cbtest/cbtest.h&gt;
+#include &lt;xutest/xutest.h&gt;
 
 int main() {
     RUN_ALL_TEST_CASES()

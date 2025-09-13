@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbtest - get started - incluíndo no projeto">
-    <meta name="keyworks" content="cbtest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
+    <meta name="description" content="Página oficial do xutest - get started - incluíndo no projeto">
+    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Incluíndo no projeto - cbtest - Site oficial</title>
+    <title>Incluíndo no projeto - xutest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -31,21 +31,21 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Como incluir o cbtest sem instalar?</h1>
+                <h1 class="text-center">Como incluir o xutest sem instalar?</h1>
             </header>
 
             <article id="include-in-project">
-                <p>Para incluír o cbtest no projeto sem instalar, baixe o cbtest da 
+                <p>Para incluír o xutest no projeto sem instalar, baixe o xutest da 
                 página <a href="downloads.html">downloads</a>, e então, extraia o arquivo 
-                baixado e coloque o arquivo "libcbtest.a" e a pasta "include" na raiz do 
+                baixado e coloque o arquivo "libxutest.a" e a pasta "include" na raiz do 
                 seu projeto. Seu projeto helloworld deve ter agora a seguinte estrutura: </p>
 
 <pre>
 helloworld
 ├── include
-│   └── cbtest
-│       ├── cbtest.cpp
-│       ├── cbtest.h
+│   └── xutest
+│       ├── xutest.cpp
+│       ├── xutest.h
 │       ├── fexec
 │       │   ├── fexec.cpp
 │       │   └── fexec.h
@@ -59,7 +59,7 @@ helloworld
 │           ├── io.h
 │           ├── strutil.cpp
 │           └── strutil.h
-├── libcbtest.a
+├── libxutest.a
 └── main.cpp  
 </pre>
 
@@ -67,18 +67,18 @@ helloworld
 
                 <p>Se estiver no linux faça: </p>
 
-<pre><code>g++ -o main main.cpp -lcbtest -L. -Iinclude -ldl -rdynamic</code></pre>
+<pre><code>g++ -o main main.cpp -lxutest -L. -Iinclude -ldl -rdynamic</code></pre>
 
                 <p>Se estiver no windows faça: </p>
 
-<pre><code>g++ -o main.exe main.cpp -lcbtest -L. -Iinclude</code></pre>
+<pre><code>g++ -o main.exe main.cpp -lxutest -L. -Iinclude</code></pre>
 
                 <p>Foram acrescentadas as opções "-L." e "-Iinclude", onde, "-L." 
                 especifica onde procurar pela static library. Nesse caso, a lib de 
-                nome: "libcbtest.a" que está na raiz do projeto. Por isso o ".". E 
+                nome: "libxutest.a" que está na raiz do projeto. Por isso o ".". E 
                 o "-Iinclude" especifica onde encontrar os arquivos header que, nesse 
-                caso, está na pasta "include". A opção "-lcbtest" deve corresponder ao 
-                nome da lib, sem o prefixo "lib" e sem a extenção ".a". Isto é, "cbtest".</p>
+                caso, está na pasta "include". A opção "-lxutest" deve corresponder ao 
+                nome da lib, sem o prefixo "lib" e sem a extenção ".a". Isto é, "xutest".</p>
 
                 <p>Agora você pode rodar o arquivo linkado: O "main.exe" se estiver no windows ou 
                 "main", se estiver no linux e, então, visualizar o resultado.</p>
@@ -87,7 +87,7 @@ helloworld
             <section>
                 <h3>Próxima aula</h3>
 
-                <p>O próxima aula ensina sobre macros e asserts suportadas pelo cbtest.</p>
+                <p>O próxima aula ensina sobre macros e asserts suportadas pelo xutest.</p>
             </section>
 
             <footer class="d-flex justify-content-between">

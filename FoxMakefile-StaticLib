@@ -9,13 +9,14 @@ IF os != "windows"
     $so=linux
 ENDIF
 
+$proj_name=xutest
 
 compiler=g++
 archiver=ar
-output.file.name=libcbtest.a
+output.file.name=lib$(proj_name).a
 
 src.dir=src
-build.dir=build/cbtest-$(version)-$(so)-$(arch)
+build.dir=build/$(proj_name)-$(version)-$(so)-$(arch)
 
 bin.dir=bin/Release
 obj.dir=obj/Release/archive

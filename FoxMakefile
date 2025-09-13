@@ -16,4 +16,4 @@ ENDIF
 
 test.lib.dirs=lib/linux
 test.include.dirs=src
-test.libs=cbtest
+test.libs=xutest

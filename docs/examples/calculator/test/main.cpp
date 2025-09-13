@@ -1,6 +1,6 @@
 #include "calc/calctests.h"
 
-#include <cbtest/cbtest.h>
+#include <xutest/xutest.h>
 
 int main() {
     RUN_ALL_TEST_CASES();

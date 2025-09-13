@@ -5,11 +5,13 @@ set VERSION=1.0
 set SO=windows
 set ARCH=x64
 
-set APP_FILE_NAME=cbtest
-set LIB_FILE_NAME=libcbtest.a
+set PROJ_NAME=xutest
+
+set APP_FILE_NAME=%PROJ_NAME%
+set LIB_FILE_NAME=lib%PROJ_NAME%.a
 
 set BUILD_FOLDER=build
-set APP_FOLDER=cbtest-%VERSION%-%SO%-%ARCH%
+set APP_FOLDER=%PROJ_NAME%-%VERSION%-%SO%-%ARCH%
 
 set APP_DIR=%BUILD_FOLDER%\%APP_FOLDER%
 
@@ -49,7 +51,7 @@ rem COPIANDO STATIC LIBRARY PARA PASTA LIB
 echo.
 echo Copiando static library para pasta lib
 mkdir %APP_DIR%\lib
-copy %APP_DIR%\libcbtest.a %APP_DIR%\lib
+copy %APP_DIR%\libxutest.a %APP_DIR%\lib
 
 rem EMPACOTANDO EM .ZIP
 

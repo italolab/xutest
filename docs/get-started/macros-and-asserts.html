@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbtest - get started - macros e asserts">
-    <meta name="keyworks" content="cbtest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
+    <meta name="description" content="Página oficial do xutest - get started - macros e asserts">
+    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Macros e asserts - cbtest - Site oficial</title>
+    <title>Macros e asserts - xutest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -216,14 +216,14 @@ ASSERT_NOT_EQUALS_VECTORS( vect1, vect2, )
                     <p>Para habilitar, ou desabilitar a impressão de vetores 
                     (ou arrays) na falha do assert, utilize a seguinte função: </p>
 
-<pre class="line-numbers"><code class="language-cpp">cbtest::set_print_vectors( true ); // Para habilitar
-cbtest::set_imp_vectors( false );  // para desabilitar
+<pre class="line-numbers"><code class="language-cpp">xutest::set_print_vectors( true ); // Para habilitar
+xutest::set_imp_vectors( false );  // para desabilitar
 </code></pre>
 
-                    <p>Esta função <b>set_print_vectors</b> está no header <b>"cbtest.h"</b> 
-                    e no namespace <b>cbtest</b>. Agora, veja abaixo dois exemplos: </p>
+                    <p>Esta função <b>set_print_vectors</b> está no header <b>"xutest.h"</b> 
+                    e no namespace <b>xutest</b>. Agora, veja abaixo dois exemplos: </p>
 
-<pre class="line-numbers"><code class="language-cpp">cbtest::set_print_vectors( true ); // Para habilitar
+<pre class="line-numbers"><code class="language-cpp">xutest::set_print_vectors( true ); // Para habilitar
 
 vector<int> vect1 = { 1, 2, 3 };
 vector<int> vect2 = { 3, 2, 1 };
@@ -233,7 +233,7 @@ ASSERT_EQUALS_VECTORS( vect1, vect2, )
                     <p>Os vetores são impressos, pois, o assert falha e a flag de impressão 
                     de vetores está setada para true. Setada através do método set_print_vectors</p>
 
-<pre class="line-numbers"><code class="language-cpp">cbtest::set_print_vectors( false ); // Para desabilitar
+<pre class="line-numbers"><code class="language-cpp">xutest::set_print_vectors( false ); // Para desabilitar
 
 vector<int> vect1 = { 1, 2, 3 };
 vector<int> vect2 = { 3, 2, 1 };

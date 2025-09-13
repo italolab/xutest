@@ -1,4 +1,4 @@
-#include <cbtest/cbtest.h>
+#include <xutest/xutest.h>
 
 #include "calc/calc.h"
 #include <cmath>

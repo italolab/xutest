@@ -1,4 +1,4 @@
 
-./cbuild archivebuildall --script=CBuildFile-StaticLib
+./foxmake archivebuildall --script=FoxMakefile-StaticLib
 
-./cbuild testbuildall --script=CBuildFile
+./foxmake testbuildall --script=FoxMakefile

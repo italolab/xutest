@@ -1,22 +1,22 @@
 
-#include "cbtest.h"
+#include "xutest.h"
 #include "fexec/fexec.h"
 
 const char* DEFAULT_TEST_CLASS = "default";
 
-bool __cbtest_is_imp_vectors = true;
+bool __xutest_is_imp_vectors = true;
 
-stringstream __cbtest_stream;
-stringstream __cbtest_throws_fail_stream;
-int __cbtest_count_fails = 0;
+stringstream __xutest_stream;
+stringstream __xutest_throws_fail_stream;
+int __xutest_count_fails = 0;
 
 SourceCodeManager* __ctest_source_code_manager = new SourceCodeManager( DEFAULT_TEST_CLASS );
-vector<TestClassInfo*> __cbtest_test_class_infos_vect;
-TestClassInfo* __cbtest_test_class_info;
-vector<string> __cbtest_test_classes;
-string __cbtest_test_class = "";
-int __cbtest_op = -1;
-int __cbtest_number_of_options = 0;
+vector<TestClassInfo*> __xutest_test_class_infos_vect;
+TestClassInfo* __xutest_test_class_info;
+vector<string> __xutest_test_classes;
+string __xutest_test_class = "";
+int __xutest_op = -1;
+int __xutest_number_of_options = 0;
 
 __assert_fail::__assert_fail( string msg ) : msg( msg ) {}
 
@@ -24,9 +24,9 @@ string __assert_fail::what() const {
     return msg;
 }
 
-namespace cbtest {
+namespace xutest {
     void set_imp_vectors( bool isImpVectors ) {
-        __cbtest_is_imp_vectors = isImpVectors;
+        __xutest_is_imp_vectors = isImpVectors;
     }
 }
 

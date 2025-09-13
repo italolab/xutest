@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbtest - get started - integração com cbuild">
-    <meta name="keyworks" content="cbtest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
+    <meta name="description" content="Página oficial do xutest - get started - integração com cbuild">
+    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Integração com cbuild - cbtest - Site oficial</title>
+    <title>Integração com cbuild - xutest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -45,17 +45,17 @@
                 <p>Se estiver no linux, é necessário também definir a propriedade 
                 "test.linker.params"</p>
 
-                <p>Caso não tenha instalado o cbtest e quiser incluí-lo manualmente no 
+                <p>Caso não tenha instalado o xutest e quiser incluí-lo manualmente no 
                 projeto, precisa definir também as propriedades <b>"test.include.dirs", 
                 "test.lib.dirs"</b>.</p>
 
-                <p>Se o cbtest já estiver instalado no sistema operacional, não precisa definir 
+                <p>Se o xutest já estiver instalado no sistema operacional, não precisa definir 
                 as propriedades <b>"test.include.dirs", "test.lib.dirs" e "test.libs"</b>.</p>
 
                 <p><b>Atenção</b>: A propriedade <b>"src.dir"</b> deve ser definida e ter valor diferente do 
                 diretório raiz do projeto ou parente dele.</p>
 
-                <p>Após configurado o <b>CBuildFile</b> com os caminhos dos includes, lib do cbtest e 
+                <p>Após configurado o <b>CBuildFile</b> com os caminhos dos includes, lib do xutest e 
                 parâmetros para o comando que linka os arquivos de teste, é só criar os testes 
                 na pasta da propriedade <b>"test.dir"</b>.</p>
 
@@ -63,7 +63,7 @@
 
 <pre class="line-numbers"><code>src.dir=src
 test.dir=test
-test.libs=cbtest
+test.libs=xutest
 
 IF os != "windows"
 # interpretado somente se estiver no linux
@@ -80,7 +80,7 @@ test.dir=test
 
 test.include.dirs=include
 test.lib.dirs=.
-test.libs=cbtest
+test.libs=xutest
 
 IF os != "windows"
 # interpretado somente se estiver no linux
@@ -89,11 +89,11 @@ ENDIF
 </code></pre>                
     
                 <p>O exemplo acima assume que o diretório onde deve procurar o arquivo 
-                <b>"libcbtest.a"</b> é o diretório corrente. Para outro diretório, é só 
+                <b>"libxutest.a"</b> é o diretório corrente. Para outro diretório, é só 
                 alterar <b>"test.lib.dirs"</b>. Claro, o exemplo acima assume que o nome da 
-                static library do cbtest tem o nome <b>"libcbtest.*"</b>, onde o "*" geralmente 
+                static library do xutest tem o nome <b>"libxutest.*"</b>, onde o "*" geralmente 
                 corresponde a "a" ou "lib". Esse exemplo assume também que a os arquivos 
-                de cabeçalho do cbtest estão na pasta <b>"include"</b>.</p>
+                de cabeçalho do xutest estão na pasta <b>"include"</b>.</p>
 
                 <p>Agora, seguindo o exemplo anterior, siga os seguintes passos: </p>
                 
@@ -119,7 +119,7 @@ ENDIF
             <section>
                 <h3>Próxima aula</h3>
 
-                <p>O próxima aula ensina como incluir o cbtest no projeto sem instalar.</p>
+                <p>O próxima aula ensina como incluir o xutest no projeto sem instalar.</p>
             </section>
 
             <footer class="d-flex justify-content-between">

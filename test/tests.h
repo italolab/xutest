@@ -1,7 +1,7 @@
 #ifndef TESTS_H
 #define TESTS_H
 
-#include <cbtest/cbtest.h>
+#include <xutest/xutest.h>
 
 #include <string>
 #include <vector>

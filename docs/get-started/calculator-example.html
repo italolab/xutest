@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbtest - get started - calculadora - um exemplo completo">
-    <meta name="keyworks" content="cbtest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
+    <meta name="description" content="Página oficial do xutest - get started - calculadora - um exemplo completo">
+    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, cbuild, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Calculadora - um exemplo completo - cbtest - Site oficial</title>
+    <title>Calculadora - um exemplo completo - xutest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -184,7 +184,7 @@ int main() {
                         Crie o arquivo "calctests.h" com o seguinte conteúdo: <br /><br />
                         
                         <b><i>test/calc/calctests.h</i></b><br />
-<pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
+<pre class="line-numbers"><code class="language-cpp">#include &lt;xutest/xutest.h&gt;
 
 #include "calc/calc.h"
 #include &lt;cmath&gt;
@@ -224,7 +224,7 @@ TEST_CASE( circle_area_test, CalcTests ) {
                         <b><i>test/main.cpp</i></b>
 <pre class="line-numbers"><code class="language-cpp">#include "calc/calctests.h"
 
-#include &lt;cbtest/cbtest.h&gt;
+#include &lt;xutest/xutest.h&gt;
 
 int main() {
     RUN_ALL_TEST_CASES();
@@ -253,7 +253,7 @@ IF os != "windows"
     test.linker.params=-ldl -rdynamic
 ENDIF
 
-test.libs=cbtest
+test.libs=xutest
 </code></pre>
                     </li>
                 </ol>
@@ -308,7 +308,7 @@ calculator
 
 <pre class="line-numbers"><code class="language-cpp">#include "test/calctests.h"
 
-#include &lt;cbtest/cbtest.h&gt;
+#include &lt;xutest/xutest.h&gt;
 #include &lt;cstring&gt;
 
 /* Código do main.cpp */
@@ -335,7 +335,7 @@ int main( int argc, char* argv[] ) {
                 <h3>Finalizando...</h3>
 
                 <p>E assim chegamos ao final do exemplo de calculadora de áreas completo. 
-                Espero que tenha gostado das aulas e, agora, divirta-se com o cbtest e, o 
+                Espero que tenha gostado das aulas e, agora, divirta-se com o xutest e, o 
                 cbuild combina muito bem com ele!</p>
             </section>
 

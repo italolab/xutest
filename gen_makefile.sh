@@ -4,7 +4,7 @@ CXXFLAGS="-Wall -g"
 SRC_DIR="src"
 OBJ_DIR="obj/Debug"
 BIN_DIR="bin/Debug"
-TARGET="cbtest"
+TARGET="xutest"
 
 mkdir -p $OBJ_DIR
 mkdir -p $BIN_DIR

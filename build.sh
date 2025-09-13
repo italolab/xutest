@@ -4,16 +4,18 @@ VERSION=1.0
 SO=linux
 ARCH=x64
 
-DEB_CONTROL_PACKAGE_NAME=cbtest
+PROJ_NAME=xutest
+
+DEB_CONTROL_PACKAGE_NAME=$PROJ_NAME
 DEB_CONTROL_INSTALLED_SIZE=116
 DEB_CONTROL_MAINTAINER="Italo Herbert Siqueira Gabriel (italoherbert@outlook.com)"
 DEB_CONTROL_DESCRIPTION="Trata-se de um framework para testes de unidade em C/C++"
 
-APP_FILE_NAME=cbtest
-LIB_FILE_NAME=libcbtest.a
+APP_FILE_NAME=$PROJ_NAME
+LIB_FILE_NAME=lib$PROJ_NAME.a
 
 BUILD_FOLDER=build
-APP_FOLDER=cbtest-$VERSION-$SO-$ARCH
+APP_FOLDER=$PROJ_NAME-$VERSION-$SO-$ARCH
 
 APP_DIR=$BUILD_FOLDER/$APP_FOLDER
 
@@ -52,7 +54,7 @@ echo
 
 # COMPILANDO...
 
-./cbuild archivebuildall --script=CBuildFile-StaticLib
+./foxmake archivebuildall --script=FoxMakefile-StaticLib
 
 # COPIANDO HEADERS PARA A PASTA INCLUDE DO SOFTWARE EM BUILD
 

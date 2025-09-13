@@ -1,4 +1,4 @@
-#include <cbtest/cbtest.h>
+#include <xutest/xutest.h>
 
 TEST_CASE( primeiroTeste, Testes ) {
     ASSERT_EQUALS( 1, 1, )

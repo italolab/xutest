@@ -1,5 +1,5 @@
-#ifndef CBTEST_H
-#define CBTEST_H
+#ifndef xutest_H
+#define xutest_H
 
 #include "sourcecode/SourceCodeManager.h"
 #include "output/output.h"
@@ -38,21 +38,21 @@ class __assert_fail {
 
 extern const char* DEFAULT_TEST_CLASS;
 
-extern bool __cbtest_is_imp_vectors;
+extern bool __xutest_is_imp_vectors;
 
-extern stringstream __cbtest_stream;
-extern stringstream __cbtest_throws_fail_stream;
-extern int __cbtest_count_fails;
+extern stringstream __xutest_stream;
+extern stringstream __xutest_throws_fail_stream;
+extern int __xutest_count_fails;
 
 extern SourceCodeManager* __ctest_source_code_manager;
-extern vector<TestClassInfo*> __cbtest_test_class_infos_vect;
-extern TestClassInfo* __cbtest_test_class_info;
-extern vector<string> __cbtest_test_classes;
-extern string __cbtest_test_class;
-extern int __cbtest_op;
-extern int __cbtest_number_of_options;
+extern vector<TestClassInfo*> __xutest_test_class_infos_vect;
+extern TestClassInfo* __xutest_test_class_info;
+extern vector<string> __xutest_test_classes;
+extern string __xutest_test_class;
+extern int __xutest_op;
+extern int __xutest_number_of_options;
 
-namespace cbtest {
+namespace xutest {
 
     void set_imp_vectors( bool isImpVectors );
     
@@ -105,14 +105,14 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 }
 
 #define THROW_FAIL( errorMsg, otherErrorMsg ) { \
-    __cbtest_throws_fail_stream.str( "" ); \
-    __cbtest_throws_fail_stream.clear(); \
-    __cbtest_throws_fail_stream << __FILE__ << "(" << __LINE__ << "): "; \
+    __xutest_throws_fail_stream.str( "" ); \
+    __xutest_throws_fail_stream.clear(); \
+    __xutest_throws_fail_stream << __FILE__ << "(" << __LINE__ << "): "; \
     if ( strlen( #errorMsg ) == 0 ) \
-        __cbtest_throws_fail_stream << __blue( otherErrorMsg ); \
-    __cbtest_throws_fail_stream << __blue( #errorMsg ); \
+        __xutest_throws_fail_stream << __blue( otherErrorMsg ); \
+    __xutest_throws_fail_stream << __blue( #errorMsg ); \
     \
-    throw __assert_fail( __cbtest_throws_fail_stream.str() ); \
+    throw __assert_fail( __xutest_throws_fail_stream.str() ); \
 } \
 
 // ASSERTS PARA VECTORS E ARRAYS
@@ -122,14 +122,14 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         if ( strlen( #errorMsg ) != 0 ) \
             THROW_FAIL( errorMsg, "" ) \
         \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream.clear(); \
-        __cbtest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser iguais!" << endl; \
-        if ( __cbtest_is_imp_vectors ) { \
-            __cbtest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
-            __cbtest_stream << "Vetor(2)= " << __vector_str( v2 ); \
+        __xutest_stream.str( "" ); \
+        __xutest_stream.clear(); \
+        __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser iguais!" << endl; \
+        if ( __xutest_is_imp_vectors ) { \
+            __xutest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
+            __xutest_stream << "Vetor(2)= " << __vector_str( v2 ); \
         } \
-        throw __assert_fail( __cbtest_stream.str() ); \
+        throw __assert_fail( __xutest_stream.str() ); \
     } \
 } \
 
@@ -138,14 +138,14 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         if ( strlen( #errorMsg ) != 0 ) \
             THROW_FAIL( errorMsg, "" ) \
         \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream.clear(); \
-        __cbtest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser diferentes!" << endl; \
-        if ( __cbtest_is_imp_vectors ) { \
-            __cbtest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
-            __cbtest_stream << "Vetor(2)= " << __vector_str( v2 ); \
+        __xutest_stream.str( "" ); \
+        __xutest_stream.clear(); \
+        __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser diferentes!" << endl; \
+        if ( __xutest_is_imp_vectors ) { \
+            __xutest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
+            __xutest_stream << "Vetor(2)= " << __vector_str( v2 ); \
         } \
-        throw __assert_fail( __cbtest_stream.str() ); \
+        throw __assert_fail( __xutest_stream.str() ); \
     } \
 } \
 
@@ -154,14 +154,14 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         if ( strlen( #errorMsg ) != 0 ) \
             THROW_FAIL( errorMsg, "" ) \
         \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream.clear(); \
-        __cbtest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser iguais!" << endl; \
-        if ( __cbtest_is_imp_vectors ) { \
-            __cbtest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
-            __cbtest_stream << "Array(2)= " << __array_str( a2, len ); \
+        __xutest_stream.str( "" ); \
+        __xutest_stream.clear(); \
+        __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser iguais!" << endl; \
+        if ( __xutest_is_imp_vectors ) { \
+            __xutest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
+            __xutest_stream << "Array(2)= " << __array_str( a2, len ); \
         } \
-        throw __assert_fail( __cbtest_stream.str() ); \
+        throw __assert_fail( __xutest_stream.str() ); \
     } \
 } \
 
@@ -170,14 +170,14 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         if ( strlen( #errorMsg ) != 0 ) \
             THROW_FAIL( errorMsg, "" ) \
         \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream.clear(); \
-        __cbtest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser diferentes!" << endl; \
-        if ( __cbtest_is_imp_vectors ) { \
-            __cbtest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
-            __cbtest_stream << "Array(2)= " << __array_str( a2, len ); \
+        __xutest_stream.str( "" ); \
+        __xutest_stream.clear(); \
+        __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser diferentes!" << endl; \
+        if ( __xutest_is_imp_vectors ) { \
+            __xutest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
+            __xutest_stream << "Array(2)= " << __array_str( a2, len ); \
         } \
-        throw __assert_fail( __cbtest_stream.str() ); \
+        throw __assert_fail( __xutest_stream.str() ); \
     } \
 } \
 
@@ -185,58 +185,58 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 
 #define ASSERT_EQUALS( a, b, errorMsg ) { \
     if ( a != b ) { \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream << a << " != " << b; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
+        __xutest_stream.str( "" ); \
+        __xutest_stream << a << " != " << b; \
+        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
     } \
 } \
 
 #define ASSERT_NOT_EQUALS( a, b, errorMsg ) { \
     if ( a == b ) { \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream << a << " == " << b; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
+        __xutest_stream.str( "" ); \
+        __xutest_stream << a << " == " << b; \
+        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
     } \
 } \
 
 #define ASSERT_TRUE( condicao, errorMsg ) { \
     if ( !(condicao) ) { \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream << "( " << #condicao << " ) != true"; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
+        __xutest_stream.str( "" ); \
+        __xutest_stream << "( " << #condicao << " ) != true"; \
+        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
     } \
 } \
 
 #define ASSERT_FALSE( condicao, errorMsg ) { \
     if ( condicao ) { \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream << "( " << #condicao << " ) != false"; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
+        __xutest_stream.str( "" ); \
+        __xutest_stream << "( " << #condicao << " ) != false"; \
+        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
     } \
 } \
 
 #define ASSERT_NULL( obj, errorMsg ) { \
     if ( obj != nullptr ) { \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream << #obj << " != nullptr"; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
+        __xutest_stream.str( "" ); \
+        __xutest_stream << #obj << " != nullptr"; \
+        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
     } \
 } \
 
 #define ASSERT_NOT_NULL( obj, errorMsg ) { \
     if ( obj == nullptr ) { \
-        __cbtest_stream.str( "" ); \
-        __cbtest_stream << #obj << " == nullptr"; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
+        __xutest_stream.str( "" ); \
+        __xutest_stream << #obj << " == nullptr"; \
+        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
     } \
 } \
 
 #define ASSERT_THROWS( except, block, errorMsg ) { \
     try { \
         block \
-        __cbtest_stream.str(); \
-        __cbtest_stream << "Deveria lancar uma exceção: " << #except; \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ) \
+        __xutest_stream.str(); \
+        __xutest_stream << "Deveria lancar uma exceção: " << #except; \
+        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
     } catch ( const except& ex ) { \
         \
     } \
@@ -246,10 +246,10 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     try { \
         block \
     } catch ( const except& ex ) { \
-        __cbtest_stream.str(); \
-        __cbtest_stream << "Exceção lançada: " << #except; \
-        __cbtest_stream << "\nMensagem de exceção: " << ex.what(); \
-        THROW_FAIL( errorMsg, __cbtest_stream.str() ); \
+        __xutest_stream.str(); \
+        __xutest_stream << "Exceção lançada: " << #except; \
+        __xutest_stream << "\nMensagem de exceção: " << ex.what(); \
+        THROW_FAIL( errorMsg, __xutest_stream.str() ); \
     } \
 } \
 
@@ -298,7 +298,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 #define RUN_TEST_CASES_BY_CLASS( testClassInfo ) { \
     cout << "Executando " << __green( testClassInfo->className ) << "..." << endl; \
     \
-    __cbtest_count_fails = 0; \
+    __xutest_count_fails = 0; \
     \
     if ( testClassInfo->beforeAllFlag ) \
         __exec_before_all_by_name( testClassInfo->className ); \
@@ -319,26 +319,26 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
             cout << endl; \
             cout << "\n" << __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl; \
             cout << endl; \
-            __cbtest_count_fails++; \
+            __xutest_count_fails++; \
         } catch ( const exception& e ) { \
             cout << endl; \
             cout << "\nException em: " << __green( testName ) << " --> " << __red( e.what() ) << endl; \
             cout << endl; \
-            __cbtest_count_fails++; \
+            __xutest_count_fails++; \
         } catch ( ... ) { \
             cout << endl; \
             cout << "\nException desconhecida em: " << __green( testName ) << endl; \
             cout << endl; \
-            __cbtest_count_fails++; \
+            __xutest_count_fails++; \
         } \
     } \
     \
     if ( testClassInfo->afterAllFlag ) \
         __exec_after_all_by_name( testClassInfo->className ); \
     \
-    if ( __cbtest_count_fails == 0 ) \
+    if ( __xutest_count_fails == 0 ) \
         cout << __green( testClassInfo->className ) << __white( " Ok!" ) << endl; \
-    else cout << __green( testClassInfo->className ) << ": " << __red( std::to_string( __cbtest_count_fails ) ) << __white( " falha(s)!" ) << endl; \
+    else cout << __green( testClassInfo->className ) << ": " << __red( std::to_string( __xutest_count_fails ) ) << __white( " falha(s)!" ) << endl; \
     cout << endl; \
 } \
 
@@ -347,10 +347,10 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     cout << endl; \
     \
     int countFails = 0; \
-    __cbtest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
-    for( TestClassInfo* tcInfo : __cbtest_test_class_infos_vect ) { \
+    __xutest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
+    for( TestClassInfo* tcInfo : __xutest_test_class_infos_vect ) { \
         RUN_TEST_CASES_BY_CLASS( tcInfo ) \
-        countFails += __cbtest_count_fails; \
+        countFails += __xutest_count_fails; \
     } \
     \
     if ( countFails == 0 ) \
@@ -359,40 +359,40 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 } \
 
 #define RUN_TEST_CASES_MENU() { \
-    __cbtest_op = -1; \
+    __xutest_op = -1; \
     \
     cout << endl; \
     cout << "Escolha a classe de testes para rodar: " << endl; \
     cout << "  (1) Todos os testes" << endl; \
-    __cbtest_number_of_options = 2; \
+    __xutest_number_of_options = 2; \
     \
-    __cbtest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
+    __xutest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
     \
-    __cbtest_test_classes.clear(); \
-    for( TestClassInfo* tcInfo : __cbtest_test_class_infos_vect ) { \
-        __cbtest_test_classes.push_back( tcInfo->className ); \
-        cout << "  (" << __cbtest_number_of_options << ") " << __green( tcInfo->className ) << endl; \
-        __cbtest_number_of_options++; \
+    __xutest_test_classes.clear(); \
+    for( TestClassInfo* tcInfo : __xutest_test_class_infos_vect ) { \
+        __xutest_test_classes.push_back( tcInfo->className ); \
+        cout << "  (" << __xutest_number_of_options << ") " << __green( tcInfo->className ) << endl; \
+        __xutest_number_of_options++; \
     } \
     cout << "  (0) Sair" << endl; \
     \
-    __cbtest_op = __read_option( __cbtest_number_of_options ); \
+    __xutest_op = __read_option( __xutest_number_of_options ); \
     \
-    if ( __cbtest_op > 0 && __cbtest_op-2 < (int)__cbtest_test_classes.size() ) { \
+    if ( __xutest_op > 0 && __xutest_op-2 < (int)__xutest_test_classes.size() ) { \
         cout << endl; \
-        if ( __cbtest_op == 1 ) { \
+        if ( __xutest_op == 1 ) { \
             RUN_ALL_TEST_CASES() \
         } else { \
             cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
             cout << endl; \
             \
-            __cbtest_test_class = __cbtest_test_classes[ __cbtest_op-2 ]; \
-            __cbtest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
-            __cbtest_test_class_info = getTestClassInfo( __cbtest_test_class_infos_vect, __cbtest_test_class ); \
+            __xutest_test_class = __xutest_test_classes[ __xutest_op-2 ]; \
+            __xutest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
+            __xutest_test_class_info = getTestClassInfo( __xutest_test_class_infos_vect, __xutest_test_class ); \
             \
-            RUN_TEST_CASES_BY_CLASS( __cbtest_test_class_info ) \
+            RUN_TEST_CASES_BY_CLASS( __xutest_test_class_info ) \
             \
-            __cbtest_op = 0; \
+            __xutest_op = 0; \
         } \
     } \
 } \
