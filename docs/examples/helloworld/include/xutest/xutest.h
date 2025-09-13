@@ -38,13 +38,13 @@ class __assert_fail {
 
 extern const char* DEFAULT_TEST_CLASS;
 
-extern bool __xutest_is_imp_vectors;
+extern bool __xutest_is_print_vectors;
 
 extern stringstream __xutest_stream;
 extern stringstream __xutest_throws_fail_stream;
 extern int __xutest_count_fails;
 
-extern SourceCodeManager* __ctest_source_code_manager;
+extern SourceCodeManager* __xutest_source_code_manager;
 extern vector<TestClassInfo*> __xutest_test_class_infos_vect;
 extern TestClassInfo* __xutest_test_class_info;
 extern vector<string> __xutest_test_classes;
@@ -54,7 +54,7 @@ extern int __xutest_number_of_options;
 
 namespace xutest {
 
-    void set_imp_vectors( bool isImpVectors );
+    void set_print_vectors( bool is_print_vectors );
     
 }
 
@@ -125,7 +125,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         __xutest_stream.str( "" ); \
         __xutest_stream.clear(); \
         __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser iguais!" << endl; \
-        if ( __xutest_is_imp_vectors ) { \
+        if ( __xutest_is_print_vectors ) { \
             __xutest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
             __xutest_stream << "Vetor(2)= " << __vector_str( v2 ); \
         } \
@@ -141,7 +141,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         __xutest_stream.str( "" ); \
         __xutest_stream.clear(); \
         __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser diferentes!" << endl; \
-        if ( __xutest_is_imp_vectors ) { \
+        if ( __xutest_is_print_vectors ) { \
             __xutest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
             __xutest_stream << "Vetor(2)= " << __vector_str( v2 ); \
         } \
@@ -157,7 +157,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         __xutest_stream.str( "" ); \
         __xutest_stream.clear(); \
         __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser iguais!" << endl; \
-        if ( __xutest_is_imp_vectors ) { \
+        if ( __xutest_is_print_vectors ) { \
             __xutest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
             __xutest_stream << "Array(2)= " << __array_str( a2, len ); \
         } \
@@ -173,7 +173,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
         __xutest_stream.str( "" ); \
         __xutest_stream.clear(); \
         __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser diferentes!" << endl; \
-        if ( __xutest_is_imp_vectors ) { \
+        if ( __xutest_is_print_vectors ) { \
             __xutest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
             __xutest_stream << "Array(2)= " << __array_str( a2, len ); \
         } \
@@ -216,7 +216,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 } \
 
 #define ASSERT_NULL( obj, errorMsg ) { \
-    if ( obj != nullptr ) { \
+    if ( obj != nullptr && obj != NULL ) { \
         __xutest_stream.str( "" ); \
         __xutest_stream << #obj << " != nullptr"; \
         THROW_FAIL( errorMsg, __xutest_stream.str() ) \
@@ -224,7 +224,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 } \
 
 #define ASSERT_NOT_NULL( obj, errorMsg ) { \
-    if ( obj == nullptr ) { \
+    if ( obj == nullptr || obj == NULL ) { \
         __xutest_stream.str( "" ); \
         __xutest_stream << #obj << " == nullptr"; \
         THROW_FAIL( errorMsg, __xutest_stream.str() ) \
@@ -317,7 +317,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
             cout << __white( "Ok" ) << endl; \
         } catch ( const __assert_fail& e ) { \
             cout << endl; \
-            cout << "\n" << __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl; \
+            cout << "\n" <<  __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl; \
             cout << endl; \
             __xutest_count_fails++; \
         } catch ( const exception& e ) { \
@@ -343,18 +343,18 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 } \
 
 #define RUN_ALL_TEST_CASES() { \
-    cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
+    cout << __bold( __white( "**** EXECUTANDO TESTES ****" ) ) << endl; \
     cout << endl; \
     \
     int countFails = 0; \
-    __xutest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
+    __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
     for( TestClassInfo* tcInfo : __xutest_test_class_infos_vect ) { \
         RUN_TEST_CASES_BY_CLASS( tcInfo ) \
         countFails += __xutest_count_fails; \
     } \
     \
     if ( countFails == 0 ) \
-        cout << __white( "Todos os testes passaram com sucesso!" ) << endl; \
+        cout << __bold( __white( "Todos os testes passaram com sucesso!" ) ) << endl; \
     else cout << "Houve " << __red( "falha" ) << " em " << __red( std::to_string( countFails ) ) << " teste(s)" << endl; \
 } \
 
@@ -366,7 +366,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     cout << "  (1) Todos os testes" << endl; \
     __xutest_number_of_options = 2; \
     \
-    __xutest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
+    __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
     \
     __xutest_test_classes.clear(); \
     for( TestClassInfo* tcInfo : __xutest_test_class_infos_vect ) { \
@@ -387,7 +387,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
             cout << endl; \
             \
             __xutest_test_class = __xutest_test_classes[ __xutest_op-2 ]; \
-            __xutest_test_class_infos_vect = __ctest_source_code_manager->testInfos( __FILE__ ); \
+            __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
             __xutest_test_class_info = getTestClassInfo( __xutest_test_class_infos_vect, __xutest_test_class ); \
             \
             RUN_TEST_CASES_BY_CLASS( __xutest_test_class_info ) \
