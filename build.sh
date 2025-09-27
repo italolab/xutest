@@ -1,8 +1,6 @@
 #!/bin/bash
 
 VERSION=1.0
-SO=linux
-ARCH=x64
 
 PROJ_NAME=xutest
 
@@ -15,9 +13,11 @@ APP_FILE_NAME=$PROJ_NAME
 LIB_FILE_NAME=lib$PROJ_NAME.a
 
 BUILD_FOLDER=build
-APP_FOLDER=$PROJ_NAME-$VERSION-$SO-$ARCH
+APP_FOLDER=$PROJ_NAME-$VERSION-linux-x64
+WINDOWS_APP_FOLDER=$PROJ_NAME-$VERSION-windows-x64
 
 APP_DIR=$BUILD_FOLDER/$APP_FOLDER
+WINDOWS_APP_DIR=$BUILD_FOLDER/$WINDOWS_APP_FOLDER
 
 APP_LIB_FILE=$APP_DIR/$LIB_FILE_NAME
 
@@ -42,24 +42,36 @@ if [ -f "$APP_DIR.tar.gz" ]; then
     echo "Removido: $APP_DIR.tar.gz"
 fi
 
+if [ -f "$WINDOWS_APP_DIR.zip" ]; then
+    rm "$WINDOWS_APP_DIR.zip"
+    echo "Removido: $WINDOWS_APP_DIR.zip"
+fi
+
 if [ -f "$APP_DIR.deb" ]; then
     rm "$APP_DIR.deb"
     echo "Removido: $APP_DIR.deb"
 fi
 
 mkdir -p $APP_DIR
+mkdir -p $WINDOWS_APP_DIR
 mkdir -p $DEB_APP_DIR
-
-echo
 
 # COMPILANDO...
 
+echo
+echo Compilando...
 ./foxmake archivebuildall --script=FoxMakefile-StaticLib
+
+echo
+echo Compilando para windows...
+./foxmake archivebuildall --script=FoxMakefile-StaticLib-windows
 
 # COPIANDO HEADERS PARA A PASTA INCLUDE DO SOFTWARE EM BUILD
 
 mkdir $APP_DIR/include
+mkdir $WINDOWS_APP_DIR/include
 cp -r src/* $APP_DIR/include
+cp -r src/* $WINDOWS_APP_DIR/include
 
 # EMPACOTANDO EM .TAR.GZ
 
@@ -73,6 +85,22 @@ echo "Finalizado."
 
 cd - &> /dev/null
 
+# EMPACOTANDO VERSÃO WINDOWS EM .ZIP
+
+cd $BUILD_FOLDER
+
+echo
+echo "Empacotando... $WINDOWS_APP_DIR.zip"
+
+zip -r -q "$WINDOWS_APP_FOLDER.zip" $WINDOWS_APP_FOLDER
+echo "Finalizado." 
+
+cd - &> /dev/null
+
+echo
+
+
+# GERANDO ARQUIVO .DEB
 
 # Copiando a static library para pasta /usr/lib do .DEB
 
@@ -91,7 +119,7 @@ mkdir -p $DEB_APP_DIR/DEBIAN
 
 echo "Package: $DEB_CONTROL_PACKAGE_NAME" >> $DEB_CONTROL_FILE
 echo "Version: $VERSION" >> $DEB_CONTROL_FILE
-echo "Section: games" >> $DEB_CONTROL_FILE
+echo "Section: main" >> $DEB_CONTROL_FILE
 echo "Architecture: amd64" >> $DEB_CONTROL_FILE
 echo "Installed-Size: $DEB_CONTROL_INSTALLED_SIZE" >> $DEB_CONTROL_FILE
 echo "Maintainer: $DEB_CONTROL_MAINTAINER" >> $DEB_CONTROL_FILE

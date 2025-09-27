@@ -1,0 +1,27 @@
+$version=1.0
+$arch=x64
+$so=windows
+
+$proj_name=xutest
+
+compiler=x86_64-w64-mingw32-g++-win32
+archiver=x86_64-w64-mingw32-ar
+
+output.file.name=lib$(proj_name).a
+
+compiler.params=-Wall -fexceptions -O2 -std=c++17
+linker.params=-s -static
+
+
+src.dir=src
+build.dir=build/$(proj_name)-$(version)-$(so)-$(arch)
+
+bin.dir=bin/Release/$(so)/$(arch)
+obj.dir=obj/Release/archive/$(so)/$(arch)
+compiler.params=-Wall -O2 -std=c++17
+archiver.params=
+
+task copy after
+    mkdir -p lib/$(so)
+    cp $(build.dir)/$(output.file.name) lib/$(so)/$(output.file.name)
+endtask
