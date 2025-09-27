@@ -12,7 +12,6 @@ output.file.name=lib$(proj_name).a
 compiler.params=-Wall -fexceptions -O2 -std=c++17
 linker.params=-s -static
 
-
 src.dir=src
 build.dir=build/$(proj_name)-$(version)-$(so)-$(arch)
 
