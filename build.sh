@@ -129,7 +129,7 @@ echo "Description: $DEB_CONTROL_DESCRIPTION" >> $DEB_CONTROL_FILE
 
 echo
 echo "Empacotando... $APP_DIR.deb"
-dpkg-deb -b "$DEB_APP_DIR/" "$APP_DIR.deb"
+dpkg-deb --root-owner-group -b "$DEB_APP_DIR/" "$APP_DIR.deb"
 echo "Finalizado."
 
 
