@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.0
+VERSION=1.1
 
 PROJ_NAME=xutest
 
@@ -131,6 +131,7 @@ echo
 echo "Empacotando... $APP_DIR.deb"
 dpkg-deb --root-owner-group -b "$DEB_APP_DIR/" "$APP_DIR.deb"
 echo "Finalizado."
+
 
 
 # BUILD CONCLUIDO
