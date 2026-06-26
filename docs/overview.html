@@ -93,7 +93,7 @@ int main() {
                     </figure>
                 
             </article>
-
+            
             <article id="multiples-test-files">
                 <header>
                     <h3>Multiplos arquivos de teste</h3>
@@ -254,6 +254,25 @@ ENDIF
                     </li>
 
                 </ol>
+
+                <section id="test-static-libraries">
+                    <h3>Testando uma static library</h3>
+
+                    <p>Para testar uma static library com o xutest e foxmake, 
+                        você deve fazer o teste conforme já ensinado e, na hora de 
+                        fazer o build, você deve informar "testbuild" ou "testbuildall" 
+                        como tasks e, também, "archive", sem "link". Veja o exemplo abaixo:
+                    </p>
+
+                    <pre><code>foxmake testbuild archive</code></pre>
+                    <pre><code>foxmake testbuildall archive</code></pre>
+
+                    <p>Com o "archive" informado, e sem o "link", o build não linka o 
+                        executável principal, o que não exige uma função main no projeto 
+                        principal. Então, linka apenas o executável de teste e empacota a 
+                        static library.
+                    </p>
+                </section>
 
             </article>
 

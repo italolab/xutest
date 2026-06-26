@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do xutest - get started - calculadora - um exemplo completo">
+    <meta name="description" content="Página oficial do xutest - get started - calculadora - static library - um exemplo completo">
     <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, foxmake, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Calculadora - um exemplo completo - xutest - Site oficial</title>
+    <title>Calculadora - static library - um exemplo completo - xutest - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -31,11 +31,13 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Calculadora - um exemplo completo</h1>
+                <h1 class="text-center">Calculadora - static library - um exemplo completo</h1>
             </header>
 
             <article>
-                <p>Agora vamos a um exemplo completo de uma calculadora de áreas.</p>
+                <p>Agora vamos a um exemplo completo de uma calculadora de áreas com 
+                    funções implementadas em uma static library.
+                </p>
 
                 <p>Para esse exemplo, é necessário o foxmake instalado na sua máquina 
                 (ou ele incluído no seu projeto). Acesse a página do projeto em:
@@ -95,91 +97,7 @@ namespace calc {
 }
 </code></pre>
                     </li>
-
-                    <li>Crie agora o arquivo main.cpp com o seguinte conteúdo: <br /><br />
-
-                        <b><i>src/main.cpp</i></b><br />
-<pre class="line-numbers"><code class="language-cpp">#include "calc/calc.h"
-
-#include &lt;iostream&gt;
-#include &lt;iomanip&gt;
-
-using namespace std;
-
-int main() {
-    cout &lt;&lt; "  Calculadora de areas" &lt;&lt; endl;
-    cout &lt;&lt; endl;
-    cout &lt;&lt; "  (1) Area do quadrado" &lt;&lt; endl;
-    cout &lt;&lt; "  (2) Area do retangulo" &lt;&lt; endl;
-    cout &lt;&lt; "  (3) Area do triangulo" &lt;&lt; endl;
-    cout &lt;&lt; "  (4) Area do circulo" &lt;&lt; endl;
-    cout &lt;&lt; endl;
-
-    int op;
-    cout &lt;&lt; "Informe a opcao >> " &lt;&lt; std::flush;
-    cin >> op;
-
-    cout &lt;&lt; endl;
-
-    double side;
-    double base;
-    double height;
-    double radius;
-    double area;
-
-    cout &lt;&lt; std::fixed &lt;&lt; std::setprecision( 4 );
-
-    switch ( op ) {
-        case 1:
-            cout &lt;&lt; "Informe o lado do quadrado: " &lt;&lt; std::flush;
-            cin >> side;
-            
-            area = calc::square_area( side );
-
-            cout &lt;&lt; endl;
-            cout &lt;&lt; "A area do quadrado eh: " &lt;&lt; area &lt;&lt; endl;
-            break;
-        case 2:
-            cout &lt;&lt; "Informe a base do retangulo: " &lt;&lt; std::flush;
-            cin >> base;
-            cout &lt;&lt; "Informe a altura do retangulo: " &lt;&lt; std::flush;
-            cin >> height;
-
-            area = calc::rectangle_area( base, height );
-
-            cout &lt;&lt; endl;
-            cout &lt;&lt; "A area do retangulo eh: " &lt;&lt; area &lt;&lt; endl;
-            break;
-        case 3:
-            cout &lt;&lt; "Informe a base do triangulo: " &lt;&lt; std::flush;
-            cin >> base;
-            cout &lt;&lt; "Informe a altura do triangulo: " &lt;&lt; std::flush;
-            cin >> height;
-
-            area = calc::triangle_area( base, height );
-
-            cout &lt;&lt; endl;
-            cout &lt;&lt; "A area do triangulo eh: " &lt;&lt; area &lt;&lt; endl;
-            break;
-        case 4:
-            cout &lt;&lt; "Informe o raio do circulo: " &lt;&lt; std::flush;
-            cin >> radius;
-            
-            area = calc::circle_area( radius );
-
-            cout &lt;&lt; endl;
-            cout &lt;&lt; "A area do circulo eh: " &lt;&lt; area &lt;&lt; endl;
-            break;
-        default:
-            cout &lt;&lt; "Voce informou uma opcao invalida." &lt;&lt; endl;
-    }
-
-    cout &lt;&lt; endl;
-    cout &lt;&lt; "Fim do calculo de area..." &lt;&lt; endl;
-}
-</code></pre>
-                    </li>
-
+                    
                     <li>Agora vamos criar os arquivos de teste. <br />
                         Crie o arquivo "calctests.h" com o seguinte conteúdo: <br /><br />
                         
@@ -236,12 +154,7 @@ int main() {
                     <li>Agora só falta o arquivo foxmakeFile. Crie ele com o seguinte conteúdo: <br /><br />
 
                         <b><i>foxmakeFile</i></b><br />
-<pre class="line-numbers"><code>IF os == "windows"
-    output.file.name=calculator.exe
-ENDIF
-IF os != "windows"
-    output.file.name=calculator
-ENDIF
+<pre class="line-numbers"><code>output.file.name=libcalc.a
 
 src.dir=src
 test.dir=test
@@ -262,12 +175,11 @@ test.libs=xutest
 
 <pre>
 calculator
-├── foxmakeFile
+├── FoxMakefile
 ├── src
-│   ├── calc
-│   │   ├── calc.cpp
-│   │   └── calc.h
-│   └── main.cpp
+│   └── calc
+│       ├── calc.cpp
+│       └── calc.h
 └── test
     ├── calc
     │   └── calctests.h
@@ -276,27 +188,13 @@ calculator
 
                 <p>Agora você pode executar o build com foxmake. Execute o seguinte: </p>
 
-<pre><code>foxmake testbuildall</code></pre>
+<pre><code>foxmake testbuildall archive</code></pre>
 
                 <p>Você deverá ver a seguinte saída: </p>
 
                 <figure>
                     <img src="../images/calculator-example-tests-output.png" />
-                </figure>
-
-                <p>Se quiser rodar o projeto, execute: </p>
-
-<pre><code>foxmake buildall
-./build/calculator
-</code></pre>
-
-                <p>Se estiver no windows, substitua ./build/calculator por .\build\calculator.exe</p>
-                
-                <p>Agora você deve ver a seguinte saída: </p>
-
-                <figure>
-                    <img src="../images/calculator-example-output.png" />
-                </figure>
+                </figure>                
 
                 <section>
                     <h5>Como rodar sem o foxmake</h5>
@@ -333,7 +231,7 @@ int main( int argc, char* argv[] ) {
                 <p>Para baixar o exemplo desta página, acesse: </p>
                 <p>
                     <b>Download</b>: 
-                    <a href="../files/calculator.zip">calculator.zip</a>.
+                    <a href="../files/calculator-static-library.zip">calculator-static-library.zip</a>.
                 </p>
             </article>
 
@@ -346,15 +244,13 @@ int main( int argc, char* argv[] ) {
             </section>
 
             <footer class="d-flex justify-content-between">
-                <a class="btn btn-dark" href="macros-and-asserts.html">
+                <a class="btn btn-dark" href="calculator-example.html">
                     Anterior
                 </a>
                 <a class="btn btn-dark" href="index.html">
                     Cima
                 </a>            
-                <a class="btn btn-dark" href="calculator-static-library-example.html">
-                    Próxima
-                </a>
+                <span></span>
             </footer>
         </article>
     </main>
