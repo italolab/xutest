@@ -234,7 +234,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 #define ASSERT_THROWS( except, block, errorMsg ) { \
     try { \
         block \
-        __xutest_stream.str(); \
+        __xutest_stream.str( "" ); \
         __xutest_stream << "Deveria lancar uma exceção: " << #except; \
         THROW_FAIL( errorMsg, __xutest_stream.str() ) \
     } catch ( const except& ex ) { \
@@ -246,7 +246,7 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
     try { \
         block \
     } catch ( const except& ex ) { \
-        __xutest_stream.str(); \
+        __xutest_stream.str( "" ); \
         __xutest_stream << "Exceção lançada: " << #except; \
         __xutest_stream << "\nMensagem de exceção: " << ex.what(); \
         THROW_FAIL( errorMsg, __xutest_stream.str() ); \

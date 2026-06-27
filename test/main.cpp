@@ -10,5 +10,7 @@ TEST_CASE( abcTest, abc ) {
 #include <xutest/xutest.h>
 
 int main() {
-	RUN_TEST_CASES_MENU();
+	//RUN_TEST_CASES_MENU();
+	RUN_ALL_TEST_CASES();
+	return 0;
 }
