@@ -51,8 +51,8 @@
 test.libs=xutest
 
 IF os != "windows"
-# interpretado somente se estiver no linux
-test.linker.params=-ldl -rdynamic
+    # interpretado somente se estiver no linux
+    test.linker.params=-ldl -rdynamic
 ENDIF
 </code></pre> 
                 <p>O exemplo acima assume que a pasta de testes é a pasta <b>"test"</b>.</p>
@@ -88,8 +88,8 @@ test.lib.dirs=.
 test.libs=xutest
 
 IF os != "windows"
-# interpretado somente se estiver no linux
-test.linker.params=-ldl -rdynamic
+    # interpretado somente se estiver no linux
+    test.linker.params=-ldl -rdynamic
 ENDIF
 </code></pre>                
     
