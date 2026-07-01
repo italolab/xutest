@@ -67,9 +67,9 @@
                 código, é obrigatório não colocar o ponto e virgula no final da macro. Exemplo: </p>
 
 <pre class="line-numbers"><code class="language-cpp">bool condicao = true;
-    if ( condicao )
-        ASSERT_EQUALS( 1, 1, );
-    else ASSERT_EQUALS( 1, 2, )
+if ( condicao )
+    ASSERT_EQUALS( 1, 1, );
+else ASSERT_EQUALS( 1, 2, )
 </code></pre>
 
                 <p>O exemplo acima está errado porque há um ponto e virgula após a macro de 
@@ -77,9 +77,9 @@
                 seguir: </p>
 
 <pre class="line-numbers"><code class="language-cpp">bool condicao = true;
-    if ( condicao )
-        ASSERT_EQUALS( 1, 1, )
-    else ASSERT_EQUALS( 1, 2, )
+if ( condicao )
+    ASSERT_EQUALS( 1, 1, )
+else ASSERT_EQUALS( 1, 2, )
 </code></pre>
 
                 <br />
