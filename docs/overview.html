@@ -93,53 +93,7 @@ int main() {
                     </figure>
                 
             </article>
-            
-            <article>
-                <header>
-                    <h3>Integrando com uma função main</h3>
-                </header>
-
-                <p>Para integrar com uma função main, você pode colocar o conteúdo dos testes 
-                    na pasta src e utilizar os argumentos da linha de comandos para executar os 
-                    testes caso, por exemplo, seja passado o argumento "test". Vamos ao exemplo. 
-                    Você pode fazer o seguinte:</p>
-
-<pre class="line-numbers"><code class="language-cpp">#include "test/calctests.h"
-
-#include &lt;xutest/xutest.h&gt;
-#include &lt;cstring&gt;
-
-/* Código do main.cpp */
-
-int main( int argc, char* argv[] ) {
-    if ( argc == 2 ) {
-        if ( strcmp( argv[ 1 ], "test" ) == 0 ) {
-            RUN_ALL_TEST_CASES();
-            return 0;
-        }
-    }
-
-    /* Restante do código fonte do main.cpp */
-    return 0;
-}
-
-</code></pre>
-    
-                <p>Se o argumento "test" for passado para o programa executável quando ele for 
-                    executado via linha de comandos, os testes serão executados.</p>
-
-                <p>Exemplo, se criou o programa executável de nome "executavel", então deve rodar na linha 
-                    de comandos o seguinte para executar os testes:</p>
-
-                Se estiver no windows faça:
-<pre><code>.\executavel.exe test</code></pre>
-                Se estiver no linux faça:
-<pre><code>./executavel test</code></pre>
-                
-                <p>Se não quiser executar os testes, mas, sim, o programa no seu fluxo normal, execute 
-                    o executável sem passar o argumento "test".</p>
-            </article>
-            
+                                    
             <article id="multiples-test-files">
                 <header>
                     <h3>Multiplos arquivos de teste</h3>
@@ -149,7 +103,7 @@ int main( int argc, char* argv[] ) {
                 arquivo por classe de casos de teste, pode fazer conforme a seguir:</p>
 
                 <p>Suponha que agora você tem o arquivo "main.cpp" e o arquivo "tests.h", 
-                veja abaixo o conteúdo de "test.h": </p>
+                veja abaixo o conteúdo de "tests.h": </p>
 
                 <b><i>tests.h</i></b><br />
 <pre class="line-numbers"><code class="language-cpp">#include &lt;xutest/xutest.h&gt;
@@ -216,6 +170,57 @@ int main() {
 }
 </code></pre> 
 
+            </article>
+
+            <article>
+                <header>
+                    <h3>Integrando com uma função main</h3>
+                </header>
+
+                <p>Para integrar com uma função main, você pode colocar o conteúdo dos testes 
+                    junto com o código fonte do projeto. Por exemplo, em uma pasta "test", 
+                    e utilizar os argumentos da linha de comandos para executar os 
+                    testes caso, por exemplo, seja passado o argumento "test". Vamos ao 
+                    exemplo. Você pode fazer o seguinte:</p>
+
+<pre class="line-numbers"><code class="language-cpp">#include "test/calctests.h"
+
+#include &lt;xutest/xutest.h&gt;
+#include &lt;cstring&gt;
+
+/* Código do main.cpp */
+
+int main( int argc, char* argv[] ) {
+    if ( argc == 2 ) {
+        if ( strcmp( argv[ 1 ], "test" ) == 0 ) {
+            RUN_ALL_TEST_CASES();
+            return 0;
+        }
+    }
+
+    /* Restante do código fonte do main.cpp */
+    return 0;
+}
+
+</code></pre>
+    
+                <p>Se o argumento "test" for passado para o programa executável quando ele for 
+                    executado via linha de comandos, os testes serão executados.</p>
+
+                <p>Exemplo, se criou o programa executável de nome "executavel", então deve rodar na linha 
+                    de comandos o seguinte para executar os testes:</p>
+
+                Se estiver no windows faça:
+<pre><code>.\executavel.exe test</code></pre>
+                Se estiver no linux faça:
+<pre><code>./executavel test</code></pre>
+                
+                <p>Se não quiser executar os testes, mas, sim, o programa no seu fluxo normal, execute 
+                    o executável sem passar o argumento "test".</p>
+
+                <p>Para um exemplo completo, acesse: 
+                    <a href="get-started/main-func-integration.html">exemplo completo</a>.
+                </p>
             </article>
 
             <article id="foxmake-integration">

@@ -35,12 +35,7 @@
                 <h5 class="text-center">Agora, vamos criar um primeiro projeto</h5>
             </header>
 
-            <article id="tests-with-xutest">
-                <header>
-                    <h3>Um primeiro exemplo</h3>
-                </header>
-
-                <p>Crie o arquivo "main.cpp" em seu projeto com o seguinte conteúdo:</p>
+            <p>Crie o arquivo "main.cpp" em seu projeto com o seguinte conteúdo:</p>
 
 <pre class="line-numbers"><code class="language-cpp">#include &lt;xutest/xutest.h&gt;
 
@@ -59,74 +54,28 @@ int main() {
 }
 </code></pre>                 
 
-                <p>Agora compile o projeto acima com o seguinte comando: </p>
+            <p>Agora compile o projeto acima com o seguinte comando: </p>
 
-                <p>Se estiver no windows faça: </p>
+            <p>Se estiver no windows faça: </p>
 <pre><code>g++ -o main.exe main.cpp -lxutest </code></pre>
-                <p>Se estiver no linux faça: </p>
+            <p>Se estiver no linux faça: </p>
 <pre><code>g++ -o main main.cpp -lxutest -ldl -rdynamic</code></pre>
 
-                <p>Se estiver no linux, não esqueça das opções -ldl e -rdynamic.</p>
+            <p>Se estiver no linux, não esqueça das opções -ldl e -rdynamic.</p>
 
-                <p>Agora execute o executável criado que tem o nome "main", se 
-                estiver no linux e "main.exe", se estiver no windows. Exemplos: </p>
+            <p>Agora execute o executável criado que tem o nome "main", se 
+            estiver no linux e "main.exe", se estiver no windows. Exemplos: </p>
 
-                <p>Se estiver no windows faça: </p>
+            <p>Se estiver no windows faça: </p>
 <pre><code>.\main.exe</code></pre>
-                <p>Se estiver no linux faça: </p>
+            <p>Se estiver no linux faça: </p>
 <pre><code>./main</code></pre>
 
-                <p>Agora você deve visualizar a seguinte saída: </p>
+            <p>Agora você deve visualizar a seguinte saída: </p>
 
-                <figure>
-                    <img src="../images/helloworld-output.png" />
-                </figure> 
-                
-                <section>                
-                    <h5>Integrando com uma função main</h5>                
-
-                    <p>Para integrar com uma função main, você pode colocar o conteúdo dos testes 
-                        na pasta src e utilizar os argumentos da linha de comandos para executar os 
-                        testes caso, por exemplo, seja passado o argumento "test". Vamos ao exemplo. 
-                        Você pode fazer o seguinte:</p>
-
-<pre class="line-numbers"><code class="language-cpp">#include "test/calctests.h"
-
-#include &lt;xutest/xutest.h&gt;
-#include &lt;cstring&gt;
-
-/* Código do main.cpp */
-
-int main( int argc, char* argv[] ) {
-    if ( argc == 2 ) {
-        if ( strcmp( argv[ 1 ], "test" ) == 0 ) {
-            RUN_ALL_TEST_CASES();
-            return 0;
-        }
-    }
-
-    /* Restante do código fonte do main.cpp */
-    return 0;
-}
-
-</code></pre>
-    
-                    <p>Se o argumento "test" for passado para o programa executável quando ele for 
-                        executado via linha de comandos, os testes serão executados.</p>
-
-                    <p>Exemplo, se criou o programa executável de nome "executavel", então deve rodar na linha 
-                        de comandos o seguinte para executar os testes:</p>
-
-                    Se estiver no windows faça:
-    <pre><code>.\executavel.exe test</code></pre>
-                    Se estiver no linux faça:
-    <pre><code>./executavel test</code></pre>
-                    
-                    <p>Se não quiser executar os testes, mas, sim, o programa no seu fluxo normal, execute 
-                        o executável sem passar o argumento "test".</p>
-                </section>
-
-            </article>
+            <figure>
+                <img src="../images/helloworld-output.png" />
+            </figure>                             
 
             <section>
                 <h3>Próxima aula</h3>

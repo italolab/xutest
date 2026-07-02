@@ -28,6 +28,11 @@ namespace path {
         return d;
     }
 
+    string currentPath() {
+        filesystem::path currPathFS = filesystem::current_path();
+        return makeUnixPreferred( currPathFS.string() );
+    }
+
     string dirPath( string path ) {
         string p = makeUnixPreferred( path );
         p = removeSeparatorFromDirIfNeed( p );
@@ -89,6 +94,62 @@ namespace path {
         return p;
     }
 
+    void countTwoDotsAndSlash( string path, int index, size_t& count, size_t& i, size_t& j, size_t& k ) {
+        string rpath = path.substr( index, path.length()-index );
+        rpath = makeUnixPreferred( rpath );
+
+        size_t len = rpath.length();
+
+        if ( rpath == ".." ) {
+            k = 2;
+            i = index;
+            j = index+2;
+            count = 1;
+        } else {
+            i = rpath.find( "../", index );
+            j = ( i != string::npos ? i : index );
+            k = ( i != string::npos ? i : index );
+            count = 0;
+            bool isContinue = i != string::npos;
+            while( isContinue ) {
+                count++;
+                j = k+3;
+                k += 3;
+                if ( k+2 < len ) {
+                    isContinue = rpath[ k ] == '.';
+                    isContinue &= rpath[ k+1 ] == '.';
+                    isContinue &= rpath[ k+2 ] == '/';
+                } else {
+                    isContinue = false;
+                }
+            }
+        }
+    }
+
+    string resolvePath( string path ) {
+        if ( path == "." )
+            return "";
+
+        string rpath = makeUnixPreferred( path );
+        if ( strutil::startsWith( rpath, "./" ) )
+            rpath = strutil::replace( rpath, "./", "" );
+
+        size_t count, i, j, k;
+        countTwoDotsAndSlash( rpath, 0, count, i, j, k );
+
+        if( count == 0 )
+            return rpath;
+        
+        string basePath = rpath.substr( 0, i );
+        string relativePath = rpath.substr( i, rpath.length()-i ).replace( 0, j-i, "" );
+
+        for( size_t l = 0; l < count; l++ )
+            basePath = parentPath( basePath );        
+        basePath = addSeparatorToDirIfNeed( basePath );
+        
+        return basePath + relativePath;
+    }
+
     string resolvePath( string currDir, string path ) {
         string resolvedPath = makeUnixPreferred( path );
         if ( strutil::startsWith( resolvedPath, "./" ) )
@@ -111,6 +172,40 @@ namespace path {
 
         size_t k = ( i == string::npos ? 0 : i+3 );
         return resolvedPath.replace( 0, k, dir );
+    }
+
+    string absolutePath( string path ) {
+        if ( path == "." )
+            return makeUnixPreferred( currentPath() );
+
+        string path2 = makeUnixPreferred( path );
+        if ( strutil::startsWith( path2, "./" ) )
+            path2 = path2.substr( 2, path2.length()-2 );
+           
+        if ( strutil::startsWith( path2, "/" ) )
+            return path2;
+
+        size_t i = path2.find( ':' );
+        if ( i != string::npos )
+            return path2;    
+
+        filesystem::path p( path2 );
+        if ( p.is_absolute() ) {
+            return path2;
+        } else {
+            string pp = currentPath();
+            pp = makeUnixPreferred( pp );
+
+            if ( path2 != "" )
+                pp = addSeparatorToDirIfNeed( pp );
+                
+            pp += path2;
+            return pp;
+        }
+    }
+
+    string absoluteResolvePath( string path ) {
+        return resolvePath( absolutePath( path ) );
     }
 
 }

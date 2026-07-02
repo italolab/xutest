@@ -1,0 +1,5 @@
+/home/italo/workspace-cpp/xutest/docs/examples/calculator/src/calc/calc.cpp=1782395462
+/home/italo/workspace-cpp/xutest/docs/examples/calculator/src/calc/calc.h=1782395462
+/home/italo/workspace-cpp/xutest/docs/examples/calculator/src/main.cpp=1782395462
+/home/italo/workspace-cpp/xutest/docs/examples/calculator/test/calc/calctests.h=1782395462
+/home/italo/workspace-cpp/xutest/docs/examples/calculator/test/main.cpp=1782395462

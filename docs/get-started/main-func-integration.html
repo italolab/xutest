@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do xutest - get started - integração com função main">
+    <meta name="keyworks" content="xutest, testes, unitários, unidade, unit, test, windows, linux, foxmake, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="../lib/prism/prism.css" rel="stylesheet">
+    <link href="../style/style.css" rel="stylesheet">
+    
+    <title>Integração com Função Main - xutest - Site oficial</title>
+
+    <script src="../lib/jquery-3.7.1.min.js"></script>    
+    <script src="../lib/fontawesome/all.min.js"></script>
+    <script src="../js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Integrando com uma função main</h1>
+            </header>
+
+            <p>Para integrar com uma função main, você pode colocar o conteúdo dos testes 
+                junto com o código fonte do projeto. Por exemplo, em uma pasta "test", 
+                e utilizar os argumentos da linha de comandos para executar os 
+                testes caso, por exemplo, seja passado o argumento "test". Vamos ao 
+                exemplo. Você pode fazer o seguinte:</p>
+
+<pre class="line-numbers"><code class="language-cpp">#include "test/calctests.h"
+
+#include &lt;xutest/xutest.h&gt;
+#include &lt;cstring&gt;
+
+/* Código do main.cpp */
+
+int main( int argc, char* argv[] ) {
+    if ( argc == 2 ) {
+        if ( strcmp( argv[ 1 ], "test" ) == 0 ) {
+            RUN_ALL_TEST_CASES();
+            return 0;
+        }
+    }
+
+    /* Restante do código fonte do main.cpp */
+    return 0;
+}
+
+</code></pre>
+
+            <p>Então vamos ao exemplo: </p>
+
+            <p>Na pasta do projeto, crie a pasta "libmath" e, dentro dela, crie o 
+                arquivo "libmath.h":</p>
+
+            <b><i>libmath/libmath.h</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#ifndef LIBMATH_H
+#define LIBMATH_H
+
+int fatorial( int n );
+
+#endif
+</code></pre>
+
+            <p>Agora crie o arquivo "libmath.cpp", dentro da pasta "libmath":</p>
+
+<b><i>libmath/libmath.cpp</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include "libmath.h"
+
+int fatorial( int n ) {
+    if ( n <= 1 )
+        return 1;
+    return n * fatorial( n-1 );
+}
+</code></pre>
+
+            <p>Agora crie a pasta "test" e, dentro dela, crie o arquivo "libmathtest.h" 
+                com o seguinte conteúdo:</p>  
+
+<b><i>test/libmathtest.h</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include &lt;xutest/xutest.h&gt;
+
+#include "../libmath/libmath.h"
+
+TEST_CASE( fatorialTest, LibMathTests ) {
+    ASSERT_EQUALS( fatorial( 0 ), 1, )
+    ASSERT_EQUALS( fatorial( 1 ), 1, )
+    ASSERT_EQUALS( fatorial( 2 ), 2, )
+    ASSERT_EQUALS( fatorial( 3 ), 6, )
+    ASSERT_EQUALS( fatorial( 4 ), 24, )
+    ASSERT_EQUALS( fatorial( 5 ), 120, )
+}
+</code></pre>
+            
+            <p>Agora crie o arquivo "main.cpp" na raiz do projeto</p>
+
+<pre class="line-numbers"><code class="language-cpp">#include "test/libmathtest.h"
+#include "libmath/libmath.h"
+
+#include &lt;xutest/xutest.h&gt;
+#include &lt;cstring&gt;
+
+#include &lt;iostream&gt;
+
+using namespace std;
+
+int main( int argc, char* argv[] ) {
+    if ( argc == 2 ) {
+        if ( strcmp( argv[ 1 ], "test" ) == 0 ) {
+            RUN_ALL_TEST_CASES();
+            return 0;
+        }
+    }
+
+    int n;
+    cout << "Informe um número para calcular o fatorial: ";
+    cin >> n;
+
+    int fat = fatorial( n );
+    cout << "Fatorial de " << n << " é: " << fat << endl;
+
+    return 0;
+}
+
+</code></pre>
+
+            <p>Feito isso, seu projeto deve ter a seguinte estrutura:</p>
+
+<pre>            
+main-integration
+├── libmath
+│   ├── libmath.cpp
+│   └── libmath.h
+├── main.cpp
+└── test
+    └── libmathtest.h
+</pre>    
+
+            <p>Agora vamos compilar tudo: </p>
+
+<pre><code>g++ -o libmath.o -c libmath/libmath.cpp
+g++ -o main.o -c main.cpp
+</code></pre>
+
+            <p>Agora vamos linkar:</p>
+
+            Se estiver no linux, faça:
+<pre><code>g++ -o main main.o libmath.o -lxutest -ldl -rdynamic</code></pre>
+
+            Se estiver no windows, faça:
+<pre><code>g++ -o main.exe main.o libmath.o -lxutest</code></pre>
+
+            <p>Agora, após gerado o executável de nome "main", você pode executar os 
+                testes ou executar o programa fatorial que criou.
+            </p>
+
+            <p>Para executar os testes faça: </p>
+
+            Se estiver no windows, faça:
+<pre><code>.\main.exe test</code></pre>
+            Se estiver no linux, faça:
+<pre><code>./main test</code></pre>
+
+            <p>Para executar o programa fatorial faça: </p>
+
+            Se estiver no windows, faça:
+<pre><code>.\main.exe</code></pre>
+            Se estiver no linux, faça:
+<pre><code>./main</code></pre>
+
+
+            <section>
+                <h3>Próxima aula</h3>
+
+                <p>O próxima aula ensina como utilizar o xutest com o foxmake.</p>
+            </section>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="run-test-cases-menu.html">
+                    Anterior
+                </a>
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="foxmake-integration.html">
+                    Próxima
+                </a>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../lib/prism/prism.js"></script>
+</body>
+
+</html>

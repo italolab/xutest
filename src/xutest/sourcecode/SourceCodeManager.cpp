@@ -18,7 +18,9 @@ vector<TestClassInfo*> SourceCodeManager::testInfos( string filePath ) {
     vector<TestClassInfo*> testClassInfosVect;
     vector<string> processedFilePaths;
 
-    this->loadTestInfos( testClassInfosVect, processedFilePaths, filePath );
+    string absFilePath = io::path::absoluteResolvePath( filePath );
+
+    this->loadTestInfos( testClassInfosVect, processedFilePaths, absFilePath );
 
     return testClassInfosVect;
 }
