@@ -296,39 +296,7 @@ calculator
 
                 <figure>
                     <img src="../images/calculator-example-output.png" />
-                </figure>
-
-                <section>
-                    <h5>Como rodar sem o foxmake</h5>
-
-                    <p>Para rodar sem o foxmake, você pode colocar o conteúdo dos testes na pasta 
-                        src e utilizar os argumentos da linha de comandos para executar os testes 
-                        caso, por exemplo, seja passado o argumento "test". Vamos ao exemplo. Você 
-                        pode fazer o seguinte:
-
-<pre class="line-numbers"><code class="language-cpp">#include "test/calctests.h"
-
-#include &lt;xutest/xutest.h&gt;
-#include &lt;cstring&gt;
-
-/* Código do main.cpp */
-
-int main( int argc, char* argv[] ) {
-    if ( argc == 2 ) {
-        if ( strcmp( argv[ 1 ], "test" ) == 0 ) {
-            RUN_ALL_TEST_CASES();
-            return 0;
-        }
-    }
-
-    /* Restante do código fonte do main.cpp */
-    return 0;
-}
-
-</code></pre>
-    
-                    </p>
-                </section>
+                </figure>                
 
                 <p>Para baixar o exemplo desta página, acesse: </p>
                 <p>
