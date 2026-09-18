@@ -117,145 +117,158 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 
 // ASSERTS PARA VECTORS E ARRAYS
 
-#define ASSERT_EQUALS_VECTORS( v1, v2, errorMsg ) { \
-    if ( !__equals_vectors( v1, v2 ) ) { \
-        if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, "" ) \
-        \
-        __xutest_stream.str( "" ); \
-        __xutest_stream.clear(); \
-        __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser iguais!" << endl; \
-        if ( __xutest_is_print_vectors ) { \
-            __xutest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
-            __xutest_stream << "Vetor(2)= " << __vector_str( v2 ); \
+#define ASSERT_EQUALS_VECTORS( v1, v2, errorMsg ) \
+    do { \
+        if ( !__equals_vectors( v1, v2 ) ) { \
+            if ( strlen( #errorMsg ) != 0 ) \
+                THROW_FAIL( errorMsg, "" ) \
+            \
+            __xutest_stream.str( "" ); \
+            __xutest_stream.clear(); \
+            __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser iguais!" << endl; \
+            if ( __xutest_is_print_vectors ) { \
+                __xutest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
+                __xutest_stream << "Vetor(2)= " << __vector_str( v2 ); \
+            } \
+            throw __assert_fail( __xutest_stream.str() ); \
         } \
-        throw __assert_fail( __xutest_stream.str() ); \
-    } \
-} \
+    } while( false ) \
 
-#define ASSERT_NOT_EQUALS_VECTORS( v1, v2, errorMsg ) { \
-    if ( __equals_vectors( v1, v2 ) ) { \
-        if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, "" ) \
-        \
-        __xutest_stream.str( "" ); \
-        __xutest_stream.clear(); \
-        __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser diferentes!" << endl; \
-        if ( __xutest_is_print_vectors ) { \
-            __xutest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
-            __xutest_stream << "Vetor(2)= " << __vector_str( v2 ); \
+#define ASSERT_NOT_EQUALS_VECTORS( v1, v2, errorMsg ) \
+    do { \
+        if ( __equals_vectors( v1, v2 ) ) { \
+            if ( strlen( #errorMsg ) != 0 ) \
+                THROW_FAIL( errorMsg, "" ) \
+            \
+            __xutest_stream.str( "" ); \
+            __xutest_stream.clear(); \
+            __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os vetores deveriam ser diferentes!" << endl; \
+            if ( __xutest_is_print_vectors ) { \
+                __xutest_stream << "\nVetor(1)= " << __vector_str( v1 ) << endl; \
+                __xutest_stream << "Vetor(2)= " << __vector_str( v2 ); \
+            } \
+            throw __assert_fail( __xutest_stream.str() ); \
         } \
-        throw __assert_fail( __xutest_stream.str() ); \
-    } \
-} \
+    } while( false ) \
 
-#define ASSERT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) { \
-    if ( !__equals_arrays( a1, a2, len ) ) { \
-        if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, "" ) \
-        \
-        __xutest_stream.str( "" ); \
-        __xutest_stream.clear(); \
-        __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser iguais!" << endl; \
-        if ( __xutest_is_print_vectors ) { \
-            __xutest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
-            __xutest_stream << "Array(2)= " << __array_str( a2, len ); \
+#define ASSERT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) \
+    do { \
+        if ( !__equals_arrays( a1, a2, len ) ) { \
+            if ( strlen( #errorMsg ) != 0 ) \
+                THROW_FAIL( errorMsg, "" ) \
+            \
+            __xutest_stream.str( "" ); \
+            __xutest_stream.clear(); \
+            __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser iguais!" << endl; \
+            if ( __xutest_is_print_vectors ) { \
+                __xutest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
+                __xutest_stream << "Array(2)= " << __array_str( a2, len ); \
+            } \
+            throw __assert_fail( __xutest_stream.str() ); \
         } \
-        throw __assert_fail( __xutest_stream.str() ); \
-    } \
-} \
+    } while( false ) \
 
-#define ASSERT_NOT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) { \
-    if ( __equals_arrays( a1, a2, len ) ) { \
-        if ( strlen( #errorMsg ) != 0 ) \
-            THROW_FAIL( errorMsg, "" ) \
-        \
-        __xutest_stream.str( "" ); \
-        __xutest_stream.clear(); \
-        __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser diferentes!" << endl; \
-        if ( __xutest_is_print_vectors ) { \
-            __xutest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
-            __xutest_stream << "Array(2)= " << __array_str( a2, len ); \
+#define ASSERT_NOT_EQUALS_ARRAYS( a1, a2, len, errorMsg ) \
+    do { \
+        if ( __equals_arrays( a1, a2, len ) ) { \
+            if ( strlen( #errorMsg ) != 0 ) \
+                THROW_FAIL( errorMsg, "" ) \
+            \
+            __xutest_stream.str( "" ); \
+            __xutest_stream.clear(); \
+            __xutest_stream << __FILE__ << "(" << __LINE__ << "): Os arrays deveriam ser diferentes!" << endl; \
+            if ( __xutest_is_print_vectors ) { \
+                __xutest_stream << "\nArray(1)= " << __array_str( a1, len ) << endl; \
+                __xutest_stream << "Array(2)= " << __array_str( a2, len ); \
+            } \
+            throw __assert_fail( __xutest_stream.str() ); \
         } \
-        throw __assert_fail( __xutest_stream.str() ); \
-    } \
-} \
+    } while( false ) \
 
 // OUTROS ASSERTS
 
-#define ASSERT_EQUALS( a, b, errorMsg ) { \
-    if ( a != b ) { \
-        __xutest_stream.str( "" ); \
-        __xutest_stream << a << " != " << b; \
-        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
-    } \
-} \
+#define ASSERT_EQUALS( a, b, errorMsg ) \
+    do { \
+        if ( a != b ) { \
+            __xutest_stream.str( "" ); \
+            __xutest_stream << a << " != " << b; \
+            THROW_FAIL( errorMsg, __xutest_stream.str() ) \
+        } \
+    } while( false ) \
 
-#define ASSERT_NOT_EQUALS( a, b, errorMsg ) { \
-    if ( a == b ) { \
-        __xutest_stream.str( "" ); \
-        __xutest_stream << a << " == " << b; \
-        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
-    } \
-} \
+#define ASSERT_NOT_EQUALS( a, b, errorMsg ) \
+    do { \
+        if ( a == b ) { \
+            __xutest_stream.str( "" ); \
+            __xutest_stream << a << " == " << b; \
+            THROW_FAIL( errorMsg, __xutest_stream.str() ) \
+        } \
+    } while( false ) \
 
-#define ASSERT_TRUE( condicao, errorMsg ) { \
-    if ( !(condicao) ) { \
-        __xutest_stream.str( "" ); \
-        __xutest_stream << "( " << #condicao << " ) != true"; \
-        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
-    } \
-} \
+#define ASSERT_TRUE( condicao, errorMsg ) \
+    do { \
+        if ( !(condicao) ) { \
+            __xutest_stream.str( "" ); \
+            __xutest_stream << "( " << #condicao << " ) != true"; \
+            THROW_FAIL( errorMsg, __xutest_stream.str() ) \
+        } \
+    } while( false ) \
 
-#define ASSERT_FALSE( condicao, errorMsg ) { \
-    if ( condicao ) { \
-        __xutest_stream.str( "" ); \
-        __xutest_stream << "( " << #condicao << " ) != false"; \
-        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
-    } \
-} \
+#define ASSERT_FALSE( condicao, errorMsg ) \
+    do { \
+        if ( condicao ) { \
+            __xutest_stream.str( "" ); \
+            __xutest_stream << "( " << #condicao << " ) != false"; \
+            THROW_FAIL( errorMsg, __xutest_stream.str() ) \
+        } \
+    } while( false ) \
 
-#define ASSERT_NULL( obj, errorMsg ) { \
-    if ( obj != nullptr && obj != NULL ) { \
-        __xutest_stream.str( "" ); \
-        __xutest_stream << #obj << " != nullptr"; \
-        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
-    } \
-} \
+#define ASSERT_NULL( obj, errorMsg ) \
+    do { \
+        if ( obj != nullptr && obj != NULL ) { \
+            __xutest_stream.str( "" ); \
+            __xutest_stream << #obj << " != nullptr"; \
+            THROW_FAIL( errorMsg, __xutest_stream.str() ) \
+        } \
+    } while( false ) \
 
-#define ASSERT_NOT_NULL( obj, errorMsg ) { \
-    if ( obj == nullptr || obj == NULL ) { \
-        __xutest_stream.str( "" ); \
-        __xutest_stream << #obj << " == nullptr"; \
-        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
-    } \
-} \
+#define ASSERT_NOT_NULL( obj, errorMsg ) \
+    do { \
+        if ( obj == nullptr || obj == NULL ) { \
+            __xutest_stream.str( "" ); \
+            __xutest_stream << #obj << " == nullptr"; \
+            THROW_FAIL( errorMsg, __xutest_stream.str() ) \
+        } \
+    } while( false ) \
 
-#define ASSERT_THROWS( except, block, errorMsg ) { \
-    try { \
-        block \
-        __xutest_stream.str( "" ); \
-        __xutest_stream << "Deveria lancar uma exceção: " << #except; \
-        THROW_FAIL( errorMsg, __xutest_stream.str() ) \
-    } catch ( const except& ex ) { \
-        \
-    } \
-} \
+#define ASSERT_THROWS( except, block, errorMsg ) \
+    do { \
+        try { \
+            block \
+            __xutest_stream.str( "" ); \
+            __xutest_stream << "Deveria lancar uma exceção: " << #except; \
+            THROW_FAIL( errorMsg, __xutest_stream.str() ) \
+        } catch ( const except& ex ) { \
+            \
+        } \
+    } while( false ) \
 
-#define ASSERT_NOT_THROWS( except, block, errorMsg ) { \
-    try { \
-        block \
-    } catch ( const except& ex ) { \
-        __xutest_stream.str( "" ); \
-        __xutest_stream << "Exceção lançada: " << #except; \
-        __xutest_stream << "\nMensagem de exceção: " << ex.what(); \
-        THROW_FAIL( errorMsg, __xutest_stream.str() ); \
-    } \
-} \
+#define ASSERT_NOT_THROWS( except, block, errorMsg ) \
+    do { \
+        try { \
+            block \
+        } catch ( const except& ex ) { \
+            __xutest_stream.str( "" ); \
+            __xutest_stream << "Exceção lançada: " << #except; \
+            __xutest_stream << "\nMensagem de exceção: " << ex.what(); \
+            THROW_FAIL( errorMsg, __xutest_stream.str() ); \
+        } \
+    } while( false ) \
 
-#define FAIL( errorMsg ) { \
-    THROW_FAIL( errorMsg, "" ) \
-} \
+#define FAIL( errorMsg ) \
+    do { \
+        THROW_FAIL( errorMsg, "" ) \
+    } while( false ) \
 
 // TEST CASES DEFINES E FUNCTIONS
 

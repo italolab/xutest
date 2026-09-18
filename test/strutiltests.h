@@ -6,8 +6,8 @@
 TEST_CASE( startsWithTest, StrutilTests ) {
     string a = "ABC";
     if ( true )
-        ASSERT_EQUALS( 1, 1, )
-    else ASSERT_EQUALS( a, "ABC", )
+        ASSERT_EQUALS( 1, 1, );
+    else ASSERT_EQUALS( a, "ABC", );
 }
 
 #endif
