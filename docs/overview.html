@@ -222,7 +222,7 @@ int main( int argc, char* argv[] ) {
                     <a href="get-started/main-func-integration.html">exemplo completo</a>.
                 </p>
             </article>
-
+            
             <article id="foxmake-integration">
                 <header>
                     <h3>Integrando com o foxmake</h3>
@@ -642,6 +642,43 @@ ASSERT_NOT_NULL( strptr, )
 
                     <p>O assert passa se o código dentro do bloco de código do ASSERT_NOT_THROWS 
                     não lançar uma exceção "runtime_error".</p>
+
+                </section>
+
+                <section>
+                    <h5>Chamadas de funções como parâmetro para os asserts</h5>
+
+                    <p>A chamada de funções como parâmetro dos asserts é desencorajada porque 
+                        a função chamada como parâmetroda macro pode ser executada 
+                        mais de uma vez na execução da macro, o que pode gerar um efeito estranho.
+                    </p>
+
+                    <p>Então, imagine o caso de teste de uma função de remover sempre o primeiro elemento 
+                        em uma lista encadeada e retornar o elemento removido (uma operação de pop)!</p>
+
+                    <p>Não faça conforme a seguir:</p>
+
+<pre class="line-numbers"><code class="language-cpp">ASSERT_NOT_NULL( pop( &lista ), )
+</code></pre> 
+
+                    <p>No caso acima, a função pop é executada duas vezes porque a macro 
+                        ASSERT_NOT_NULL, faz referência ao parâmetro dela duas vezes dentro 
+                        do corpo da macro. Então, a função pop é executada duas vezes, removendo, 
+                        não apenas o primeiro elemento, mas, os dois primeiros, em um único assert.
+                    </p>
+
+                    <p>O correto é fazer como a seguir e garantir que a função pop será executada apenas 
+                        uma vez:
+                    </p>
+
+<pre class="line-numbers"><code class="language-cpp">Elemento* removido = pop( &lista );
+ASSERT_NOT_NULL( removido, )
+</code></pre>               
+
+                    <p>Nesse caso, a função pop é executada apenas uma vez, fora da chamada a macro 
+                        ASSERT_NOT_NULL. O que é o comportamento desejado. Isso porque, a macro recebe 
+                        um valor constante ou variável, não uma chamada a função!
+                    </p>
 
                 </section>
     
