@@ -9,6 +9,3 @@
 /home/italo/workspace-cpp/xutest/src/xutest/util/strutil.h=1782395462
 /home/italo/workspace-cpp/xutest/src/xutest/xutest.cpp=1782395462
 /home/italo/workspace-cpp/xutest/src/xutest/xutest.h=1789751215
-/home/italo/workspace-cpp/xutest/test/main.cpp=1782552934
-/home/italo/workspace-cpp/xutest/test/strutiltests.h=1789748974
-/home/italo/workspace-cpp/xutest/test/tests.h=1789748954
