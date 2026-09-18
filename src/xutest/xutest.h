@@ -308,106 +308,109 @@ bool __equals_vectors( vector<T> v1, vector<T> v2 ) {
 
 #endif
 
-#define RUN_TEST_CASES_BY_CLASS( testClassInfo ) { \
-    cout << "Executando " << __green( testClassInfo->className ) << "..." << endl; \
-    \
-    __xutest_count_fails = 0; \
-    \
-    if ( testClassInfo->beforeAllFlag ) \
-        __exec_before_all_by_name( testClassInfo->className ); \
-    \
-    for( string testName : testClassInfo->testNames ) { \
-        cout << "\tExecutando " << __green( testName ) << "... "; \
-        try { \
-            if ( testClassInfo->beforeEachFlag ) \
-                __exec_before_each_by_name( testClassInfo->className ); \
-            \
-            __exec_function_by_name( testClassInfo->className, testName ); \
-            \
-            if ( testClassInfo->afterEachFlag ) \
-                __exec_after_each_by_name( testClassInfo->className ); \
-            \
-            cout << __white( "Ok" ) << endl; \
-        } catch ( const __assert_fail& e ) { \
-            cout << endl; \
-            cout << "\n" <<  __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl; \
-            cout << endl; \
-            __xutest_count_fails++; \
-        } catch ( const exception& e ) { \
-            cout << endl; \
-            cout << "\nException em: " << __green( testName ) << " --> " << __red( e.what() ) << endl; \
-            cout << endl; \
-            __xutest_count_fails++; \
-        } catch ( ... ) { \
-            cout << endl; \
-            cout << "\nException desconhecida em: " << __green( testName ) << endl; \
-            cout << endl; \
-            __xutest_count_fails++; \
+#define RUN_TEST_CASES_BY_CLASS( testClassInfo ) \
+    do { \
+        cout << "Executando " << __green( testClassInfo->className ) << "..." << endl; \
+        \
+        __xutest_count_fails = 0; \
+        \
+        if ( testClassInfo->beforeAllFlag ) \
+            __exec_before_all_by_name( testClassInfo->className ); \
+        \
+        for( string testName : testClassInfo->testNames ) { \
+            cout << "\tExecutando " << __green( testName ) << "... "; \
+            try { \
+                if ( testClassInfo->beforeEachFlag ) \
+                    __exec_before_each_by_name( testClassInfo->className ); \
+                \
+                __exec_function_by_name( testClassInfo->className, testName ); \
+                \
+                if ( testClassInfo->afterEachFlag ) \
+                    __exec_after_each_by_name( testClassInfo->className ); \
+                \
+                cout << __white( "Ok" ) << endl; \
+            } catch ( const __assert_fail& e ) { \
+                cout << endl; \
+                cout << "\n" <<  __red( "Falha" ) << " em: " << __green( testName ) << " --> " << e.what() << endl; \
+                cout << endl; \
+                __xutest_count_fails++; \
+            } catch ( const exception& e ) { \
+                cout << endl; \
+                cout << "\nException em: " << __green( testName ) << " --> " << __red( e.what() ) << endl; \
+                cout << endl; \
+                __xutest_count_fails++; \
+            } catch ( ... ) { \
+                cout << endl; \
+                cout << "\nException desconhecida em: " << __green( testName ) << endl; \
+                cout << endl; \
+                __xutest_count_fails++; \
+            } \
         } \
-    } \
-    \
-    if ( testClassInfo->afterAllFlag ) \
-        __exec_after_all_by_name( testClassInfo->className ); \
-    \
-    if ( __xutest_count_fails == 0 ) \
-        cout << __green( testClassInfo->className ) << __white( " Ok!" ) << endl; \
-    else cout << __green( testClassInfo->className ) << ": " << __red( std::to_string( __xutest_count_fails ) ) << __white( " falha(s)!" ) << endl; \
-    cout << endl; \
-} \
-
-#define RUN_ALL_TEST_CASES() { \
-    cout << __bold( __white( "**** EXECUTANDO TESTES ****" ) ) << endl; \
-    cout << endl; \
-    \
-    int countFails = 0; \
-    __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
-    for( TestClassInfo* tcInfo : __xutest_test_class_infos_vect ) { \
-        RUN_TEST_CASES_BY_CLASS( tcInfo ) \
-        countFails += __xutest_count_fails; \
-    } \
-    \
-    if ( countFails == 0 ) \
-        cout << __bold( __white( "Todos os testes passaram com sucesso!" ) ) << endl; \
-    else cout << "Houve " << __red( "falha" ) << " em " << __red( std::to_string( countFails ) ) << " teste(s)" << endl; \
-} \
-
-#define RUN_TEST_CASES_MENU() { \
-    __xutest_op = -1; \
-    \
-    cout << endl; \
-    cout << "Escolha a classe de testes para rodar: " << endl; \
-    cout << "  (1) Todos os testes" << endl; \
-    __xutest_number_of_options = 2; \
-    \
-    __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
-    \
-    __xutest_test_classes.clear(); \
-    for( TestClassInfo* tcInfo : __xutest_test_class_infos_vect ) { \
-        __xutest_test_classes.push_back( tcInfo->className ); \
-        cout << "  (" << __xutest_number_of_options << ") " << __green( tcInfo->className ) << endl; \
-        __xutest_number_of_options++; \
-    } \
-    cout << "  (0) Sair" << endl; \
-    \
-    __xutest_op = __read_option( __xutest_number_of_options ); \
-    \
-    if ( __xutest_op > 0 && __xutest_op-2 < (int)__xutest_test_classes.size() ) { \
+        \
+        if ( testClassInfo->afterAllFlag ) \
+            __exec_after_all_by_name( testClassInfo->className ); \
+        \
+        if ( __xutest_count_fails == 0 ) \
+            cout << __green( testClassInfo->className ) << __white( " Ok!" ) << endl; \
+        else cout << __green( testClassInfo->className ) << ": " << __red( std::to_string( __xutest_count_fails ) ) << __white( " falha(s)!" ) << endl; \
         cout << endl; \
-        if ( __xutest_op == 1 ) { \
-            RUN_ALL_TEST_CASES() \
-        } else { \
-            cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
-            cout << endl; \
-            \
-            __xutest_test_class = __xutest_test_classes[ __xutest_op-2 ]; \
-            __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
-            __xutest_test_class_info = getTestClassInfo( __xutest_test_class_infos_vect, __xutest_test_class ); \
-            \
-            RUN_TEST_CASES_BY_CLASS( __xutest_test_class_info ) \
-            \
-            __xutest_op = 0; \
+    } while( false ) \
+
+#define RUN_ALL_TEST_CASES() \
+    do { \
+        cout << __bold( __white( "**** EXECUTANDO TESTES ****" ) ) << endl; \
+        cout << endl; \
+        \
+        int countFails = 0; \
+        __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
+        for( TestClassInfo* tcInfo : __xutest_test_class_infos_vect ) { \
+            RUN_TEST_CASES_BY_CLASS( tcInfo ); \
+            countFails += __xutest_count_fails; \
         } \
-    } \
-} \
+        \
+        if ( countFails == 0 ) \
+            cout << __bold( __white( "Todos os testes passaram com sucesso!" ) ) << endl; \
+        else cout << "Houve " << __red( "falha" ) << " em " << __red( std::to_string( countFails ) ) << " teste(s)" << endl; \
+    } while( false ) \
+
+#define RUN_TEST_CASES_MENU() \
+    do { \
+        __xutest_op = -1; \
+        \
+        cout << endl; \
+        cout << "Escolha a classe de testes para rodar: " << endl; \
+        cout << "  (1) Todos os testes" << endl; \
+        __xutest_number_of_options = 2; \
+        \
+        __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
+        \
+        __xutest_test_classes.clear(); \
+        for( TestClassInfo* tcInfo : __xutest_test_class_infos_vect ) { \
+            __xutest_test_classes.push_back( tcInfo->className ); \
+            cout << "  (" << __xutest_number_of_options << ") " << __green( tcInfo->className ) << endl; \
+            __xutest_number_of_options++; \
+        } \
+        cout << "  (0) Sair" << endl; \
+        \
+        __xutest_op = __read_option( __xutest_number_of_options ); \
+        \
+        if ( __xutest_op > 0 && __xutest_op-2 < (int)__xutest_test_classes.size() ) { \
+            cout << endl; \
+            if ( __xutest_op == 1 ) { \
+                RUN_ALL_TEST_CASES(); \
+            } else { \
+                cout << __white( "**** EXECUTANDO TESTES ****" ) << endl; \
+                cout << endl; \
+                \
+                __xutest_test_class = __xutest_test_classes[ __xutest_op-2 ]; \
+                __xutest_test_class_infos_vect = __xutest_source_code_manager->testInfos( __FILE__ ); \
+                __xutest_test_class_info = getTestClassInfo( __xutest_test_class_infos_vect, __xutest_test_class ); \
+                \
+                RUN_TEST_CASES_BY_CLASS( __xutest_test_class_info ); \
+                \
+                __xutest_op = 0; \
+            } \
+        } \
+    } while( false ) \
 
 #endif

@@ -1,7 +1,7 @@
 #include "test.h"
 
 TEST_CASE( A, B ) {
-    ASSERT_EQUALS( 1, 1, )
+    ASSERT_EQUALS( 1, 1, );
 }
 
 #include <xutest/xutest.h>

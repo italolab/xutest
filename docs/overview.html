@@ -58,9 +58,9 @@ TEST_CASE( primeiroTeste, Testes ) {
     int a = 1;
     int b = 1;
     int c = 2;
-    ASSERT_EQUALS( a, b, )
-    ASSERT_TRUE( a == b, )
-    ASSERT_FALSE( a == c, )
+    ASSERT_EQUALS( a, b, );
+    ASSERT_TRUE( a == b, );
+    ASSERT_FALSE( a == c, );
 }
 
 int main() {
@@ -109,15 +109,15 @@ int main() {
 <pre class="line-numbers"><code class="language-cpp">#include &lt;xutest/xutest.h&gt;
 
 TEST_CASE( test1, MyTests ) {
-    ASSERT_EQUALS( 1, 1, )
+    ASSERT_EQUALS( 1, 1, );
 }
 
 TEST_CASE( test2, MyTests ) {
-    ASSERT_TRUE( true, )
+    ASSERT_TRUE( true, );
 }
 
 TEST_CASE( test3, MyTests ) {
-    ASSERT_NULL( nullptr, )
+    ASSERT_NULL( nullptr, );
 }
 </code></pre>
 
@@ -129,7 +129,7 @@ TEST_CASE( test3, MyTests ) {
 #include &lt;xutest/xutest.h&gt;
 
 int main() {
-    RUN_ALL_TEST_CASES()
+    RUN_ALL_TEST_CASES();
     return 0;
 }
 </code></pre>
@@ -159,9 +159,9 @@ TEST_CASE( teste, Testes ) {
     int a = 1;
     int b = 1;
     int c = 2;
-    ASSERT_EQUALS( a, b, )
-    ASSERT_TRUE( a == b, )
-    ASSERT_FALSE( a == c, )
+    ASSERT_EQUALS( a, b, );
+    ASSERT_TRUE( a == b, );
+    ASSERT_FALSE( a == c, );
 }
 
 int main() {
@@ -364,7 +364,7 @@ helloworld
                 não seja definido o nome da classe do caso de testes. Veja o exemplo abaixo: </p>
 
 <pre class="line-numbers"><code class="language-cpp">TEST_CASE( primeiroTeste, MeusTestes ) {
-    ASSERT_EQUALS( 1, 1, )
+    ASSERT_EQUALS( 1, 1, );
 }
 </code></pre>
 
@@ -376,26 +376,8 @@ helloworld
                 </header>
 
                 <p>As macros de assert suportam uma mensagem personalizada a ser mostrada 
-                no caso do assert falhar e não precisam ser finalizadas com ponto e vírgula.</p>
-
-                <p>No caso da macro ser chamada, por exemplo, dentro de um if/else sem blóco de 
-                código, é obrigatório não colocar o ponto e virgula no final da macro. Exemplo: </p>
-
-<pre class="line-numbers"><code class="language-cpp">bool condicao = true;
-if ( condicao )
-    ASSERT_EQUALS( 1, 1, );
-else ASSERT_EQUALS( 1, 2, )
-</code></pre>
-
-                <p>O exemplo acima está errado porque há um ponto e virgula após a macro de 
-                assert, e antes do else do if. O correto é retirar o ponto e virgula como a 
-                seguir: </p>
-
-<pre class="line-numbers"><code class="language-cpp">bool condicao = true;
-if ( condicao )
-    ASSERT_EQUALS( 1, 1, )
-else ASSERT_EQUALS( 1, 2, )
-</code></pre>
+                no caso do assert falhar e, nas versões mais recentes, precisam obrigatoriamente serem 
+                finalizadas com um ponto e vírgula.</p>
 
                 <br />
 
@@ -412,8 +394,8 @@ int b = 1;
 string c = "teste";
 string d = "teste";
 
-ASSERT_EQUALS( a, b, )
-ASSERT_EQUALS( c, d, As strings não são iguais! )
+ASSERT_EQUALS( a, b, );
+ASSERT_EQUALS( c, d, As strings não são iguais! );
 </code></pre>          
 
                     <p>No exemplo acima, são comparadas duas variáveis inteiras e duas 
@@ -443,7 +425,7 @@ ASSERT_EQUALS( c, d, As strings não são iguais! )
 <pre class="line-numbers"><code class="language-cpp">string str1 = "teste";
 string str2 = "teste2";
 
-ASSERT_NOT_EQUALS( str1, str2, )
+ASSERT_NOT_EQUALS( str1, str2, );
 </code></pre> 
 
                 </section>
@@ -461,7 +443,7 @@ ASSERT_NOT_EQUALS( str1, str2, )
 <pre class="line-numbers"><code class="language-cpp">int arr1[] = { 1, 2, 3 };
 int arr2[] = { 1, 2, 3 };
 
-ASSERT_EQUALS_ARRAYS( arr1, arr2, 3, )
+ASSERT_EQUALS_ARRAYS( arr1, arr2, 3, );
 </code></pre> 
 
                     <p>Os asserts de arrays recebem um terceiro parâmetro adicional: o 
@@ -481,7 +463,7 @@ ASSERT_EQUALS_ARRAYS( arr1, arr2, 3, )
 <pre class="line-numbers"><code class="language-cpp">int arr1[] = { 1, 2, 3 };
 int arr2[] = { 3, 2, 1 };
 
-ASSERT_EQUALS_ARRAYS( arr1, arr2, 3, )
+ASSERT_EQUALS_ARRAYS( arr1, arr2, 3, );
 </code></pre> 
                 </section>
 
@@ -498,7 +480,7 @@ ASSERT_EQUALS_ARRAYS( arr1, arr2, 3, )
 <pre class="line-numbers"><code class="language-cpp">vector<int> vect1 = { 1, 2, 3 };
 vector<int> vect2 = { 1, 2, 3 };
 
-ASSERT_EQUALS_VECTORS( vect1, vect2, )
+ASSERT_EQUALS_VECTORS( vect1, vect2, );
 </code></pre> 
                 </section>
 
@@ -515,7 +497,7 @@ ASSERT_EQUALS_VECTORS( vect1, vect2, )
 <pre class="line-numbers"><code class="language-cpp">vector<int> vect1 = { 1, 2, 3 };
 vector<int> vect2 = { 3, 2, 1 };
 
-ASSERT_NOT_EQUALS_VECTORS( vect1, vect2, )
+ASSERT_NOT_EQUALS_VECTORS( vect1, vect2, );
 </code></pre> 
                 </section>
 
@@ -543,7 +525,7 @@ xutest::set_imp_vectors( false );  // para desabilitar
 vector<int> vect1 = { 1, 2, 3 };
 vector<int> vect2 = { 3, 2, 1 };
 
-ASSERT_EQUALS_VECTORS( vect1, vect2, )
+ASSERT_EQUALS_VECTORS( vect1, vect2, );
 </code></pre>
                     <p>Os vetores são impressos, pois, o assert falha e a flag de impressão 
                     de vetores está setada para true. Setada através do método set_print_vectors</p>
@@ -553,7 +535,7 @@ ASSERT_EQUALS_VECTORS( vect1, vect2, )
 vector<int> vect1 = { 1, 2, 3 };
 vector<int> vect2 = { 3, 2, 1 };
 
-ASSERT_EQUALS_VECTORS( vect1, vect2, ) 
+ASSERT_EQUALS_VECTORS( vect1, vect2, );
 </code></pre>
 
                     <p>Os vetores não são impressos, pois, apesar de o assert falhar, a flag de impressão 
@@ -582,7 +564,7 @@ ASSERT_TRUE( a > 0, )
 
 <pre class="line-numbers"><code class="language-cpp">int a = 1;
 
-ASSERT_FALSE( a == 0, )
+ASSERT_FALSE( a == 0, );
 </code></pre>
                 </section>
 
@@ -596,7 +578,7 @@ ASSERT_FALSE( a == 0, )
 
 <pre class="line-numbers"><code class="language-cpp">string* strptr = nullptr;
 
-ASSERT_NULL( strptr, )
+ASSERT_NULL( strptr, );
 </code></pre>
                 </section>
 
@@ -610,7 +592,7 @@ ASSERT_NULL( strptr, )
 
 <pre class="line-numbers"><code class="language-cpp">string* strptr = new string( "abc" );
 
-ASSERT_NOT_NULL( strptr, )
+ASSERT_NOT_NULL( strptr, );
 </code></pre>
                 </section>
 
@@ -672,7 +654,7 @@ ASSERT_NOT_NULL( strptr, )
                     </p>
 
 <pre class="line-numbers"><code class="language-cpp">Elemento* removido = pop( &lista );
-ASSERT_NOT_NULL( removido, )
+ASSERT_NOT_NULL( removido, );
 </code></pre>               
 
                     <p>Nesse caso, a função pop é executada apenas uma vez, fora da chamada a macro 
@@ -705,11 +687,11 @@ ASSERT_NOT_NULL( removido, )
 }
 
 TEST_CASE( teste1, MeusTestes ) {
-    ASSERT_EQUALS( 1, 1, )
+    ASSERT_EQUALS( 1, 1, );
 }
 
 TEST_CASE( teste2, MeusTestes ) {
-    ASSERT_TRUE( true, )
+    ASSERT_TRUE( true, );
 }
 </code></pre>
                     <p>A mensagem do "cout" da definição BEFORE_ALL, é impressa antes de todos 

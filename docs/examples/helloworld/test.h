@@ -4,7 +4,7 @@
 #include <xutest/xutest.h>
 
 TEST_CASE( helloWorldTest, HelloWorldTests ) {
-    ASSERT_EQUALS( 1, 1, )
+    ASSERT_EQUALS( 1, 1, );
 }
 
 #endif
