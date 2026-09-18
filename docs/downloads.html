@@ -44,8 +44,8 @@
                 
                 <blockquote>
                     <p>Arquivo ZIP: 
-                        <a href="https://github.com/italolab/xutest/releases/download/v1.2/xutest-1.2-windows-x64.zip">
-                            xutest-1.2-windows-x64.zip
+                        <a href="https://github.com/italolab/xutest/releases/download/v1.3/xutest-1.3-windows-x64.zip">
+                            xutest-1.3-windows-x64.zip
                         </a>
                     </p>
                 </blockquote>
@@ -54,13 +54,13 @@
                 
                 <blockquote>
                     <p>Arquivo DEB: 
-                        <a href="https://github.com/italolab/xutest/releases/download/v1.2/xutest-1.2-linux-x64.deb">
-                            xutest-1.2-linux-x64.deb
+                        <a href="https://github.com/italolab/xutest/releases/download/v1.3/xutest-1.3-linux-x64.deb">
+                            xutest-1.3-linux-x64.deb
                         </a>
                     </p>
                     <p>Arquivo TAR.GZ: 
-                        <a href="https://github.com/italolab/xutest/releases/download/v1.2/xutest-1.2-linux-x64.tar.gz">
-                            xutest-1.2-linux-x64.tar.gz
+                        <a href="https://github.com/italolab/xutest/releases/download/v1.3/xutest-1.3-linux-x64.tar.gz">
+                            xutest-1.3-linux-x64.tar.gz
                         </a>
                     </p>
                 </blockquote>
@@ -74,13 +74,13 @@
                         </a>
                     </p>
                     <p>Arquivo ZIP:
-                        <a href="https://github.com/italolab/xutest/archive/refs/tags/v1.2.zip">
-                            xutest-v1.2.zip
+                        <a href="https://github.com/italolab/xutest/archive/refs/tags/v1.3.zip">
+                            xutest-v1.3.zip
                         </a>
                     </p>
                     <p> Arquivo TAR.GZ:
-                        <a href="https://github.com/italolab/xutest/archive/refs/tags/v1.2.tar.gz">
-                            xutest-v1.2.tar.gz
+                        <a href="https://github.com/italolab/xutest/archive/refs/tags/v1.3.tar.gz">
+                            xutest-v1.3.tar.gz
                         </a>
                     </p>                
                 </blockquote>                    
@@ -90,19 +90,22 @@
 
         <article>
             <header>
-                <h3>Notas da versão 1.6</h3>
+                <h3>Notas da versão 1.3</h3>
             </header>
 
-            <p>Consertado erro em compilação com gcc/g++ de arquivo de código fonte 
-                com caminho relativo. Exemplo:</p>
+            <p>Esta versão traz a obrigatoriedade de se colocar um ponto e vírgula após o 
+                final de uma chamada das macros de: ASSERT, THROWS ou FAIL.</p>
 
-<pre><code>g++ -o main main.cpp -lxutest -ldl -rdynamic</code></pre>
+            <p>Isso garante que funcione até em uma instrução IF sem blocos como por 
+                exemplo:</p>
 
-            <p>Nesse exemplo, supondo que o main.cpp inclue um arquivo "test/testes.h" 
-                com os testcases declarados, não funcionava. Só funcionava corretamente 
-                se o caminho fosse absoluto. Exemplo:</p>
+<pre class="line-numbers"><code class="language-cpp">if ( true )
+  ASSERT_TRUE( true, );
+else ASSERT_FALSE( false, );
+</code></pre>
 
-<pre><code>g++ -o main /home/italo/projeto/main.cpp -lxutest -ldl -rdynamic</code></pre>
+            <p>Onde, antes, ASSERT_TRUE( true, ); implicava em duas instruções. Uma a 
+                instrução assert, e outra, o ponto e vírgula.</p>
 
         </article>
 
