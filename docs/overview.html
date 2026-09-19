@@ -37,6 +37,26 @@
             <p>O xutest pode ser utilizado para criação e execução de testes unitários 
             em C/C++.</p>
 
+            <section class="d-flex justify-content-center">
+                <div class="warning">
+                    <h5>Atenção:</h5>
+                    <span>
+                        Agora, é necessário colocar pontos e vírgulas após as chamadas 
+                        dos asserts e outras macros nos casos de teste. Exemplo:
+                        <br /><br />
+                        Não faça isso:
+                        <br />
+                        ASSERT_EQUALS( 1, 1, )
+                        <br /><br />
+                        Coloque o ponto e vírgula no final:
+                        <br />
+                        ASSERT_EQUALS( 1, 1, );
+                    </span>
+                </div>
+            </section>            
+            
+            <br />
+
             <section>
                 <h3>Instalação</h3>
 

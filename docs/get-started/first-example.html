@@ -35,6 +35,26 @@
                 <h5 class="text-center">Agora, vamos criar um primeiro projeto</h5>
             </header>
 
+            <section class="d-flex justify-content-center">
+                <div class="warning">
+                    <h5>Atenção:</h5>
+                    <span>
+                        Agora, é necessário colocar pontos e vírgulas após as chamadas 
+                        dos asserts e outras macros nos casos de teste. Exemplo:
+                        <br /><br />
+                        Não faça isso:
+                        <br />
+                        ASSERT_EQUALS( 1, 1, )
+                        <br /><br />
+                        Coloque o ponto e vírgula no final:
+                        <br />
+                        ASSERT_EQUALS( 1, 1, );
+                    </span>
+                </div>
+            </section>            
+            
+            <br />
+
             <p>Crie o arquivo "main.cpp" em seu projeto com o seguinte conteúdo:</p>
 
 <pre class="line-numbers"><code class="language-cpp">#include &lt;xutest/xutest.h&gt;
